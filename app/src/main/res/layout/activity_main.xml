@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_margin="16dp"
+        app:cs_negative_enabled="true"
         app:cs_circle_style="butt"
         app:cs_circle_stroke_width="60"
         app:cs_pointer_stroke_width="60"
