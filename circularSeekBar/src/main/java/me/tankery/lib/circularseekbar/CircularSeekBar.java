@@ -1008,7 +1008,12 @@ public class CircularSeekBar extends View {
         state.putInt("mPointerHaloColorOnTouch", mPointerHaloColorOnTouch);
         state.putInt("mPointerAlpha", mPointerAlpha);
         state.putInt("mPointerAlphaOnTouch", mPointerAlphaOnTouch);
+        state.putFloat("mPointerAngle", mPointerAngle);
+        state.putBoolean("mDisablePointer", mDisablePointer);
         state.putBoolean("lockEnabled", lockEnabled);
+        state.putBoolean("negativeEnabled", negativeEnabled);
+        state.putBoolean("isInNegativeHalf", isInNegativeHalf);
+        state.putInt("mCircleStyle", mCircleStyle.ordinal());
 
         return state;
     }
@@ -1029,7 +1034,12 @@ public class CircularSeekBar extends View {
         mPointerHaloColorOnTouch = savedState.getInt("mPointerHaloColorOnTouch");
         mPointerAlpha = savedState.getInt("mPointerAlpha");
         mPointerAlphaOnTouch = savedState.getInt("mPointerAlphaOnTouch");
+        mPointerAngle = savedState.getFloat("mPointerAngle");
         lockEnabled = savedState.getBoolean("lockEnabled");
+        mDisablePointer = savedState.getBoolean("mDisablePointer");
+        negativeEnabled = savedState.getBoolean("negativeEnabled");
+        isInNegativeHalf = savedState.getBoolean("isInNegativeHalf");
+        mCircleStyle = Paint.Cap.values()[savedState.getInt("mCircleStyle")];
 
         initPaints();
 
