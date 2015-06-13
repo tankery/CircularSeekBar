@@ -2,6 +2,11 @@
 <resources>
 
     <declare-styleable name="CircularSeekBar">
+        <attr name="cs_circle_style">
+            <enum name="butt" value="0" />
+            <enum name="round" value="1" />
+            <enum name="square" value="2" />
+        </attr>
         <attr name="cs_progress" format="integer"/>
         <attr name="cs_max" format="integer"/>
         <attr name="cs_move_outside_circle" format="boolean"/>

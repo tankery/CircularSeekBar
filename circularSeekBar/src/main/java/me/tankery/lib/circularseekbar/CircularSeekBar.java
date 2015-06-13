@@ -55,6 +55,7 @@ public class CircularSeekBar extends View {
     private final float MIN_TOUCH_TARGET_DP = 48;
 
     // Default values
+    private static final int DEFAULT_CIRCLE_STYLE = Paint.Cap.ROUND.ordinal();
     private static final float DEFAULT_CIRCLE_X_RADIUS = 30f;
     private static final float DEFAULT_CIRCLE_Y_RADIUS = 30f;
     private static final float DEFAULT_POINTER_STROKE_WIDTH = 14f;
@@ -116,6 +117,11 @@ public class CircularSeekBar extends View {
      * {@code Paint} instance used to draw the border of the pointer, outside of the halo.
      */
     private Paint mPointerHaloBorderPaint;
+
+    /**
+     * The style of the circle, can be butt, round or square.
+     */
+    private Paint.Cap mCircleStyle;
 
     /**
      * The width of the circle (in pixels).
@@ -387,6 +393,9 @@ public class CircularSeekBar extends View {
         mPointerHaloBorderWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_pointer_halo_border_width, DEFAULT_POINTER_HALO_BORDER_WIDTH) * DPTOPX_SCALE;
         mCircleStrokeWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_circle_stroke_width, DEFAULT_CIRCLE_STROKE_WIDTH) * DPTOPX_SCALE;
 
+        int circleStyle = attrArray.getInt(R.styleable.CircularSeekBar_cs_circle_style, DEFAULT_CIRCLE_STYLE);
+        mCircleStyle = Paint.Cap.values()[circleStyle];
+
         String tempColor = attrArray.getString(R.styleable.CircularSeekBar_cs_pointer_color);
         if (tempColor != null) {
             try {
@@ -490,7 +499,7 @@ public class CircularSeekBar extends View {
         mCirclePaint.setStrokeWidth(mCircleStrokeWidth);
         mCirclePaint.setStyle(Paint.Style.STROKE);
         mCirclePaint.setStrokeJoin(Paint.Join.ROUND);
-        mCirclePaint.setStrokeCap(Paint.Cap.ROUND);
+        mCirclePaint.setStrokeCap(mCircleStyle);
 
         mCircleFillPaint = new Paint();
         mCircleFillPaint.setAntiAlias(true);
@@ -505,7 +514,7 @@ public class CircularSeekBar extends View {
         mCircleProgressPaint.setStrokeWidth(mCircleStrokeWidth);
         mCircleProgressPaint.setStyle(Paint.Style.STROKE);
         mCircleProgressPaint.setStrokeJoin(Paint.Join.ROUND);
-        mCircleProgressPaint.setStrokeCap(Paint.Cap.ROUND);
+        mCircleProgressPaint.setStrokeCap(mCircleStyle);
 
         mCircleProgressGlowPaint = new Paint();
         mCircleProgressGlowPaint.set(mCircleProgressPaint);
@@ -518,7 +527,7 @@ public class CircularSeekBar extends View {
         mPointerPaint.setStrokeWidth(mPointerStrokeWidth);
         mPointerPaint.setStyle(Paint.Style.STROKE);
         mPointerPaint.setStrokeJoin(Paint.Join.ROUND);
-        mPointerPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPointerPaint.setStrokeCap(mCircleStyle);
 
         mPointerHaloPaint = new Paint();
         mPointerHaloPaint.set(mPointerPaint);
