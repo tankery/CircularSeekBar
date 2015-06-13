@@ -772,11 +772,13 @@ public class CircularSeekBar extends View {
         case MotionEvent.ACTION_DOWN:
             // These are only used for ACTION_DOWN for handling if the pointer was the part that was touched
             float pointerRadiusDegrees = (float) ((mPointerStrokeWidth * 180) / (Math.PI * Math.max(mCircleHeight, mCircleWidth)));
+            float pointerDegrees = Math.max( pointerRadiusDegrees, (mPointerAngle / 2f) );
             cwDistanceFromPointer = touchAngle - mPointerPosition;
             cwDistanceFromPointer = (cwDistanceFromPointer < 0 ? 360f + cwDistanceFromPointer : cwDistanceFromPointer);
             ccwDistanceFromPointer = 360f - cwDistanceFromPointer;
             // This is for if the first touch is on the actual pointer.
-            if (((touchEventRadius >= innerRadius) && (touchEventRadius <= outerRadius)) && ( (cwDistanceFromPointer <= pointerRadiusDegrees) || (ccwDistanceFromPointer <= pointerRadiusDegrees)) ) {
+            if ( ((touchEventRadius >= innerRadius) && (touchEventRadius <= outerRadius)) &&
+                    ((cwDistanceFromPointer <= pointerDegrees) || (ccwDistanceFromPointer <= pointerDegrees)) ) {
                 setProgressBasedOnAngle(mPointerPosition);
                 lastCWDistanceFromStart = cwDistanceFromStart;
                 mIsMovingCW = true;
@@ -815,37 +817,25 @@ public class CircularSeekBar extends View {
             break;
         case MotionEvent.ACTION_MOVE:
             if (mUserIsMovingPointer) {
-                if (lastCWDistanceFromStart < cwDistanceFromStart) {
-                    if ((cwDistanceFromStart - lastCWDistanceFromStart) > 180f && !mIsMovingCW) {
-                        lockAtStart = true;
-                        lockAtEnd = false;
-                    } else {
-                        mIsMovingCW = true;
-                    }
-                } else {
-                    if ((lastCWDistanceFromStart - cwDistanceFromStart) > 180f && mIsMovingCW) {
-                        lockAtEnd = true;
-                        lockAtStart = false;
-                    } else {
-                        mIsMovingCW = false;
-                    }
-                }
+                float smallInCircle = mTotalCircleDegrees / 3f;
+                float cwPointerFromStart = mPointerPosition - mStartAngle;
+                cwPointerFromStart = cwPointerFromStart < 0 ? cwPointerFromStart + 360f : cwPointerFromStart;
 
-                if (lockAtStart && mIsMovingCW) {
-                    lockAtStart = false;
-                }
-                if (lockAtEnd && !mIsMovingCW) {
+                boolean touchNearStart = cwDistanceFromStart < smallInCircle;
+                boolean touchNearEnd = ccwDistanceFromEnd < smallInCircle;
+                boolean pointerNearStart = cwPointerFromStart < smallInCircle;
+                boolean pointerNearEnd = cwPointerFromStart > (mTotalCircleDegrees - smallInCircle);
+
+                if (touchNearEnd && pointerNearStart) {
+                    lockAtStart = true;
                     lockAtEnd = false;
-                }
-                if (lockAtStart && !mIsMovingCW && (ccwDistanceFromStart > 90)) {
-                    lockAtStart = false;
-                }
-                if (lockAtEnd && mIsMovingCW && (cwDistanceFromEnd > 90)) {
-                    lockAtEnd = false;
-                }
-                // Fix for passing the end of a semi-circle quickly
-                if (!lockAtEnd && cwDistanceFromStart > mTotalCircleDegrees && mIsMovingCW && lastCWDistanceFromStart < mTotalCircleDegrees) {
+                } else if (touchNearStart && pointerNearEnd) {
                     lockAtEnd = true;
+                    lockAtStart = false;
+                } else if (touchNearStart && pointerNearStart) {
+                    lockAtStart = false;
+                } else if (touchNearEnd && pointerNearEnd) {
+                    lockAtEnd = false;
                 }
 
                 if (lockAtStart && lockEnabled) {
