@@ -9,6 +9,7 @@
         </attr>
         <attr name="cs_progress" format="integer"/>
         <attr name="cs_max" format="integer"/>
+        <attr name="cs_negative_enabled" format="boolean"/>
         <attr name="cs_move_outside_circle" format="boolean"/>
         <attr name="cs_maintain_equal_circle" format="boolean"/>
         <attr name="cs_use_custom_radii" format="boolean"/>
