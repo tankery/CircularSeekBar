@@ -1,0 +1,49 @@
+# Java files
+bin
+gen
+
+# NDK files
+libs/*/
+obj
+
+# eclipse project files
+.project
+.cproject
+.settings/
+
+# Annotaion Process
+.apt_generated/
+
+# ProGuard
+proguard
+
+# Android Tools file
+build.xml
+local.properties
+
+# VIM temp file
+*.swp
+
+# Encryption files
+*.x
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Android Studio
+*.iml
+.idea
+#.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+.gradle
+build/
+
