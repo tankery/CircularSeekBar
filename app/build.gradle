@@ -20,4 +20,5 @@ android {
 }
 
 dependencies {
+    compile project(':circularSeekBar')
 }
