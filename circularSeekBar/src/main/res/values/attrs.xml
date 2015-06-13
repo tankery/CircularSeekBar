@@ -2,27 +2,28 @@
 <resources>
 
     <declare-styleable name="CircularSeekBar">
-        <attr name="progress" format="integer"></attr>
-        <attr name="max" format="integer"></attr>
-        <attr name="move_outside_circle" format="boolean"></attr>
-        <attr name="maintain_equal_circle" format="boolean"></attr>
-        <attr name="use_custom_radii" format="boolean"></attr>
-        <attr name="lock_enabled" format="boolean"></attr>
-        <attr name="circle_x_radius" format="float" />
-        <attr name="circle_y_radius" format="float" />
-        <attr name="circle_stroke_width" format="float" />
-        <attr name="pointer_radius" format="float" />
-        <attr name="pointer_halo_width" format="float" />
-        <attr name="pointer_halo_border_width" format="float"></attr>
-        <attr name="circle_color" format="string"></attr>
-        <attr name="circle_progress_color" format="string"></attr>
-        <attr name="pointer_color" format="string"></attr>
-        <attr name="pointer_halo_color" format="string"></attr>
-        <attr name="pointer_halo_color_ontouch" format="string"></attr>
-        <attr name="pointer_alpha_ontouch" format="integer"></attr>
-        <attr name="start_angle" format="float"></attr>
-        <attr name="end_angle" format="float"></attr>
-        <attr name="circle_fill" format="string"></attr>
+        <attr name="cs_progress" format="integer"/>
+        <attr name="cs_max" format="integer"/>
+        <attr name="cs_move_outside_circle" format="boolean"/>
+        <attr name="cs_maintain_equal_circle" format="boolean"/>
+        <attr name="cs_use_custom_radii" format="boolean"/>
+        <attr name="cs_lock_enabled" format="boolean"/>
+        <attr name="cs_circle_x_radius" format="float" />
+        <attr name="cs_circle_y_radius" format="float" />
+        <attr name="cs_circle_stroke_width" format="float" />
+        <attr name="cs_disable_pointer" format="boolean"/>
+        <attr name="cs_pointer_radius" format="float" />
+        <attr name="cs_pointer_halo_width" format="float" />
+        <attr name="cs_pointer_halo_border_width" format="float"/>
+        <attr name="cs_circle_color" format="string"/>
+        <attr name="cs_circle_progress_color" format="string"/>
+        <attr name="cs_pointer_color" format="string"/>
+        <attr name="cs_pointer_halo_color" format="string"/>
+        <attr name="cs_pointer_halo_color_ontouch" format="string"/>
+        <attr name="cs_pointer_alpha_ontouch" format="integer"/>
+        <attr name="cs_start_angle" format="float"/>
+        <attr name="cs_end_angle" format="float"/>
+        <attr name="cs_circle_fill" format="string"/>
     </declare-styleable>
 
 </resources>
