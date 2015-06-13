@@ -57,12 +57,13 @@ public class CircularSeekBar extends View {
     // Default values
     private static final float DEFAULT_CIRCLE_X_RADIUS = 30f;
     private static final float DEFAULT_CIRCLE_Y_RADIUS = 30f;
-    private static final float DEFAULT_POINTER_RADIUS = 7f;
+    private static final float DEFAULT_POINTER_STROKE_WIDTH = 14f;
     private static final float DEFAULT_POINTER_HALO_WIDTH = 6f;
     private static final float DEFAULT_POINTER_HALO_BORDER_WIDTH = 2f;
     private static final float DEFAULT_CIRCLE_STROKE_WIDTH = 5f;
     private static final float DEFAULT_START_ANGLE = 270f; // Geometric (clockwise, relative to 3 o'clock)
     private static final float DEFAULT_END_ANGLE = 270f; // Geometric (clockwise, relative to 3 o'clock)
+    private static final float DEFAULT_POINTER_ANGLE = 0;
     private static final int DEFAULT_MAX = 100;
     private static final int DEFAULT_PROGRESS = 0;
     private static final int DEFAULT_CIRCLE_COLOR = Color.DKGRAY;
@@ -139,7 +140,7 @@ public class CircularSeekBar extends View {
     /**
      * The radius of the pointer (in pixels).
      */
-    private float mPointerRadius;
+    private float mPointerStrokeWidth;
 
     /**
      * The width of the pointer halo (in pixels).
@@ -152,7 +153,9 @@ public class CircularSeekBar extends View {
     private float mPointerHaloBorderWidth;
 
     /**
-     * Angle of the pointer.
+     * Angle of the pointer arc.
+     * Default is 0, the pointer is a circle when angle is 0 and the style is round.
+     * Can not less then 0. can not longer than 360.
      */
     private float mPointerAngle;
 
@@ -235,6 +238,11 @@ public class CircularSeekBar extends View {
      * {@code Path} used to draw the progress on the circle.
      */
     private Path mCircleProgressPath;
+
+    /**
+     * {@code Path} used to draw the pointer arc on the circle.
+     */
+    private Path mCirclePonterPath;
 
     /**
      * Max value that this CircularSeekBar is representing.
@@ -374,7 +382,7 @@ public class CircularSeekBar extends View {
     private void initAttributes(TypedArray attrArray) {
         mCircleXRadius = attrArray.getFloat(R.styleable.CircularSeekBar_cs_circle_x_radius, DEFAULT_CIRCLE_X_RADIUS) * DPTOPX_SCALE;
         mCircleYRadius = attrArray.getFloat(R.styleable.CircularSeekBar_cs_circle_y_radius, DEFAULT_CIRCLE_Y_RADIUS) * DPTOPX_SCALE;
-        mPointerRadius = attrArray.getFloat(R.styleable.CircularSeekBar_cs_pointer_radius, DEFAULT_POINTER_RADIUS) * DPTOPX_SCALE;
+        mPointerStrokeWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_pointer_stroke_width, DEFAULT_POINTER_STROKE_WIDTH) * DPTOPX_SCALE;
         mPointerHaloWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_pointer_halo_width, DEFAULT_POINTER_HALO_WIDTH) * DPTOPX_SCALE;
         mPointerHaloBorderWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_pointer_halo_border_width, DEFAULT_POINTER_HALO_BORDER_WIDTH) * DPTOPX_SCALE;
         mCircleStrokeWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_circle_stroke_width, DEFAULT_CIRCLE_STROKE_WIDTH) * DPTOPX_SCALE;
@@ -457,8 +465,14 @@ public class CircularSeekBar extends View {
             mEndAngle = mEndAngle - .1f;
         }
 
+        // Modulo 360 right now to avoid constant conversion
+        mPointerAngle = ((360f + (attrArray.getFloat((R.styleable.CircularSeekBar_cs_pointer_angle), DEFAULT_POINTER_ANGLE) % 360f)) % 360f);
+        if (mPointerAngle == 0f) {
+            mPointerAngle = .1f;
+        }
+
         if (mDisablePointer) {
-            mPointerRadius = 0;
+            mPointerStrokeWidth = 0;
             mPointerHaloWidth = 0;
             mPointerHaloBorderWidth = 0;
         }
@@ -500,15 +514,17 @@ public class CircularSeekBar extends View {
         mPointerPaint = new Paint();
         mPointerPaint.setAntiAlias(true);
         mPointerPaint.setDither(true);
-        mPointerPaint.setStyle(Paint.Style.FILL);
         mPointerPaint.setColor(mPointerColor);
-        mPointerPaint.setStrokeWidth(mPointerRadius);
+        mPointerPaint.setStrokeWidth(mPointerStrokeWidth);
+        mPointerPaint.setStyle(Paint.Style.STROKE);
+        mPointerPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPointerPaint.setStrokeCap(Paint.Cap.ROUND);
 
         mPointerHaloPaint = new Paint();
         mPointerHaloPaint.set(mPointerPaint);
         mPointerHaloPaint.setColor(mPointerHaloColor);
         mPointerHaloPaint.setAlpha(mPointerAlpha);
-        mPointerHaloPaint.setStrokeWidth(mPointerRadius + mPointerHaloWidth);
+        mPointerHaloPaint.setStrokeWidth(mPointerStrokeWidth + mPointerHaloWidth * 2f);
 
         mPointerHaloBorderPaint = new Paint();
         mPointerHaloBorderPaint.set(mPointerPaint);
@@ -565,6 +581,10 @@ public class CircularSeekBar extends View {
 
         mCircleProgressPath = new Path();
         mCircleProgressPath.addArc(mCircleRectF, mStartAngle, mProgressDegrees);
+
+        float pointerStart = mPointerPosition - mPointerAngle / 2.0f;
+        mCirclePonterPath = new Path();
+        mCirclePonterPath.addArc(mCircleRectF, pointerStart, mPointerAngle);
     }
 
     /**
@@ -587,11 +607,16 @@ public class CircularSeekBar extends View {
         canvas.drawPath(mCirclePath, mCircleFillPaint);
 
         if (!mDisablePointer) {
-            canvas.drawCircle(mPointerPositionXY[0], mPointerPositionXY[1], mPointerRadius + mPointerHaloWidth, mPointerHaloPaint);
-            canvas.drawCircle(mPointerPositionXY[0], mPointerPositionXY[1], mPointerRadius, mPointerPaint);
             if (mUserIsMovingPointer) {
-                canvas.drawCircle(mPointerPositionXY[0], mPointerPositionXY[1], mPointerRadius + mPointerHaloWidth + (mPointerHaloBorderWidth / 2f), mPointerHaloBorderPaint);
+                canvas.drawPath(mCirclePonterPath, mPointerHaloPaint);
             }
+            canvas.drawPath(mCirclePonterPath, mPointerPaint);
+            // TODO, find a good way to draw halo border.
+//            if (mUserIsMovingPointer) {
+//                canvas.drawCircle(mPointerPositionXY[0], mPointerPositionXY[1],
+//                        (mPointerStrokeWidth /2f) + mPointerHaloWidth + (mPointerHaloBorderWidth / 2f),
+//                        mPointerHaloBorderPaint);
+//            }
         }
     }
 
@@ -652,7 +677,7 @@ public class CircularSeekBar extends View {
 
         // Set the circle width and height based on the view for the moment
         float padding = Math.max(mCircleStrokeWidth / 2f,
-                mPointerRadius + mPointerHaloWidth + mPointerHaloBorderWidth);
+                mPointerStrokeWidth + mPointerHaloWidth + mPointerHaloBorderWidth);
         mCircleHeight = height / 2f - padding;
         mCircleWidth = width / 2f - padding;
 
@@ -713,11 +738,11 @@ public class CircularSeekBar extends View {
         float outerRadius = Math.max(mCircleHeight, mCircleWidth) + additionalRadius; // Max outer radius of the circle, including the minimumTouchTarget or wheel width
         float innerRadius = Math.min(mCircleHeight, mCircleWidth) - additionalRadius; // Min inner radius of the circle, including the minimumTouchTarget or wheel width
 
-        if (mPointerRadius < (minimumTouchTarget / 2)) { // If the pointer radius is less than the minimumTouchTarget, use the minimumTouchTarget
+        if (mPointerStrokeWidth < (minimumTouchTarget / 2)) { // If the pointer radius is less than the minimumTouchTarget, use the minimumTouchTarget
             additionalRadius = minimumTouchTarget / 2;
         }
         else {
-            additionalRadius = mPointerRadius; // Otherwise use the radius
+            additionalRadius = mPointerStrokeWidth; // Otherwise use the radius
         }
 
         float touchAngle;
@@ -735,7 +760,7 @@ public class CircularSeekBar extends View {
         switch (event.getAction()) {
         case MotionEvent.ACTION_DOWN:
             // These are only used for ACTION_DOWN for handling if the pointer was the part that was touched
-            float pointerRadiusDegrees = (float) ((mPointerRadius * 180) / (Math.PI * Math.max(mCircleHeight, mCircleWidth)));
+            float pointerRadiusDegrees = (float) ((mPointerStrokeWidth * 180) / (Math.PI * Math.max(mCircleHeight, mCircleWidth)));
             cwDistanceFromPointer = touchAngle - mPointerPosition;
             cwDistanceFromPointer = (cwDistanceFromPointer < 0 ? 360f + cwDistanceFromPointer : cwDistanceFromPointer);
             ccwDistanceFromPointer = 360f - cwDistanceFromPointer;
@@ -1067,6 +1092,31 @@ public class CircularSeekBar extends View {
      */
     public int getPointerAlphaOnTouch() {
         return mPointerAlphaOnTouch;
+    }
+
+    /**
+     * Sets the pointer angle.
+     * @param angle the angle of the pointer
+     */
+    public void setPointerAngle(float angle) {
+        // Modulo 360 right now to avoid constant conversion
+        angle = ((360f + (angle % 360f)) % 360f);
+        if (angle == 0f) {
+            angle = .1f;
+        }
+        if (angle != mPointerAngle) {
+            mPointerAngle = angle;
+            recalculateAll();
+            invalidate();
+        }
+    }
+
+    /**
+     * Gets the pointer angle.
+     * @return Angle for the pointer (0..360)
+     */
+    public float getPointerAngle() {
+        return mPointerAngle;
     }
 
     /**
