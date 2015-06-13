@@ -588,8 +588,10 @@ public class CircularSeekBar extends View {
         mCirclePath = new Path();
         mCirclePath.addArc(mCircleRectF, mStartAngle, mTotalCircleDegrees);
 
+        // beside progress path it self, we also draw a extend arc to math the pointer arc.
+        float extendStart = mStartAngle - mPointerAngle / 2.0f;
         mCircleProgressPath = new Path();
-        mCircleProgressPath.addArc(mCircleRectF, mStartAngle, mProgressDegrees);
+        mCircleProgressPath.addArc(mCircleRectF, extendStart, mProgressDegrees + mPointerAngle);
 
         float pointerStart = mPointerPosition - mPointerAngle / 2.0f;
         mCirclePonterPath = new Path();
