@@ -566,7 +566,7 @@ public class CircularSeekBar extends View {
      * Calculate the pointer position (and the end of the progress arc) in degrees.
      * Sets mPointerPosition to that value.
      */
-    private void calculatePointerAngle() {
+    private void calculatePointerPosition() {
         float progressPercent = mProgress / mMax;
         mPointerPosition = (progressPercent * mTotalCircleDegrees) + mStartAngle;
         mPointerPosition = mPointerPosition % 360f;
@@ -665,7 +665,7 @@ public class CircularSeekBar extends View {
 
     private void recalculateAll() {
         calculateTotalDegrees();
-        calculatePointerAngle();
+        calculatePointerPosition();
         calculateProgressDegrees();
 
         initRects();
