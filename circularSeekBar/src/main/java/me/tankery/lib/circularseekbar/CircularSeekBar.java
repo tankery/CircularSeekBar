@@ -613,9 +613,6 @@ public class CircularSeekBar extends View {
             float pointerStart = mPointerPosition - mPointerAngle / 2.0f;
             mCirclePonterPath = new Path();
             mCirclePonterPath.addArc(mCircleRectF, pointerStart, mPointerAngle);
-
-            Log.d("CSB", String.format("negative %s, init path: progress %.2f with degree %.2f, progress start %.2f, pointer start %.2f",
-                    isInNegativeHalf, mProgress, mProgressDegrees, extendStart, pointerStart));
         } else {
             mCirclePath = new Path();
             mCirclePath.addArc(mCircleRectF, mStartAngle, mTotalCircleDegrees);
@@ -704,8 +701,6 @@ public class CircularSeekBar extends View {
         mPointerPosition = angle;
         calculateProgressDegrees();
         mProgress = mMax * mProgressDegrees / mTotalCircleDegrees;
-        Log.d("CSB", String.format("negative %s, Set progress %.2f based on angle %.2f",
-                isInNegativeHalf, mProgress, angle));
     }
 
     private void recalculateAll() {
@@ -850,7 +845,7 @@ public class CircularSeekBar extends View {
                 invalidate();
                 if (mOnCircularSeekBarChangeListener != null) {
                     mOnCircularSeekBarChangeListener.onStartTrackingTouch(this);
-                    mOnCircularSeekBarChangeListener.onProgressChanged(this, mProgress, true);
+                    mOnCircularSeekBarChangeListener.onProgressChanged(this, getProgress(), true);
                 }
                 mUserIsMovingPointer = true;
                 lockAtEnd = false;
@@ -1227,7 +1222,7 @@ public class CircularSeekBar extends View {
             if (max <= mProgress) {
                 mProgress = 0; // If the new max is less than current progress, set progress to zero
                 if (mOnCircularSeekBarChangeListener != null) {
-                    mOnCircularSeekBarChangeListener.onProgressChanged(this, mProgress, false);
+                    mOnCircularSeekBarChangeListener.onProgressChanged(this, isInNegativeHalf ? -mProgress : mProgress, false);
                 }
             }
             mMax = max;
