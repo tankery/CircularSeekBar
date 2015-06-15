@@ -13,8 +13,6 @@ I make this library run on Android Studio (Gradle), and fix & add more features 
 2. Refactor the name of the attributes, to avoid conflicts.
 3. Disable the seek pointer, make it work like a circular progress bar.
 4. Some other bug fixes for Matt's CircularSeekBar.
-
-## What I'm going to do
-
-Make the seek pointer more flexile. You can custom the length of the seek pointer.
-Custom the style of the shape of start, end of the bar & pointer.
+5. Customize the shape of progress end (butt, round, square)
+6. Use a arc to represent the pointer, you can custom the arc angle.
+7. Negative progress support.
