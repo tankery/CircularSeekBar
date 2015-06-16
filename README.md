@@ -16,3 +16,45 @@ I make this library run on Android Studio (Gradle), and fix & add more features 
 5. Customize the shape of progress end (butt, round, square)
 6. Use a arc to represent the pointer, you can custom the arc angle.
 7. Negative progress support.
+
+## How to use
+
+### Gradle
+``` Gradle
+dependencies {
+    compile 'me.tankery.lib:circularSeekBar:1.0.0'
+}
+```
+
+### Source
+Copy sources and `attrs.xml` in module `circularSeekBar` to your project.
+
+CircularSeekBar support following attributes:
+``` xml
+app:cs_circle_style = "butt|round|square"
+app:cs_progress = "integer"
+app:cs_max = "integer"
+app:cs_negative_enabled = "boolean"
+app:cs_move_outside_circle = "boolean"
+app:cs_maintain_equal_circle = "boolean"
+app:cs_use_custom_radii = "boolean"
+app:cs_lock_enabled = "boolean"
+app:cs_circle_x_radius = "float"
+app:cs_circle_y_radius = "float"
+app:cs_circle_stroke_width = "float"
+app:cs_disable_pointer = "boolean"
+app:cs_pointer_stroke_width = "float"
+app:cs_pointer_halo_width = "float"
+app:cs_pointer_halo_border_width = "float"
+app:cs_circle_color = "string"
+app:cs_circle_progress_color = "string"
+app:cs_pointer_color = "string"
+app:cs_pointer_halo_color = "string"
+app:cs_pointer_halo_color_ontouch = "string"
+app:cs_pointer_alpha_ontouch = "integer"
+app:cs_pointer_angle = "float"
+app:cs_start_angle = "float"
+app:cs_end_angle = "float"
+app:cs_circle_fill = "string"
+```
+
