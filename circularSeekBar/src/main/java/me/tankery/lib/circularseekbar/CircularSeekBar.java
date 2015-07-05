@@ -39,7 +39,6 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -483,7 +482,7 @@ public class CircularSeekBar extends View {
         mStartAngle = ((360f + (attrArray.getFloat((R.styleable.CircularSeekBar_cs_start_angle), DEFAULT_START_ANGLE) % 360f)) % 360f);
         mEndAngle = ((360f + (attrArray.getFloat((R.styleable.CircularSeekBar_cs_end_angle), DEFAULT_END_ANGLE) % 360f)) % 360f);
 
-        if (mStartAngle == mEndAngle) {
+        if (mStartAngle % 360f == mEndAngle % 360f) {
             //mStartAngle = mStartAngle + 1f;
             mEndAngle = mEndAngle - .1f;
         }
@@ -761,9 +760,17 @@ public class CircularSeekBar extends View {
         this.lockEnabled = lockEnabled;
     }
 
+    public boolean isNegativeEnabled() {
+        return negativeEnabled;
+    }
+
+    public void setNegativeEnabled(boolean negativeEnabled) {
+        this.negativeEnabled = negativeEnabled;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (mDisablePointer)
+        if (mDisablePointer || !isEnabled())
             return false;
 
         // Convert coordinates to our internal coordinate system
@@ -1058,6 +1065,59 @@ public class CircularSeekBar extends View {
         public abstract void onStartTrackingTouch(CircularSeekBar seekBar);
     }
 
+    public Paint.Cap getCircleStyle() {
+        return mCircleStyle;
+    }
+
+    public void setCircleStyle(Paint.Cap style) {
+        mCircleStyle = style;
+        initPaints();
+        recalculateAll();
+        invalidate();
+    }
+
+    /**
+     * Sets the circle stroke width.
+     * @param width the width of the circle
+     */
+    public void setCircleStrokeWidth(float width) {
+        mCircleStrokeWidth = width;
+        initPaints();
+        recalculateAll();
+        invalidate();
+    }
+    public float getCircleStrokeWidth() {
+        return mCircleStrokeWidth;
+    }
+
+    public float getEndAngle() {
+        return mEndAngle;
+    }
+
+    public void setEndAngle(float angle) {
+        mEndAngle = angle;
+        if (mStartAngle % 360f == mEndAngle % 360f) {
+            //mStartAngle = mStartAngle + 1f;
+            mEndAngle = mEndAngle - .1f;
+        }
+        recalculateAll();
+        invalidate();
+    }
+
+    public float getStartAngle() {
+        return mStartAngle;
+    }
+
+    public void setStartAngle(float angle) {
+        mStartAngle = angle;
+        if (mStartAngle % 360f == mEndAngle % 360f) {
+            //mStartAngle = mStartAngle + 1f;
+            mEndAngle = mEndAngle - .1f;
+        }
+        recalculateAll();
+        invalidate();
+    }
+
     /**
      * Sets the circle color.
      * @param color the color of the circle
@@ -1074,6 +1134,20 @@ public class CircularSeekBar extends View {
      */
     public int getCircleColor() {
         return mCircleColor;
+    }
+
+    /**
+     * Sets the pointer pointer stroke width.
+     * @param width the width of the pointer
+     */
+    public void setPointerStrokeWidth(float width) {
+        mPointerStrokeWidth = width;
+        initPaints();
+        recalculateAll();
+        invalidate();
+    }
+    public float getPointerStrokeWidth() {
+        return mPointerStrokeWidth;
     }
 
     /**
@@ -1238,6 +1312,10 @@ public class CircularSeekBar extends View {
      */
     public synchronized float getMax() {
         return mMax;
+    }
+
+    public RectF getPathCircle() {
+        return mCircleRectF;
     }
 
 }
