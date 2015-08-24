@@ -397,17 +397,17 @@ public class CircularSeekBar extends View {
      * @param attrArray TypedArray containing the attributes.
      */
     private void initAttributes(TypedArray attrArray) {
-        mCircleXRadius = attrArray.getFloat(R.styleable.CircularSeekBar_cs_circle_x_radius, DEFAULT_CIRCLE_X_RADIUS) * DPTOPX_SCALE;
-        mCircleYRadius = attrArray.getFloat(R.styleable.CircularSeekBar_cs_circle_y_radius, DEFAULT_CIRCLE_Y_RADIUS) * DPTOPX_SCALE;
-        mPointerStrokeWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_pointer_stroke_width, DEFAULT_POINTER_STROKE_WIDTH) * DPTOPX_SCALE;
-        mPointerHaloWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_pointer_halo_width, DEFAULT_POINTER_HALO_WIDTH) * DPTOPX_SCALE;
-        mPointerHaloBorderWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_pointer_halo_border_width, DEFAULT_POINTER_HALO_BORDER_WIDTH) * DPTOPX_SCALE;
-        mCircleStrokeWidth = attrArray.getFloat(R.styleable.CircularSeekBar_cs_circle_stroke_width, DEFAULT_CIRCLE_STROKE_WIDTH) * DPTOPX_SCALE;
+        mCircleXRadius = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_circle_x_radius, DEFAULT_CIRCLE_X_RADIUS) * DPTOPX_SCALE;
+        mCircleYRadius = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_circle_y_radius, DEFAULT_CIRCLE_Y_RADIUS) * DPTOPX_SCALE;
+        mPointerStrokeWidth = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_pointer_stroke_width, DEFAULT_POINTER_STROKE_WIDTH) * DPTOPX_SCALE;
+        mPointerHaloWidth = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_pointer_halo_width, DEFAULT_POINTER_HALO_WIDTH) * DPTOPX_SCALE;
+        mPointerHaloBorderWidth = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_pointer_halo_border_width, DEFAULT_POINTER_HALO_BORDER_WIDTH) * DPTOPX_SCALE;
+        mCircleStrokeWidth = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_circle_stroke_width, DEFAULT_CIRCLE_STROKE_WIDTH) * DPTOPX_SCALE;
 
-        int circleStyle = attrArray.getInt(R.styleable.CircularSeekBar_cs_circle_style, DEFAULT_CIRCLE_STYLE);
+        int circleStyle = attrArray.getInt(R.styleable.cs_CircularSeekBar_cs_circle_style, DEFAULT_CIRCLE_STYLE);
         mCircleStyle = Paint.Cap.values()[circleStyle];
 
-        String tempColor = attrArray.getString(R.styleable.CircularSeekBar_cs_pointer_color);
+        String tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_pointer_color);
         if (tempColor != null) {
             try {
                 mPointerColor = Color.parseColor(tempColor);
@@ -416,7 +416,7 @@ public class CircularSeekBar extends View {
             }
         }
 
-        tempColor = attrArray.getString(R.styleable.CircularSeekBar_cs_pointer_halo_color);
+        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_pointer_halo_color);
         if (tempColor != null) {
             try {
                 mPointerHaloColor = Color.parseColor(tempColor);
@@ -425,7 +425,7 @@ public class CircularSeekBar extends View {
             }
         }
 
-        tempColor = attrArray.getString(R.styleable.CircularSeekBar_cs_pointer_halo_color_ontouch);
+        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_pointer_halo_color_ontouch);
         if (tempColor != null) {
             try {
                 mPointerHaloColorOnTouch = Color.parseColor(tempColor);
@@ -434,7 +434,7 @@ public class CircularSeekBar extends View {
             }
         }
 
-        tempColor = attrArray.getString(R.styleable.CircularSeekBar_cs_circle_color);
+        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_circle_color);
         if (tempColor != null) {
             try {
                 mCircleColor = Color.parseColor(tempColor);
@@ -443,7 +443,7 @@ public class CircularSeekBar extends View {
             }
         }
 
-        tempColor = attrArray.getString(R.styleable.CircularSeekBar_cs_circle_progress_color);
+        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_circle_progress_color);
         if (tempColor != null) {
             try {
                 mCircleProgressColor = Color.parseColor(tempColor);
@@ -452,7 +452,7 @@ public class CircularSeekBar extends View {
             }
         }
 
-        tempColor = attrArray.getString(R.styleable.CircularSeekBar_cs_circle_fill);
+        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_circle_fill);
         if (tempColor != null) {
             try {
                 mCircleFillColor = Color.parseColor(tempColor);
@@ -463,24 +463,24 @@ public class CircularSeekBar extends View {
 
         mPointerAlpha = Color.alpha(mPointerHaloColor);
 
-        mPointerAlphaOnTouch = attrArray.getInt(R.styleable.CircularSeekBar_cs_pointer_alpha_ontouch, DEFAULT_POINTER_ALPHA_ONTOUCH);
+        mPointerAlphaOnTouch = attrArray.getInt(R.styleable.cs_CircularSeekBar_cs_pointer_alpha_ontouch, DEFAULT_POINTER_ALPHA_ONTOUCH);
         if (mPointerAlphaOnTouch > 255 || mPointerAlphaOnTouch < 0) {
             mPointerAlphaOnTouch = DEFAULT_POINTER_ALPHA_ONTOUCH;
         }
 
-        mMax = attrArray.getInt(R.styleable.CircularSeekBar_cs_max, DEFAULT_MAX);
-        mProgress = attrArray.getInt(R.styleable.CircularSeekBar_cs_progress, DEFAULT_PROGRESS);
-        mCustomRadii = attrArray.getBoolean(R.styleable.CircularSeekBar_cs_use_custom_radii, DEFAULT_USE_CUSTOM_RADII);
-        mMaintainEqualCircle = attrArray.getBoolean(R.styleable.CircularSeekBar_cs_maintain_equal_circle, DEFAULT_MAINTAIN_EQUAL_CIRCLE);
-        mMoveOutsideCircle = attrArray.getBoolean(R.styleable.CircularSeekBar_cs_move_outside_circle, DEFAULT_MOVE_OUTSIDE_CIRCLE);
-        lockEnabled = attrArray.getBoolean(R.styleable.CircularSeekBar_cs_lock_enabled, DEFAULT_LOCK_ENABLED);
-        mDisablePointer = attrArray.getBoolean(R.styleable.CircularSeekBar_cs_disable_pointer, DEFAULT_DISABLE_POINTER);
-        negativeEnabled = attrArray.getBoolean(R.styleable.CircularSeekBar_cs_negative_enabled, DEFAULT_NEGATIVE_ENABLED);
+        mMax = attrArray.getInt(R.styleable.cs_CircularSeekBar_cs_max, DEFAULT_MAX);
+        mProgress = attrArray.getInt(R.styleable.cs_CircularSeekBar_cs_progress, DEFAULT_PROGRESS);
+        mCustomRadii = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_use_custom_radii, DEFAULT_USE_CUSTOM_RADII);
+        mMaintainEqualCircle = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_maintain_equal_circle, DEFAULT_MAINTAIN_EQUAL_CIRCLE);
+        mMoveOutsideCircle = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_move_outside_circle, DEFAULT_MOVE_OUTSIDE_CIRCLE);
+        lockEnabled = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_lock_enabled, DEFAULT_LOCK_ENABLED);
+        mDisablePointer = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_disable_pointer, DEFAULT_DISABLE_POINTER);
+        negativeEnabled = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_negative_enabled, DEFAULT_NEGATIVE_ENABLED);
         isInNegativeHalf = false;
 
         // Modulo 360 right now to avoid constant conversion
-        mStartAngle = ((360f + (attrArray.getFloat((R.styleable.CircularSeekBar_cs_start_angle), DEFAULT_START_ANGLE) % 360f)) % 360f);
-        mEndAngle = ((360f + (attrArray.getFloat((R.styleable.CircularSeekBar_cs_end_angle), DEFAULT_END_ANGLE) % 360f)) % 360f);
+        mStartAngle = ((360f + (attrArray.getFloat((R.styleable.cs_CircularSeekBar_cs_start_angle), DEFAULT_START_ANGLE) % 360f)) % 360f);
+        mEndAngle = ((360f + (attrArray.getFloat((R.styleable.cs_CircularSeekBar_cs_end_angle), DEFAULT_END_ANGLE) % 360f)) % 360f);
 
         if (mStartAngle % 360f == mEndAngle % 360f) {
             //mStartAngle = mStartAngle + 1f;
@@ -488,7 +488,7 @@ public class CircularSeekBar extends View {
         }
 
         // Modulo 360 right now to avoid constant conversion
-        mPointerAngle = ((360f + (attrArray.getFloat((R.styleable.CircularSeekBar_cs_pointer_angle), DEFAULT_POINTER_ANGLE) % 360f)) % 360f);
+        mPointerAngle = ((360f + (attrArray.getFloat((R.styleable.cs_CircularSeekBar_cs_pointer_angle), DEFAULT_POINTER_ANGLE) % 360f)) % 360f);
         if (mPointerAngle == 0f) {
             mPointerAngle = .1f;
         }
@@ -971,7 +971,7 @@ public class CircularSeekBar extends View {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        final TypedArray attrArray = getContext().obtainStyledAttributes(attrs, R.styleable.CircularSeekBar, defStyle, 0);
+        final TypedArray attrArray = getContext().obtainStyledAttributes(attrs, R.styleable.cs_CircularSeekBar, defStyle, 0);
 
         initAttributes(attrArray);
 

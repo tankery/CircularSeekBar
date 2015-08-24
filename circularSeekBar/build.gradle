@@ -7,7 +7,7 @@ version = "1.0.0"
 android {
     compileSdkVersion 22
     buildToolsVersion "22.0.1"
-    resourcePrefix "circularseekbar__"
+    resourcePrefix "cs_"
 
     defaultConfig {
         minSdkVersion 10
