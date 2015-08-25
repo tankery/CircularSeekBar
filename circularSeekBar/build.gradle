@@ -2,12 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 // This is the library version used when deploying the artifact
-version = "1.1.1"
+version = "1.1.2"
 /**
  * v1.1.0:
  *  add some Java object APIs.
  * v1.1.1:
  *  Fix resource name prefix error.
+ * v1.1.2:
+ *  Use dimension & color type for attrs instead of float & string...
  */
 
 android {
@@ -18,7 +20,7 @@ android {
     defaultConfig {
         minSdkVersion 10
         targetSdkVersion 22
-        versionCode 3
+        versionCode 4
         versionName version
     }
     buildTypes {

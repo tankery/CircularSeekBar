@@ -397,69 +397,22 @@ public class CircularSeekBar extends View {
      * @param attrArray TypedArray containing the attributes.
      */
     private void initAttributes(TypedArray attrArray) {
-        mCircleXRadius = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_circle_x_radius, DEFAULT_CIRCLE_X_RADIUS) * DPTOPX_SCALE;
-        mCircleYRadius = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_circle_y_radius, DEFAULT_CIRCLE_Y_RADIUS) * DPTOPX_SCALE;
-        mPointerStrokeWidth = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_pointer_stroke_width, DEFAULT_POINTER_STROKE_WIDTH) * DPTOPX_SCALE;
-        mPointerHaloWidth = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_pointer_halo_width, DEFAULT_POINTER_HALO_WIDTH) * DPTOPX_SCALE;
-        mPointerHaloBorderWidth = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_pointer_halo_border_width, DEFAULT_POINTER_HALO_BORDER_WIDTH) * DPTOPX_SCALE;
-        mCircleStrokeWidth = attrArray.getFloat(R.styleable.cs_CircularSeekBar_cs_circle_stroke_width, DEFAULT_CIRCLE_STROKE_WIDTH) * DPTOPX_SCALE;
+        mCircleXRadius = attrArray.getDimension(R.styleable.cs_CircularSeekBar_cs_circle_x_radius, DEFAULT_CIRCLE_X_RADIUS);
+        mCircleYRadius = attrArray.getDimension(R.styleable.cs_CircularSeekBar_cs_circle_y_radius, DEFAULT_CIRCLE_Y_RADIUS);
+        mPointerStrokeWidth = attrArray.getDimension(R.styleable.cs_CircularSeekBar_cs_pointer_stroke_width, DEFAULT_POINTER_STROKE_WIDTH);
+        mPointerHaloWidth = attrArray.getDimension(R.styleable.cs_CircularSeekBar_cs_pointer_halo_width, DEFAULT_POINTER_HALO_WIDTH);
+        mPointerHaloBorderWidth = attrArray.getDimension(R.styleable.cs_CircularSeekBar_cs_pointer_halo_border_width, DEFAULT_POINTER_HALO_BORDER_WIDTH);
+        mCircleStrokeWidth = attrArray.getDimension(R.styleable.cs_CircularSeekBar_cs_circle_stroke_width, DEFAULT_CIRCLE_STROKE_WIDTH);
 
         int circleStyle = attrArray.getInt(R.styleable.cs_CircularSeekBar_cs_circle_style, DEFAULT_CIRCLE_STYLE);
         mCircleStyle = Paint.Cap.values()[circleStyle];
 
-        String tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_pointer_color);
-        if (tempColor != null) {
-            try {
-                mPointerColor = Color.parseColor(tempColor);
-            } catch (IllegalArgumentException e) {
-                mPointerColor = DEFAULT_POINTER_COLOR;
-            }
-        }
-
-        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_pointer_halo_color);
-        if (tempColor != null) {
-            try {
-                mPointerHaloColor = Color.parseColor(tempColor);
-            } catch (IllegalArgumentException e) {
-                mPointerHaloColor = DEFAULT_POINTER_HALO_COLOR;
-            }
-        }
-
-        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_pointer_halo_color_ontouch);
-        if (tempColor != null) {
-            try {
-                mPointerHaloColorOnTouch = Color.parseColor(tempColor);
-            } catch (IllegalArgumentException e) {
-                mPointerHaloColorOnTouch = DEFAULT_POINTER_HALO_COLOR_ONTOUCH;
-            }
-        }
-
-        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_circle_color);
-        if (tempColor != null) {
-            try {
-                mCircleColor = Color.parseColor(tempColor);
-            } catch (IllegalArgumentException e) {
-                mCircleColor = DEFAULT_CIRCLE_COLOR;
-            }
-        }
-
-        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_circle_progress_color);
-        if (tempColor != null) {
-            try {
-                mCircleProgressColor = Color.parseColor(tempColor);
-            } catch (IllegalArgumentException e) {
-                mCircleProgressColor = DEFAULT_CIRCLE_PROGRESS_COLOR;
-            }
-        }
-
-        tempColor = attrArray.getString(R.styleable.cs_CircularSeekBar_cs_circle_fill);
-        if (tempColor != null) {
-            try {
-                mCircleFillColor = Color.parseColor(tempColor);
-            } catch (IllegalArgumentException e) {
-                mCircleFillColor = DEFAULT_CIRCLE_FILL_COLOR;
-            }
-        }
+        mPointerColor = attrArray.getColor(R.styleable.cs_CircularSeekBar_cs_pointer_color, DEFAULT_POINTER_COLOR);
+        mPointerHaloColor = attrArray.getColor(R.styleable.cs_CircularSeekBar_cs_pointer_halo_color, DEFAULT_POINTER_HALO_COLOR);
+        mPointerHaloColorOnTouch = attrArray.getColor(R.styleable.cs_CircularSeekBar_cs_pointer_halo_color_ontouch, DEFAULT_POINTER_HALO_COLOR_ONTOUCH);
+        mCircleColor = attrArray.getColor(R.styleable.cs_CircularSeekBar_cs_circle_color, DEFAULT_CIRCLE_COLOR);
+        mCircleProgressColor = attrArray.getColor(R.styleable.cs_CircularSeekBar_cs_circle_progress_color, DEFAULT_CIRCLE_PROGRESS_COLOR);
+        mCircleFillColor = attrArray.getColor(R.styleable.cs_CircularSeekBar_cs_circle_fill, DEFAULT_CIRCLE_FILL_COLOR);
 
         mPointerAlpha = Color.alpha(mPointerHaloColor);
 

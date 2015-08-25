@@ -22,7 +22,7 @@ I make this library run on Android Studio (Gradle), and fix & add more features 
 ### Gradle
 ``` Gradle
 dependencies {
-    compile 'me.tankery.lib:circularSeekBar:1.1.1'
+    compile 'me.tankery.lib:circularSeekBar:1.1.2'
 }
 ```
 
@@ -39,22 +39,22 @@ app:cs_move_outside_circle = "boolean"
 app:cs_maintain_equal_circle = "boolean"
 app:cs_use_custom_radii = "boolean"
 app:cs_lock_enabled = "boolean"
-app:cs_circle_x_radius = "float"
-app:cs_circle_y_radius = "float"
-app:cs_circle_stroke_width = "float"
+app:cs_circle_x_radius = "dimension"
+app:cs_circle_y_radius = "dimension"
+app:cs_circle_stroke_width = "dimension"
 app:cs_disable_pointer = "boolean"
-app:cs_pointer_stroke_width = "float"
-app:cs_pointer_halo_width = "float"
-app:cs_pointer_halo_border_width = "float"
-app:cs_circle_color = "string"
-app:cs_circle_progress_color = "string"
-app:cs_pointer_color = "string"
-app:cs_pointer_halo_color = "string"
-app:cs_pointer_halo_color_ontouch = "string"
+app:cs_pointer_stroke_width = "dimension"
+app:cs_pointer_halo_width = "dimension"
+app:cs_pointer_halo_border_width = "dimension"
+app:cs_circle_fill = "color"
+app:cs_circle_color = "color"
+app:cs_circle_progress_color = "color"
+app:cs_pointer_color = "color"
+app:cs_pointer_halo_color = "color"
+app:cs_pointer_halo_color_ontouch = "color"
 app:cs_pointer_alpha_ontouch = "integer"
 app:cs_pointer_angle = "float"
 app:cs_start_angle = "float"
 app:cs_end_angle = "float"
-app:cs_circle_fill = "string"
 ```
 
