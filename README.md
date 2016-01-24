@@ -24,7 +24,7 @@ I make this library run on Android Studio (Gradle), and fix & add more features 
 ### Gradle
 ``` Gradle
 dependencies {
-    compile 'me.tankery.lib:circularSeekBar:1.1.2'
+    compile 'me.tankery.lib:circularSeekBar:1.1.3'
 }
 ```
 
