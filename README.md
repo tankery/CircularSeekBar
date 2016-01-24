@@ -7,7 +7,7 @@ The reason for create a repositive instead of fork it from Matt's, is that the p
 
 I make this library run on Android Studio (Gradle), and fix & add more features to the library.
 
-![CircularSeekBar Screenshot](/art/capture.jpg)
+<img src="/art/capture.jpg" alt="CircularSeekBar Screenshot" width="320" height="auto">
 
 ## The features I add
 
