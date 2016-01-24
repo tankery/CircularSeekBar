@@ -1,28 +1,163 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <TextView android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <me.tankery.lib.circularseekbar.CircularSeekBar
-        android:id="@+id/seek_bar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_margin="16dp"
-        app:cs_negative_enabled="true"
-        app:cs_circle_style="butt"
-        app:cs_circle_stroke_width="56dp"
-        app:cs_pointer_stroke_width="56dp"
-        app:cs_pointer_angle="44"/>
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <me.tankery.lib.circularseekbar.CircularSeekBar
+            android:id="@+id/seek_bar"
+            android:layout_width="@dimen/seekbar_size_large"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:cs_negative_enabled="true"
+            app:cs_circle_style="butt"
+            app:cs_circle_stroke_width="48dp"
+            app:cs_pointer_stroke_width="48dp"
+            app:cs_pointer_angle="44"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text_event"
+                android:text="@null"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/text_progress"
+                android:text="Butt path with listener, touch to see the effect."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="0,1">
+
+            <TableRow>
+
+                <LinearLayout android:orientation="vertical">
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:layout_width="@dimen/seekbar_size_small"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/seekbar_margin"
+                        android:layout_marginLeft="@dimen/seekbar_margin"
+                        android:layout_marginRight="@dimen/seekbar_margin"
+                        app:cs_negative_enabled="true"
+                        app:cs_circle_style="round"
+                        app:cs_circle_stroke_width="8dp"
+                        app:cs_pointer_stroke_width="24dp"
+                        app:cs_pointer_halo_width="@dimen/seekbar_holo_width"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Circle, negative enabled"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:orientation="vertical">
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:layout_width="@dimen/seekbar_size_small"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/seekbar_margin"
+                        android:layout_marginLeft="@dimen/seekbar_margin"
+                        android:layout_marginRight="@dimen/seekbar_margin"
+                        app:cs_negative_enabled="false"
+                        app:cs_circle_style="square"
+                        app:cs_circle_stroke_width="8dp"
+                        app:cs_pointer_stroke_width="24dp"
+                        app:cs_pointer_halo_width="@dimen/seekbar_holo_width"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Square, negative disabled"/>
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TableRow>
+
+                <LinearLayout android:orientation="vertical">
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:layout_width="@dimen/seekbar_size_small"
+                        android:layout_height="@dimen/seekbar_size_small_ellipse"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/seekbar_margin"
+                        android:layout_marginLeft="@dimen/seekbar_margin"
+                        android:layout_marginRight="@dimen/seekbar_margin"
+                        app:cs_maintain_equal_circle="false"
+                        app:cs_negative_enabled="true"
+                        app:cs_start_angle="-180"
+                        app:cs_end_angle="90"
+                        app:cs_circle_style="round"
+                        app:cs_circle_stroke_width="8dp"
+                        app:cs_pointer_stroke_width="24dp"
+                        app:cs_pointer_halo_width="@dimen/seekbar_holo_width"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:text="Semi-ellipse\n negtive been disabled"/>
+
+                </LinearLayout>
+
+                <LinearLayout android:orientation="vertical">
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:layout_width="@dimen/seekbar_size_small"
+                        android:layout_height="@dimen/seekbar_size_small_ellipse"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/seekbar_margin"
+                        android:layout_marginLeft="@dimen/seekbar_margin"
+                        android:layout_marginRight="@dimen/seekbar_margin"
+                        app:cs_maintain_equal_circle="true"
+                        app:cs_start_angle="-180"
+                        app:cs_end_angle="90"
+                        app:cs_progress="80"
+                        app:cs_circle_style="round"
+                        app:cs_circle_stroke_width="8dp"
+                        app:cs_disable_pointer="true"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Disable pointer"/>
+
+                </LinearLayout>
+
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+</ScrollView>
