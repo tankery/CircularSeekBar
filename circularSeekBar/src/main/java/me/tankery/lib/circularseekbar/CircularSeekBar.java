@@ -60,7 +60,7 @@ public class CircularSeekBar extends View {
     private static final float DEFAULT_CIRCLE_Y_RADIUS = 30f;
     private static final float DEFAULT_POINTER_STROKE_WIDTH = 14f;
     private static final float DEFAULT_POINTER_HALO_WIDTH = 6f;
-    private static final float DEFAULT_POINTER_HALO_BORDER_WIDTH = 2f;
+    private static final float DEFAULT_POINTER_HALO_BORDER_WIDTH = 0f;
     private static final float DEFAULT_CIRCLE_STROKE_WIDTH = 5f;
     private static final float DEFAULT_START_ANGLE = 270f; // Geometric (clockwise, relative to 3 o'clock)
     private static final float DEFAULT_END_ANGLE = 270f; // Geometric (clockwise, relative to 3 o'clock)
@@ -435,6 +435,11 @@ public class CircularSeekBar extends View {
         mStartAngle = ((360f + (attrArray.getFloat((R.styleable.cs_CircularSeekBar_cs_start_angle), DEFAULT_START_ANGLE) % 360f)) % 360f);
         mEndAngle = ((360f + (attrArray.getFloat((R.styleable.cs_CircularSeekBar_cs_end_angle), DEFAULT_END_ANGLE) % 360f)) % 360f);
 
+        // Disable negative progress if is semi-oval.
+        if (mStartAngle != mEndAngle) {
+            negativeEnabled = false;
+        }
+
         if (mStartAngle % 360f == mEndAngle % 360f) {
             //mStartAngle = mStartAngle + 1f;
             mEndAngle = mEndAngle - .1f;
@@ -549,33 +554,42 @@ public class CircularSeekBar extends View {
     }
 
     /**
-     * Initialize the {@code Path} objects with the appropriate values.
+     * Initialize the {@code Path} objects.
      */
     private void initPaths() {
+        mCirclePath = new Path();
+        mCircleProgressPath = new Path();
+        mCirclePonterPath = new Path();
+    }
+
+    /**
+     * Reset the {@code Path} objects with the appropriate values.
+     */
+    private void resetPaths() {
         if (isInNegativeHalf) {
-            mCirclePath = new Path();
+            mCirclePath.reset();
             mCirclePath.addArc(mCircleRectF, mStartAngle - mTotalCircleDegrees, mTotalCircleDegrees);
 
             // beside progress path it self, we also draw a extend arc to math the pointer arc.
             float extendStart = mStartAngle - mProgressDegrees - mPointerAngle / 2.0f;
             float extendDegrees = mProgressDegrees + mPointerAngle;
-            mCircleProgressPath = new Path();
+            mCircleProgressPath.reset();
             mCircleProgressPath.addArc(mCircleRectF, extendStart, extendDegrees);
 
             float pointerStart = mPointerPosition - mPointerAngle / 2.0f;
-            mCirclePonterPath = new Path();
+            mCirclePonterPath.reset();
             mCirclePonterPath.addArc(mCircleRectF, pointerStart, mPointerAngle);
         } else {
-            mCirclePath = new Path();
+            mCirclePath.reset();
             mCirclePath.addArc(mCircleRectF, mStartAngle, mTotalCircleDegrees);
 
             // beside progress path it self, we also draw a extend arc to math the pointer arc.
             float extendStart = mStartAngle - mPointerAngle / 2.0f;
-            mCircleProgressPath = new Path();
+            mCircleProgressPath.reset();
             mCircleProgressPath.addArc(mCircleRectF, extendStart, mProgressDegrees + mPointerAngle);
 
             float pointerStart = mPointerPosition - mPointerAngle / 2.0f;
-            mCirclePonterPath = new Path();
+            mCirclePonterPath.reset();
             mCirclePonterPath.addArc(mCircleRectF, pointerStart, mPointerAngle);
         }
     }
@@ -583,7 +597,7 @@ public class CircularSeekBar extends View {
     /**
      * Initialize the {@code RectF} objects with the appropriate values.
      */
-    private void initRects() {
+    private void resetRects() {
         mCircleRectF.set(-mCircleWidth, -mCircleHeight, mCircleWidth, mCircleHeight);
     }
 
@@ -660,9 +674,9 @@ public class CircularSeekBar extends View {
         calculatePointerPosition();
         calculateProgressDegrees();
 
-        initRects();
+        resetRects();
 
-        initPaths();
+        resetPaths();
 
         calculatePointerXYPosition();
     }
@@ -671,6 +685,8 @@ public class CircularSeekBar extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int height = getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec);
         int width = getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec);
+        if (height == 0) height = width;
+        if (width == 0) width = height;
         if (mMaintainEqualCircle) {
             int min = Math.min(width, height);
             setMeasuredDimension(min, min);
@@ -680,7 +696,7 @@ public class CircularSeekBar extends View {
 
         // Set the circle width and height based on the view for the moment
         float padding = Math.max(mCircleStrokeWidth / 2f,
-                mPointerStrokeWidth + mPointerHaloWidth + mPointerHaloBorderWidth);
+                mPointerStrokeWidth / 2 + mPointerHaloWidth + mPointerHaloBorderWidth);
         mCircleHeight = height / 2f - padding;
         mCircleWidth = width / 2f - padding;
 
@@ -931,6 +947,7 @@ public class CircularSeekBar extends View {
         attrArray.recycle();
 
         initPaints();
+        initPaths();
     }
 
     public CircularSeekBar(Context context) {
