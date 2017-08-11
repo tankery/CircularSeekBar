@@ -54,6 +54,11 @@ public class CircularSeekBar extends View {
      */
     private final float MIN_TOUCH_TARGET_DP = 48;
 
+    /**
+     * For some case we need the degree to have small bias to avoid overflow.
+     */
+    private static final float SMALL_DEGREE_BIAS = .1f;
+
     // Default values
     private static final int DEFAULT_CIRCLE_STYLE = Paint.Cap.ROUND.ordinal();
     private static final float DEFAULT_CIRCLE_X_RADIUS = 30f;
@@ -442,13 +447,13 @@ public class CircularSeekBar extends View {
 
         if (mStartAngle % 360f == mEndAngle % 360f) {
             //mStartAngle = mStartAngle + 1f;
-            mEndAngle = mEndAngle - .1f;
+            mEndAngle = mEndAngle - SMALL_DEGREE_BIAS;
         }
 
         // Modulo 360 right now to avoid constant conversion
         mPointerAngle = ((360f + (attrArray.getFloat((R.styleable.cs_CircularSeekBar_cs_pointer_angle), DEFAULT_POINTER_ANGLE) % 360f)) % 360f);
         if (mPointerAngle == 0f) {
-            mPointerAngle = .1f;
+            mPointerAngle = SMALL_DEGREE_BIAS;
         }
 
         if (mDisablePointer) {
@@ -573,6 +578,9 @@ public class CircularSeekBar extends View {
             // beside progress path it self, we also draw a extend arc to math the pointer arc.
             float extendStart = mStartAngle - mProgressDegrees - mPointerAngle / 2.0f;
             float extendDegrees = mProgressDegrees + mPointerAngle;
+            if (extendDegrees >= 360f) {
+                extendDegrees = 360f - SMALL_DEGREE_BIAS;
+            }
             mCircleProgressPath.reset();
             mCircleProgressPath.addArc(mCircleRectF, extendStart, extendDegrees);
 
@@ -585,8 +593,12 @@ public class CircularSeekBar extends View {
 
             // beside progress path it self, we also draw a extend arc to math the pointer arc.
             float extendStart = mStartAngle - mPointerAngle / 2.0f;
+            float extendDegrees = mProgressDegrees + mPointerAngle;
+            if (extendDegrees >= 360f) {
+                extendDegrees = 360f - SMALL_DEGREE_BIAS;
+            }
             mCircleProgressPath.reset();
-            mCircleProgressPath.addArc(mCircleRectF, extendStart, mProgressDegrees + mPointerAngle);
+            mCircleProgressPath.addArc(mCircleRectF, extendStart, extendDegrees);
 
             float pointerStart = mPointerPosition - mPointerAngle / 2.0f;
             mCirclePonterPath.reset();
@@ -1068,7 +1080,7 @@ public class CircularSeekBar extends View {
         mEndAngle = angle;
         if (mStartAngle % 360f == mEndAngle % 360f) {
             //mStartAngle = mStartAngle + 1f;
-            mEndAngle = mEndAngle - .1f;
+            mEndAngle = mEndAngle - SMALL_DEGREE_BIAS;
         }
         recalculateAll();
         invalidate();
@@ -1082,7 +1094,7 @@ public class CircularSeekBar extends View {
         mStartAngle = angle;
         if (mStartAngle % 360f == mEndAngle % 360f) {
             //mStartAngle = mStartAngle + 1f;
-            mEndAngle = mEndAngle - .1f;
+            mEndAngle = mEndAngle - SMALL_DEGREE_BIAS;
         }
         recalculateAll();
         invalidate();
@@ -1220,7 +1232,7 @@ public class CircularSeekBar extends View {
         // Modulo 360 right now to avoid constant conversion
         angle = ((360f + (angle % 360f)) % 360f);
         if (angle == 0f) {
-            angle = .1f;
+            angle = SMALL_DEGREE_BIAS;
         }
         if (angle != mPointerAngle) {
             mPointerAngle = angle;
