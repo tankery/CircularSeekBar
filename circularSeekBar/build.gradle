@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 // This is the library version used when deploying the artifact
-version = "1.1.3"
+version = "1.1.4"
 /**
  * v1.1.0:
  *  add some Java object APIs.
@@ -12,6 +12,9 @@ version = "1.1.3"
  *  Use dimension & color type for attrs instead of float & string...
  * v1.1.3:
  *  Remove unnecessary new instance of Path, and fix some bugs.
+ * v1.1.4:
+ *  - Upgrade gradle and sdk version
+ *  - Fix Progress bar missing when progress is 100 on Android O.
  */
 
 android {
