@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 // This is the library version used when deploying the artifact
-version = "1.1.4"
+version = "1.1.5"
 /**
  * v1.1.0:
  *  add some Java object APIs.
@@ -15,6 +15,8 @@ version = "1.1.4"
  * v1.1.4:
  *  - Upgrade gradle and sdk version
  *  - Fix Progress bar missing when progress is 100 on Android O.
+ * v1.1.5:
+ *  - Fix progress is hard to set to 0 or 100 when touch.
  */
 
 android {

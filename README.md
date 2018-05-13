@@ -29,7 +29,7 @@ I make this library run on Android Studio (Gradle), and fix & add more features 
 ### Gradle
 ``` Gradle
 dependencies {
-    compile 'me.tankery.lib:circularSeekBar:1.1.4'
+    compile 'me.tankery.lib:circularSeekBar:1.1.5'
 }
 ```
 
