@@ -1,5 +1,17 @@
 apply plugin: 'com.android.application'
 
+// Define some common closures (methods) for code share
+ext.getTagCount = {
+    String cmd = "git tag -l \"v_*\""
+    String result = cmd.execute((String[])null, project.projectDir).text
+    return result.trim().split("\n").length
+}
+ext.getLatestTaggedVersion = {
+    String cmd = "git describe --abbrev=0 --tags"
+    String result = cmd.execute((String[])null, project.projectDir).text
+    return result.trim().replace("v_", "")
+}
+
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion rootProject.buildToolsVersion
@@ -8,13 +20,14 @@ android {
         applicationId "me.tankery.app.circularseekbar"
         minSdkVersion 10
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode getTagCount()
+        versionName getLatestTaggedVersion()
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.debug
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            setProperty("archivesBaseName", "CircularSeekBar-demo-${defaultConfig.versionName}")
         }
     }
 }

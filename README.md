@@ -1,4 +1,9 @@
 # CircularSeekBar
+
+[![Build Status](https://travis-ci.org/tankery/CircularSeekBar.svg?branch=master)](https://travis-ci.org/tankery/CircularSeekBar)
+[![GitHub release](https://img.shields.io/github/release/tankery/CircularSeekBar.svg)](https://github.com/tankery/CircularSeekBar/releases)
+[![Bintray](https://img.shields.io/bintray/v/tankery/maven/CircularSeekBar.svg?maxAge=2592000)](https://bintray.com/tankery/maven/CircularSeekBar)
+
 Custom circular SeekBar (Circle, Semi-circle, and Ellipse) for Android.
 
 This library is based on [CircularSeekBar of Matt Joseph (devadvance)](https://github.com/devadvance/circularseekbar).
