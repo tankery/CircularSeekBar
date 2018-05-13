@@ -1,0 +1,37 @@
+language: android
+
+before_install:
+  # Install SDK license so Android Gradle plugin can install deps.
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
+  # Install the rest of tools (e.g., avdmanager)
+  - sdkmanager tools
+
+install: ./gradlew clean assemble --stacktrace
+
+script: ./gradlew check --stacktrace
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file_glob: true
+  file: app/build/outputs/apk/CircularSeekBar-demo-*-release.apk
+  skip_cleanup: true
+  on:
+    tags: true
+
+notifications:
+  email: false
+
+sudo: false
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+
