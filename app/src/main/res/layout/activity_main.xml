@@ -112,10 +112,10 @@
                         android:layout_marginLeft="@dimen/seekbar_margin"
                         android:layout_marginRight="@dimen/seekbar_margin"
                         app:cs_maintain_equal_circle="false"
-                        app:cs_negative_enabled="true"
+                        app:cs_negative_enabled="false"
                         app:cs_start_angle="-180"
                         app:cs_end_angle="90"
-                        app:cs_circle_style="round"
+                        app:cs_circle_style="butt"
                         app:cs_circle_stroke_width="8dp"
                         app:cs_pointer_stroke_width="24dp"
                         app:cs_pointer_halo_width="@dimen/seekbar_holo_width"/>

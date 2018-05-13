@@ -849,8 +849,8 @@ public class CircularSeekBar extends View {
                 float cwPointerFromStart = mPointerPosition - mStartAngle;
                 cwPointerFromStart = cwPointerFromStart < 0 ? cwPointerFromStart + 360f : cwPointerFromStart;
 
-                boolean touchNearStart = cwDistanceFromStart < smallInCircle;
-                boolean touchNearEnd = ccwDistanceFromEnd < smallInCircle;
+                boolean touchOverStart = ccwDistanceFromStart < smallInCircle;
+                boolean touchOverEnd = cwDistanceFromEnd < smallInCircle;
                 boolean pointerNearStart = cwPointerFromStart < smallInCircle;
                 boolean pointerNearEnd = cwPointerFromStart > (mTotalCircleDegrees - smallInCircle);
                 boolean progressNearZero = mProgress < mMax / 3f;
@@ -858,34 +858,19 @@ public class CircularSeekBar extends View {
 
                 if (progressNearMax) {  // logic for end lock.
                     if (pointerNearStart) { // negative end
-                        if (touchNearStart)
-                            lockAtEnd = false;
-                        else if (touchNearEnd) {
-                            lockAtEnd = true;
-                            lockAtStart = false;
-                        }
+                        lockAtEnd = touchOverStart;
                     } else if (pointerNearEnd) {    // positive end
-                        if (touchNearEnd)
-                            lockAtEnd = false;
-                        else if (touchNearStart) {
-                            lockAtEnd = true;
-                            lockAtStart = false;
-                        }
+                        lockAtEnd = touchOverEnd;
                     }
                 } else if (progressNearZero && negativeEnabled) {   // logic for negative flip
-                    if (touchNearStart)
+                    if (touchOverEnd)
                         isInNegativeHalf = false;
-                    else if (touchNearEnd) {
+                    else if (touchOverStart) {
                         isInNegativeHalf = true;
                     }
-                } else if (progressNearZero && !negativeEnabled) {  // logic for start lock
+                } else if (progressNearZero) {  // logic for start lock
                     if (pointerNearStart) {
-                        if (touchNearStart)
-                            lockAtStart = false;
-                        else if (touchNearEnd) {
-                            lockAtStart = true;
-                            lockAtEnd = false;
-                        }
+                        lockAtStart = touchOverStart;
                     }
                 }
 
