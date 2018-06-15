@@ -86,6 +86,7 @@ public class CircularSeekBar extends View {
     private static final boolean DEFAULT_LOCK_ENABLED = true;
     private static final boolean DEFAULT_DISABLE_POINTER = false;
     private static final boolean DEFAULT_NEGATIVE_ENABLED = false;
+    private static final boolean DEFAULT_DISABLE_PROGRESS_GLOW = false;
 
     /**
      * {@code Paint} instance used to draw the inactive circle.
@@ -101,6 +102,11 @@ public class CircularSeekBar extends View {
      * {@code Paint} instance used to draw the active circle (represents progress).
      */
     private Paint mCircleProgressPaint;
+
+    /**
+     * If progress glow is disabled, there is no glow from the progress bar when filled
+     */
+    private boolean mDisableProgressGlow;
 
     /**
      * {@code Paint} instance used to draw the glow from the active circle.
@@ -435,6 +441,7 @@ public class CircularSeekBar extends View {
         mDisablePointer = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_disable_pointer, DEFAULT_DISABLE_POINTER);
         negativeEnabled = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_negative_enabled, DEFAULT_NEGATIVE_ENABLED);
         isInNegativeHalf = false;
+        mDisableProgressGlow = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_disable_progress_glow, DEFAULT_DISABLE_PROGRESS_GLOW);
 
         // Modulo 360 right now to avoid constant conversion
         mStartAngle = ((360f + (attrArray.getFloat((R.styleable.cs_CircularSeekBar_cs_start_angle), DEFAULT_START_ANGLE) % 360f)) % 360f);
@@ -492,9 +499,11 @@ public class CircularSeekBar extends View {
         mCircleProgressPaint.setStrokeJoin(Paint.Join.ROUND);
         mCircleProgressPaint.setStrokeCap(mCircleStyle);
 
-        mCircleProgressGlowPaint = new Paint();
-        mCircleProgressGlowPaint.set(mCircleProgressPaint);
-        mCircleProgressGlowPaint.setMaskFilter(new BlurMaskFilter((5f * DPTOPX_SCALE), BlurMaskFilter.Blur.NORMAL));
+        if (!mDisableProgressGlow) {
+            mCircleProgressGlowPaint = new Paint();
+            mCircleProgressGlowPaint.set(mCircleProgressPaint);
+            mCircleProgressGlowPaint.setMaskFilter(new BlurMaskFilter((5f * DPTOPX_SCALE), BlurMaskFilter.Blur.NORMAL));
+        }
 
         mPointerPaint = new Paint();
         mPointerPaint.setAntiAlias(true);
@@ -620,7 +629,11 @@ public class CircularSeekBar extends View {
         canvas.translate(this.getWidth() / 2, this.getHeight() / 2);
 
         canvas.drawPath(mCirclePath, mCirclePaint);
-        canvas.drawPath(mCircleProgressPath, mCircleProgressGlowPaint);
+
+        if (!mDisableProgressGlow) {
+            canvas.drawPath(mCircleProgressPath, mCircleProgressGlowPaint);
+        }
+
         canvas.drawPath(mCircleProgressPath, mCircleProgressPaint);
 
         canvas.drawPath(mCirclePath, mCircleFillPaint);
