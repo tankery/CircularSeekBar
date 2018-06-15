@@ -63,5 +63,6 @@ app:cs_pointer_alpha_ontouch = "integer"
 app:cs_pointer_angle = "float"
 app:cs_start_angle = "float"
 app:cs_end_angle = "float"
+app:cs_disable_progress_glow = "boolean"
 ```
 
