@@ -31,6 +31,7 @@
         <attr name="cs_pointer_angle" format="float"/>
         <attr name="cs_start_angle" format="float"/>
         <attr name="cs_end_angle" format="float"/>
+        <attr name="cs_disable_progress_glow" format="boolean"/>
     </declare-styleable>
 
 </resources>
