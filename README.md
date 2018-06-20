@@ -2,15 +2,13 @@
 
 [![Build Status](https://travis-ci.org/tankery/CircularSeekBar.svg?branch=master)](https://travis-ci.org/tankery/CircularSeekBar)
 [![GitHub release](https://img.shields.io/github/release/tankery/CircularSeekBar.svg)](https://github.com/tankery/CircularSeekBar/releases)
-[![Bintray](https://img.shields.io/bintray/v/tankery/maven/CircularSeekBar.svg?maxAge=2592000)](https://bintray.com/tankery/maven/CircularSeekBar)
+[![Bintray](https://img.shields.io/bintray/v/tankery/maven/CircularSeekBar.svg)](https://bintray.com/tankery/maven/CircularSeekBar)
 
-Custom circular SeekBar (Circle, Semi-circle, and Ellipse) for Android.
+Rich feature Circular SeekBar (Circle, Semi-circle, and Ellipse) for Android.
 
-This library is based on [CircularSeekBar of Matt Joseph (devadvance)](https://github.com/devadvance/circularseekbar).
+This library is based on [CircularSeekBar of Matt Joseph (devadvance)](https://github.com/devadvance/circularseekbar). But the original author seems to have stopped maintaining (last commit was in 2016), so I decide to take it up by myself.
 
-The reason for create a repositive instead of fork it from Matt's, is that the project structure is different.
-
-I make this library run on Android Studio (Gradle), and fix & add more features to the library.
+I made it build on Android Studio (Gradle), then fix & add more features to the library.
 
 <img src="/art/capture.jpg" alt="CircularSeekBar Screenshot" width="320" height="auto">
 
@@ -24,7 +22,7 @@ I make this library run on Android Studio (Gradle), and fix & add more features 
 6. Use a arc to represent the pointer, you can custom the arc angle.
 7. Negative progress support.
 
-## How to use
+## Setup
 
 ### Gradle
 ``` Gradle
@@ -35,6 +33,8 @@ dependencies {
 
 ### Source
 Copy sources and `attrs.xml` in module `circularSeekBar` to your project.
+
+## Usage
 
 CircularSeekBar support following attributes:
 ``` xml
