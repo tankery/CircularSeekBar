@@ -2,8 +2,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 // This is the library version used when deploying the artifact
-version = "1.1.6"
+version = "1.1.7"
 /**
+ * v1.1.7:
+ *  - Upgrade gradle and sdk.
  * v1.1.6:
  *  - Add support for disabling progress glow.
  * v1.1.5:
