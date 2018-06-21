@@ -18,8 +18,8 @@ android {
 
     defaultConfig {
         applicationId "me.tankery.app.circularseekbar"
-        minSdkVersion 10
-        targetSdkVersion 26
+        minSdkVersion 15
+        targetSdkVersion 28
         versionCode getTagCount()
         versionName getLatestTaggedVersion()
     }
@@ -33,6 +33,6 @@ android {
 }
 
 dependencies {
-    compile project(':circularSeekBar')
-    compile "com.android.support:support-annotations:${rootProject.supportLibVersion}"
+    implementation project(':circularSeekBar')
+    implementation "com.android.support:support-annotations:${rootProject.supportLibVersion}"
 }

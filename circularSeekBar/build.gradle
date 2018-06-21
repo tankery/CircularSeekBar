@@ -28,8 +28,7 @@ android {
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 26
-        versionCode 5
+        targetSdkVersion 28
         versionName version
     }
     buildTypes {
@@ -41,7 +40,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
 
 def siteUrl = 'https://github.com/tankery/CircularSeekBar'
