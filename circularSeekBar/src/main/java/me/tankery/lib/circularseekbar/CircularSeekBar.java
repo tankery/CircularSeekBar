@@ -1,6 +1,7 @@
 /*
  *
  * Copyright 2013 Matt Joseph
+ * Copyright 2018 Tankery Chen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -750,8 +751,6 @@ public class CircularSeekBar extends View {
         float touchAngle;
         touchAngle = (float) ((Math.atan2(y, x) / Math.PI * 180) % 360); // Verified
         touchAngle = (touchAngle < 0 ? 360 + touchAngle : touchAngle); // Verified
-
-
 
         /*
           Represents the clockwise distance from {@code mStartAngle} to the touch angle.

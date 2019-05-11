@@ -14,7 +14,6 @@ ext.getLatestTaggedVersion = {
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         applicationId "me.tankery.app.circularseekbar"
