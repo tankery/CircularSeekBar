@@ -5,6 +5,8 @@
 3. Update version name in `README.md`
 4. Execute `git commit -m "Upgrade to vX.Y.Z"` (where X.Y.Z is the new version).
 5. Execute `./gradlew clean build install bintrayUpload`.
-6. Execute `git tag vX.Y.Z` (where X.Y.Z is the new version)
-7. Execute `git push && git push --tags`
+6. Execute `git push origin master:release/X.Y.Z`.
+7. Review and merge branch to master.
+8. Execute `git tag vX.Y.Z` (where X.Y.Z is the new version)
+9. Execute `git push --tags`
 
