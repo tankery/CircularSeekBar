@@ -577,8 +577,9 @@ public class CircularSeekBar extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.translate(this.getWidth() / 2, this.getHeight() / 2);
+        canvas.translate(getWidth() / 2f, getHeight() / 2f);
 
+        canvas.drawPath(mCirclePath, mCircleFillPaint);
         canvas.drawPath(mCirclePath, mCirclePaint);
 
         if (!mDisableProgressGlow) {
@@ -586,8 +587,6 @@ public class CircularSeekBar extends View {
         }
 
         canvas.drawPath(mCircleProgressPath, mCircleProgressPaint);
-
-        canvas.drawPath(mCirclePath, mCircleFillPaint);
 
         if (!mDisablePointer) {
             if (mUserIsMovingPointer) {
