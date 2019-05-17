@@ -1,6 +1,7 @@
 /*
  *
  * Copyright 2013 Matt Joseph
+ * Copyright 2018 Tankery Chen
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,6 +88,7 @@ public class CircularSeekBar extends View {
     private static final boolean DEFAULT_DISABLE_POINTER = false;
     private static final boolean DEFAULT_NEGATIVE_ENABLED = false;
     private static final boolean DEFAULT_DISABLE_PROGRESS_GLOW = false;
+    private static final boolean DEFAULT_CS_HIDE_PROGRESS_WHEN_EMPTY = false;
 
     /**
      * {@code Paint} instance used to draw the inactive circle.
@@ -319,6 +321,11 @@ public class CircularSeekBar extends View {
     private boolean mLockAtEnd = false;
 
     /**
+     * If progress is zero, hide the progress bar.
+     */
+    private boolean mHideProgressWhenEmpty;
+
+    /**
      * When the user is touching the circle on ACTION_DOWN, this is set to true.
      * Used when touching the CircularSeekBar.
      */
@@ -392,6 +399,7 @@ public class CircularSeekBar extends View {
         mNegativeEnabled = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_negative_enabled, DEFAULT_NEGATIVE_ENABLED);
         mIsInNegativeHalf = false;
         mDisableProgressGlow = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_disable_progress_glow, DEFAULT_DISABLE_PROGRESS_GLOW);
+        mHideProgressWhenEmpty = attrArray.getBoolean(R.styleable.cs_CircularSeekBar_cs_hide_progress_when_empty, DEFAULT_CS_HIDE_PROGRESS_WHEN_EMPTY);
 
         // Modulo 360 right now to avoid constant conversion
         mStartAngle = ((360f + (attrArray.getFloat((R.styleable.cs_CircularSeekBar_cs_start_angle), DEFAULT_START_ANGLE) % 360f)) % 360f);
@@ -576,17 +584,24 @@ public class CircularSeekBar extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.translate(this.getWidth() / 2, this.getHeight() / 2);
-
-        canvas.drawPath(mCirclePath, mCirclePaint);
-
-        if (!mDisableProgressGlow) {
-            canvas.drawPath(mCircleProgressPath, mCircleProgressGlowPaint);
-        }
-
-        canvas.drawPath(mCircleProgressPath, mCircleProgressPaint);
+        canvas.translate(getWidth() / 2f, getHeight() / 2f);
 
         canvas.drawPath(mCirclePath, mCircleFillPaint);
+        canvas.drawPath(mCirclePath, mCirclePaint);
+
+        boolean ableToGoNegative = mNegativeEnabled && Math.abs(mTotalCircleDegrees - 360f) < SMALL_DEGREE_BIAS * 2;
+        // Hide progress bar when progress is 0
+        // Also make sure we still draw progress when has pointer or able to go negative
+        boolean shouldHideProgress = mHideProgressWhenEmpty && mProgressDegrees == 0f &&
+                mDisablePointer && !ableToGoNegative;
+
+        if (!shouldHideProgress) {
+            if (!mDisableProgressGlow) {
+                canvas.drawPath(mCircleProgressPath, mCircleProgressGlowPaint);
+            }
+
+            canvas.drawPath(mCircleProgressPath, mCircleProgressPaint);
+        }
 
         if (!mDisablePointer) {
             if (mUserIsMovingPointer) {
@@ -750,8 +765,6 @@ public class CircularSeekBar extends View {
         float touchAngle;
         touchAngle = (float) ((Math.atan2(y, x) / Math.PI * 180) % 360); // Verified
         touchAngle = (touchAngle < 0 ? 360 + touchAngle : touchAngle); // Verified
-
-
 
         /*
           Represents the clockwise distance from {@code mStartAngle} to the touch angle.
@@ -981,6 +994,7 @@ public class CircularSeekBar extends View {
         state.putBoolean("mDisableProgressGlow", mDisableProgressGlow);
         state.putBoolean("mIsInNegativeHalf", mIsInNegativeHalf);
         state.putInt("mCircleStyle", mCircleStyle.ordinal());
+        state.putBoolean("mHideProgressWhenEmpty", mHideProgressWhenEmpty);
 
         return state;
     }
@@ -1008,6 +1022,7 @@ public class CircularSeekBar extends View {
         mDisableProgressGlow = savedState.getBoolean("mDisableProgressGlow");
         mIsInNegativeHalf = savedState.getBoolean("mIsInNegativeHalf");
         mCircleStyle = Paint.Cap.values()[savedState.getInt("mCircleStyle")];
+        mHideProgressWhenEmpty = savedState.getBoolean("mHideProgressWhenEmpty");
 
         initPaints();
 

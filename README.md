@@ -6,7 +6,8 @@
 
 Rich feature Circular SeekBar (Circle, Semi-circle, and Ellipse) for Android.
 
-This library is based on [CircularSeekBar of Matt Joseph (devadvance)](https://github.com/devadvance/circularseekbar). But the original author seems to have stopped maintaining (last commit was in 2016), so I decide to take it up by myself.
+This library is based on [CircularSeekBar of Matt Joseph (devadvance)](https://github.com/devadvance/circularseekbar).
+But the original author seems to have stopped maintaining (last commit was in 2016), so I decide to take it up by myself.
 
 I made it build on Android Studio (Gradle), then fix & add more features to the library.
 
@@ -21,13 +22,14 @@ I made it build on Android Studio (Gradle), then fix & add more features to the 
 5. Customize the shape of progress end (butt, round, square)
 6. Use a arc to represent the pointer, you can custom the arc angle.
 7. Negative progress support.
+8. Other small features.
 
 ## Setup
 
 ### Gradle
 ``` Gradle
 dependencies {
-    compile 'me.tankery.lib:circularSeekBar:1.1.7'
+    implementation 'me.tankery.lib:circularSeekBar:1.2.0'
 }
 ```
 
@@ -37,7 +39,7 @@ Copy sources and `attrs.xml` in module `circularSeekBar` to your project.
 ## Usage
 
 CircularSeekBar support following attributes:
-``` xml
+```
 app:cs_circle_style = "butt|round|square"
 app:cs_progress = "integer"
 app:cs_max = "integer"
@@ -64,5 +66,6 @@ app:cs_pointer_angle = "float"
 app:cs_start_angle = "float"
 app:cs_end_angle = "float"
 app:cs_disable_progress_glow = "boolean"
+app:cs_hide_progress_when_empty = "boolean"
 ```
 
