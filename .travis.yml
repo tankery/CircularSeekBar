@@ -16,7 +16,7 @@ deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   file_glob: true
-  file: app/build/outputs/apk/CircularSeekBar-demo-*-release.apk
+  file: app/build/outputs/apk/**/CircularSeekBar-demo-*-release.apk
   skip_cleanup: true
   on:
     branch: master
