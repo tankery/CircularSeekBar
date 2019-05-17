@@ -18,6 +18,7 @@ deploy:
   file: app/build/outputs/apk/CircularSeekBar-demo-*-release.apk
   skip_cleanup: true
   on:
+    branch: master
     tags: true
 
 notifications:
