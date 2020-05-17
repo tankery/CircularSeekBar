@@ -37,6 +37,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.graphics.RectF;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -59,6 +60,11 @@ public class CircularSeekBar extends View {
      * For some case we need the degree to have small bias to avoid overflow.
      */
     private static final float SMALL_DEGREE_BIAS = .1f;
+
+    /**
+     * Radius of progress glow, in dp unit.
+     */
+    private static final float PROGRESS_GLOW_RADIUS_DP = 5f;
 
     // Default values
     private static final int DEFAULT_CIRCLE_STYLE = Paint.Cap.ROUND.ordinal();
@@ -87,7 +93,7 @@ public class CircularSeekBar extends View {
     private static final boolean DEFAULT_LOCK_ENABLED = true;
     private static final boolean DEFAULT_DISABLE_POINTER = false;
     private static final boolean DEFAULT_NEGATIVE_ENABLED = false;
-    private static final boolean DEFAULT_DISABLE_PROGRESS_GLOW = false;
+    private static final boolean DEFAULT_DISABLE_PROGRESS_GLOW = true;
     private static final boolean DEFAULT_CS_HIDE_PROGRESS_WHEN_EMPTY = false;
 
     /**
@@ -107,6 +113,10 @@ public class CircularSeekBar extends View {
 
     /**
      * If progress glow is disabled, there is no glow from the progress bar when filled
+     *
+     * NOTE: To enable glow effect, please make sure this view is rendering with hardware
+     * accelerate disabled. (Checkout this doc for details of hardware accelerate:
+     * https://developer.android.com/guide/topics/graphics/hardware-accel)
      */
     private boolean mDisableProgressGlow;
 
@@ -460,7 +470,7 @@ public class CircularSeekBar extends View {
         if (!mDisableProgressGlow) {
             mCircleProgressGlowPaint = new Paint();
             mCircleProgressGlowPaint.set(mCircleProgressPaint);
-            mCircleProgressGlowPaint.setMaskFilter(new BlurMaskFilter((5f * DPTOPX_SCALE), BlurMaskFilter.Blur.NORMAL));
+            mCircleProgressGlowPaint.setMaskFilter(new BlurMaskFilter((PROGRESS_GLOW_RADIUS_DP * DPTOPX_SCALE), BlurMaskFilter.Blur.NORMAL));
         }
 
         mPointerPaint = new Paint();
@@ -684,9 +694,14 @@ public class CircularSeekBar extends View {
             setMeasuredDimension(width, height);
         }
 
+        boolean isHardwareAccelerated = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB  &&
+                isHardwareAccelerated() && getLayerType() != View.LAYER_TYPE_SOFTWARE;
+        boolean hasGlowEffect = !mDisableProgressGlow && !isHardwareAccelerated;
+
         // Set the circle width and height based on the view for the moment
         float padding = Math.max(mCircleStrokeWidth / 2f,
-                mPointerStrokeWidth / 2 + mPointerHaloWidth + mPointerHaloBorderWidth);
+                mPointerStrokeWidth / 2 + mPointerHaloWidth + mPointerHaloBorderWidth) +
+                (hasGlowEffect ? PROGRESS_GLOW_RADIUS_DP * DPTOPX_SCALE : 0f);
         mCircleHeight = height / 2f - padding;
         mCircleWidth = width / 2f - padding;
 
