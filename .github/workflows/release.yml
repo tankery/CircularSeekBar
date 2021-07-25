@@ -8,15 +8,12 @@ on:
       - 'v*'
 
 jobs:
-  release:
-    name: Upload Release Asset
+  release-demo:
+    name: Release Demo APK to GitHub
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Build library
-        run: |
-          ./gradlew clean publishToMavenLocal --stacktrace
       - name: Build demo APK
         run: |
           ./gradlew clean assemble --stacktrace
@@ -28,23 +25,27 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          draft: false
+          draft: true
           prerelease: false
-      - name: Upload Library AAR
-        id: upload_library
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./circularSeekBar/build/outputs/aar/circularSeekBar-release.aar
-          asset_content_type: application/zip
       - name: Upload Demo APK
         id: upload_demo_apk
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./app/build/outputs/apk/**/CircularSeekBar-demo-*-release.apk
           asset_content_type: application/zip
+
+  release-library:
+    name: Release library to Sonatype maven repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build library
+        run: |
+          ./gradlew clean uploadArchives --stacktrace
+        env:
+          SONATYPE_NEXUS_PASSWORD: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+          SONATYPE_NEXUS_USERNAME: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
