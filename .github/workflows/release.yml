@@ -14,21 +14,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: List Root
-        run: |
-          ls .
-      - name: List App
-        run: |
-          ls ./app
       - name: Build demo APK
         run: |
           ./gradlew clean assemble --stacktrace
       - name: Find
         run: |
-          find . -name "CircularSeekBar-demo-*-release.apk"
+          find . -name 'CircularSeekBar-demo-*-release.apk'
       - name: Store output APK to STATE
         run: |
-          echo '::save-state name=outputApk::$(find . -name "CircularSeekBar-demo-*-release.apk")'
+          echo "::save-state name=outputApk::$(find . -name 'CircularSeekBar-demo-*-release.apk')"
       - name: Previous output
         run: |
           echo "${{ env.STATE_outputApk }}"
