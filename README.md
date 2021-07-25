@@ -30,9 +30,12 @@ I made it build on Android Studio (Gradle), then fix & add more features to the 
 
 ``` Gradle
 dependencies {
-    implementation 'me.tankery.lib:circularSeekBar:1.3.1'
+    implementation 'me.tankery.lib:circularSeekBar:1.3.0'
 }
 ```
+
+> NOTE: I'm currently WIP to migrate the maven repo from Jcenter to Sonatype, will keep updated.
+> By now, please still using the 1.3.0 from Jcenter, or you could manually download the aar file from [releases page](https://github.com/tankery/CircularSeekBar/releases)
 
 ### Source
 
