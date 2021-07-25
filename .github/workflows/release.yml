@@ -14,24 +14,33 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+
       - name: Store STATE
+        id: store
         run: |
-          echo "::save-state name=theState::hero"
-      - name: Previous output
+          echo "::set-output name=proPath::$(find app -name '*.pro')"
+      - name: Echo output
         run: |
-          echo "${{ env.STATE_theState }}"
-      - name: Build demo APK
-        run: |
-          ./gradlew clean assemble --stacktrace
-      - name: Find
-        run: |
-          find . -name 'CircularSeekBar-demo-*-release.apk'
-      - name: Store output APK to STATE
-        run: |
-          echo "::save-state name=outputApk::$(find . -name 'CircularSeekBar-demo-*-release.apk')"
-      - name: Previous output
-        run: |
-          echo "${{ env.STATE_outputApk }}"
+          echo "${{ steps.store.outputs.proPath }}"
+#      - name: Build demo APK
+#        run: |
+#          ./gradlew clean assemble --stacktrace
+#      - name: Find
+#        run: |
+#          find . -name 'CircularSeekBar-demo-*-release.apk'
+#      - name: Store output APK to STATE
+#        id: output
+#        run: |
+#          echo "::set-output name=apkPath::$(find . -name 'CircularSeekBar-demo-*-release.apk')"
+#      - name: Previous output
+#        run: |
+#          echo "${{ steps.output.outputs.apkPath }}"
+
 #      - name: Create Release
 #        id: create_release
 #        uses: actions/create-release@v1
