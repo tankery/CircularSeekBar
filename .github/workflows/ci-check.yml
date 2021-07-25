@@ -20,9 +20,6 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build library
-      run: |
-        ./gradlew clean publishToMavenLocal --stacktrace
     - name: Build demo APK
       run: |
         ./gradlew clean assemble --stacktrace
