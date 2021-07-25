@@ -14,32 +14,38 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: List Root
+        run: |
+          ls .
+      - name: List App
+        run: |
+          ls ./app
       - name: Build demo APK
         run: |
           ./gradlew clean assemble --stacktrace
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: true
-          prerelease: false
       - name: List APK
         run: |
           ls app/build/**/*.apk
-      - name: Upload Demo APK
-        id: upload_demo_apk
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./app/build/outputs/apk/**/CircularSeekBar-demo-*-release.apk
-          asset_name: CircularSeekBar-demo.apk
-          asset_content_type: application/zip
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          draft: true
+#          prerelease: false
+#      - name: Upload Demo APK
+#        id: upload_demo_apk
+#        uses: actions/upload-release-asset@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+#          asset_path: ./app/build/outputs/apk/**/CircularSeekBar-demo-*-release.apk
+#          asset_name: CircularSeekBar-demo.apk
+#          asset_content_type: application/zip
 
 #  release-library:
 #    name: Release library to Sonatype maven repository
