@@ -1,8 +1,7 @@
-name: Upload Release Asset
+name: Release
 
 on:
   push:
-    branches: [ master ]
     tags:
       # Push events to matching v*, i.e. v1.0, v20.15.10
       - 'v*'
@@ -35,6 +34,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./app/build/outputs/apk/**/CircularSeekBar-demo-*-release.apk
+          asset_name: CircularSeekBar-demo.apk
           asset_content_type: application/zip
 
   release-library:

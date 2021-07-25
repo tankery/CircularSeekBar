@@ -1,4 +1,4 @@
-name: CI to verify any changes
+name: CI Check
 
 on:
   pull_request:

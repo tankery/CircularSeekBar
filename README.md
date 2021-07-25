@@ -1,8 +1,8 @@
 # CircularSeekBar
 
-[![Build Status](https://travis-ci.org/tankery/CircularSeekBar.svg?branch=master)](https://travis-ci.org/tankery/CircularSeekBar)
+[![Build Status](https://github.com/tankery/CircularSeekBar/actions/workflows/ci-check.yml/badge.svg?event=push&branch=master)](https://github.com/tankery/CircularSeekBar/actions)
 [![GitHub release](https://img.shields.io/github/release/tankery/CircularSeekBar.svg?label=demo)](https://github.com/tankery/CircularSeekBar/releases)
-[![Bintray](https://img.shields.io/bintray/v/tankery/maven/CircularSeekBar.svg)](https://bintray.com/tankery/maven/CircularSeekBar)
+[![Maven Central](https://img.shields.io/bintray/v/tankery/maven/CircularSeekBar.svg)](https://s01.oss.sonatype.org/content/repositories/releases/me/tankery/lib/circularSeekBar)
 
 Rich feature Circular SeekBar (Circle, Semi-circle, and Ellipse) for Android.
 
@@ -27,13 +27,15 @@ I made it build on Android Studio (Gradle), then fix & add more features to the 
 ## Setup
 
 ### Gradle
+
 ``` Gradle
 dependencies {
-    implementation 'me.tankery.lib:circularSeekBar:1.3.0'
+    implementation 'me.tankery.lib:circularSeekBar:1.3.1'
 }
 ```
 
 ### Source
+
 Copy sources and `attrs.xml` in module `circularSeekBar` to your project.
 
 ## Usage
