@@ -23,15 +23,15 @@ jobs:
       - name: Build demo APK
         run: |
           ./gradlew clean assemble --stacktrace
-      - name: List Root
+      - name: Find
         run: |
-          ls .
-      - name: Tree Root
+          find . -name "CircularSeekBar-demo-*-release.apk"
+      - name: Store output APK to STATE
         run: |
-          tree .
-      - name: List APK
+          echo '::save-state name=outputApk::$(find . -name "CircularSeekBar-demo-*-release.apk")'
+      - name: Previous output
         run: |
-          ls app/build/**/*.apk
+          echo "${{ env.STATE_outputApk }}"
 #      - name: Create Release
 #        id: create_release
 #        uses: actions/create-release@v1
