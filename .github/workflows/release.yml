@@ -1,6 +1,7 @@
 name: Release
 
 on:
+  pull_request:
   push:
     tags:
       # Push events to matching v*, i.e. v1.0, v20.15.10
@@ -26,6 +27,9 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: true
           prerelease: false
+      - name: List APK
+        run: |
+          ls app/build/**/*.apk
       - name: Upload Demo APK
         id: upload_demo_apk
         uses: actions/upload-release-asset@v1
@@ -37,15 +41,15 @@ jobs:
           asset_name: CircularSeekBar-demo.apk
           asset_content_type: application/zip
 
-  release-library:
-    name: Release library to Sonatype maven repository
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Build library
-        run: |
-          ./gradlew clean uploadArchives --stacktrace
-        env:
-          SONATYPE_NEXUS_PASSWORD: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
-          SONATYPE_NEXUS_USERNAME: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
+#  release-library:
+#    name: Release library to Sonatype maven repository
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#      - name: Build library
+#        run: |
+#          ./gradlew clean uploadArchives --stacktrace
+#        env:
+#          SONATYPE_NEXUS_PASSWORD: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
+#          SONATYPE_NEXUS_USERNAME: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
