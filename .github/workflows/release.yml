@@ -20,26 +20,24 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
-      - name: Store STATE
-        id: store
+#      - name: Store STATE
+#        id: store
+#        run: |
+#          echo "::set-output name=proPath::$(find app -name '*.pro')"
+#      - name: Echo output
+#        run: |
+#          echo "${{ steps.store.outputs.proPath }}"
+
+      - name: Build demo APK
         run: |
-          echo "::set-output name=proPath::$(find app -name '*.pro')"
-      - name: Echo output
+          ./gradlew clean assemble --stacktrace
+      - name: Store output APK to STATE
+        id: listFile
         run: |
-          echo "${{ steps.store.outputs.proPath }}"
-#      - name: Build demo APK
-#        run: |
-#          ./gradlew clean assemble --stacktrace
-#      - name: Find
-#        run: |
-#          find . -name 'CircularSeekBar-demo-*-release.apk'
-#      - name: Store output APK to STATE
-#        id: output
-#        run: |
-#          echo "::set-output name=apkPath::$(find . -name 'CircularSeekBar-demo-*-release.apk')"
-#      - name: Previous output
-#        run: |
-#          echo "${{ steps.output.outputs.apkPath }}"
+          echo "::set-output name=apkPath::$(find . -name 'CircularSeekBar-demo-*-release.apk')"
+      - name: Previous output
+        run: |
+          echo "${{ steps.listFile.outputs.apkPath }}"
 
 #      - name: Create Release
 #        id: create_release
