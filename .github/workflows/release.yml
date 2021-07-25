@@ -23,6 +23,12 @@ jobs:
       - name: Build demo APK
         run: |
           ./gradlew clean assemble --stacktrace
+      - name: List Root
+        run: |
+          ls .
+      - name: Tree Root
+          run: |
+            tree .
       - name: List APK
         run: |
           ls app/build/**/*.apk
