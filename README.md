@@ -1,8 +1,8 @@
 # CircularSeekBar
 
-[![Build Status](https://github.com/tankery/CircularSeekBar/actions/workflows/ci-check.yml/badge.svg?event=push&branch=master)](https://github.com/tankery/CircularSeekBar/actions)
+[![Build Status](https://github.com/tankery/CircularSeekBar/actions/workflows/ci-check.yml/badge.svg?event=push&branch=master)](https://github.com/tankery/CircularSeekBar/actions/workflows/ci-check.yml)
 [![GitHub release](https://img.shields.io/github/release/tankery/CircularSeekBar.svg?label=demo)](https://github.com/tankery/CircularSeekBar/releases)
-[![Maven Central](https://img.shields.io/bintray/v/tankery/maven/CircularSeekBar.svg)](https://s01.oss.sonatype.org/content/repositories/releases/me/tankery/lib/circularSeekBar)
+[![Maven Central](https://img.shields.io/maven-central/v/me.tankery.lib/CircularSeekBar)](https://s01.oss.sonatype.org/content/repositories/releases/me/tankery/lib/circularSeekBar)
 
 Rich feature Circular SeekBar (Circle, Semi-circle, and Ellipse) for Android.
 
