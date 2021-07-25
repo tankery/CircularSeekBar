@@ -26,7 +26,8 @@ jobs:
       - name: Set output file
         id: listFile
         run: |
-          echo "::set-output name=demoPath::$(find . -name 'CircularSeekBar-demo-*-release.apk'),libPath::$(find . -name 'circularSeekBar-release.aar')"
+          echo "::set-output name=demoPath::$(find . -name 'CircularSeekBar-demo-*-release.apk')"
+          echo "::set-output name=libPath::$(find . -name 'circularSeekBar-release.aar')"
 
       - name: Create Release
         id: create_release
