@@ -27,8 +27,8 @@ jobs:
         run: |
           ls .
       - name: Tree Root
-          run: |
-            tree .
+        run: |
+          tree .
       - name: List APK
         run: |
           ls app/build/**/*.apk
