@@ -23,10 +23,10 @@ jobs:
       - name: Build demo APK
         run: |
           ./gradlew clean assemble --stacktrace
-      - name: Store output APK to STATE
+      - name: Set output file
         id: listFile
         run: |
-          echo "::set-output name=apkPath::$(find . -name 'CircularSeekBar-demo-*-release.apk')"
+          echo "::set-output name=demoPath::$(find . -name 'CircularSeekBar-demo-*-release.apk'),libPath::$(find . -name 'circularSeekBar-release.aar')"
 
       - name: Create Release
         id: create_release
@@ -45,8 +45,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ${{ steps.listFile.outputs.apkPath }}
+          asset_path: ${{ steps.listFile.outputs.demoPath }}
           asset_name: CircularSeekBar-demo.apk
+          asset_content_type: application/zip
+      - name: Upload Library AAR
+        id: upload_library_aar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ${{ steps.listFile.outputs.libPath }}
+          asset_name: circularSeekBar-release.aar
           asset_content_type: application/zip
 
 #  release-library:
