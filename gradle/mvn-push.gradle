@@ -17,16 +17,21 @@
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-def isReleaseBuild() {
-    return !VERSION_NAME.contains("SNAPSHOT")
-}
+ext.isReleaseVersion = !VERSION_NAME.contains("SNAPSHOT")
 
-def getRepositoryUsername() {
-    return System.getenv('SONATYPE_NEXUS_USERNAME')
-}
-
-def getRepositoryPassword() {
-    return System.getenv('SONATYPE_NEXUS_PASSWORD')
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    // Read local.properties file first if it exists
+    Properties p = new Properties()
+    new FileInputStream(secretPropsFile).withCloseable { is -> p.load(is) }
+    p.each { name, value -> ext[name] = value }
+} else {
+    // Use system environment variables
+    ext["ossrhUsername"] = System.getenv('SONATYPE_NEXUS_USERNAME')
+    ext["ossrhPassword"] = System.getenv('SONATYPE_NEXUS_PASSWORD')
+    ext["signingKeyId"] = System.getenv('SIGNING_KEY_ID')
+    ext["signingPassword"] = System.getenv('SIGNING_PASSWORD')
+    ext["signingKey"] = System.getenv('SIGNING_KEY')
 }
 
 afterEvaluate { project ->
@@ -40,10 +45,10 @@ afterEvaluate { project ->
                 pom.version = VERSION_NAME
 
                 repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
                 }
                 snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
                 }
 
                 pom.project {
@@ -78,7 +83,11 @@ afterEvaluate { project ->
     }
 
     signing {
-        required { isReleaseBuild() && gradle.taskGraph.hasTask("uploadArchives") }
+        required { isReleaseVersion && gradle.taskGraph.hasTask("uploadArchives") }
+        useInMemoryPgpKeys(
+                signingKey,
+                signingPassword,
+        )
         sign configurations.archives
     }
 
