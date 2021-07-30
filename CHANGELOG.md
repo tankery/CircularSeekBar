@@ -1,5 +1,9 @@
 # Change Log
 
+## v1.3.2
+
+Support Sonatype Maven Central uploading.
+
 ## v1.3.1
 
 Change to using GitHub workflow for releasing.
