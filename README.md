@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/tankery/CircularSeekBar/actions/workflows/ci-check.yml/badge.svg?event=push&branch=master)](https://github.com/tankery/CircularSeekBar/actions/workflows/ci-check.yml)
 [![GitHub release](https://img.shields.io/github/release/tankery/CircularSeekBar.svg?label=demo)](https://github.com/tankery/CircularSeekBar/releases)
-[![Maven Central](https://img.shields.io/maven-central/v/me.tankery.lib/CircularSeekBar)](https://s01.oss.sonatype.org/content/repositories/releases/me/tankery/lib/circularSeekBar)
+[![Maven Central](https://img.shields.io/maven-central/v/me.tankery.lib/circularSeekBar)](https://search.maven.org/artifact/me.tankery.lib/circularSeekBar)
 
 Rich feature Circular SeekBar (Circle, Semi-circle, and Ellipse) for Android.
 
@@ -70,4 +70,18 @@ app:cs_end_angle = "float"
 app:cs_disable_progress_glow = "boolean"
 app:cs_hide_progress_when_empty = "boolean"
 ```
+
+## Appreciation
+
+This library is based on [CircularSeekBar of Matt Joseph (devadvance)](https://github.com/devadvance/circularseekbar).
+But the original author seems to have stopped maintaining (last commit was in 2016), so I decide to take it up by myself. Thanks to Matt for the work!
+
+### Automation
+
+This part provides general solution to any types of libraries:
+
+- GitHub Actions: [Quick Start](https://docs.github.com/en/actions/quickstart), [Workflow commands](https://docs.github.com/en/actions/reference/workflow-commands-for-github-actions) and [Upload Release Asset repo](https://github.com/actions/upload-release-asset) are official documents I use to write the CI check and releasing workflows.
+- [Márton B.: Publishing Android libraries to MavenCentral in 2021](https://getstream.io/blog/publishing-libraries-to-mavencentral-2021/): It is a great learning material for how to upload library to sonatype maven central. Another post ([LINK](https://proandroiddev.com/publishing-your-first-android-library-to-mavencentral-be2c51330b88)) also could used as a reference.
+- Official Maven Central document [Gradle](https://central.sonatype.org/publish/publish-gradle/) to learn how to publish artifacts.
+- Signature: Maven Central requires signature for library to release. [GPG](https://central.sonatype.org/publish/requirements/gpg/#distributing-your-public-key) and [The Signing Plugin](https://docs.gradle.org/current/userguide/signing_plugin.html) are two official document for how to sign the library, this will correct some error or out dated information in Márton's article.
 
