@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 // Define some common closures (methods) for code share
 ext.getTagCount = {
@@ -18,7 +19,7 @@ android {
     defaultConfig {
         applicationId "me.tankery.app.circularseekbar"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 31
         versionCode getTagCount()
         versionName getLatestTaggedVersion()
     }
@@ -33,5 +34,6 @@ android {
 
 dependencies {
     implementation project(':circularSeekBar')
-    implementation "com.android.support:support-annotations:${rootProject.supportLibVersion}"
+    implementation "com.android.support:support-annotations:$supportLibVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 }
