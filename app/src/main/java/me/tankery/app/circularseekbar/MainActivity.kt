@@ -1,13 +1,13 @@
 package me.tankery.app.circularseekbar
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import me.tankery.app.circularseekbar.R.id
 import me.tankery.app.circularseekbar.R.layout
-import me.tankery.lib.circularseekbar.CircularSeekBar
-import me.tankery.lib.circularseekbar.CircularSeekBar.OnCircularSeekBarChangeListener
+import me.tankery.lib.circularseekbar.CircularSeekBarV2
 
 class MainActivity : Activity() {
 
@@ -18,21 +18,23 @@ class MainActivity : Activity() {
 
         val textEvent = findViewById<TextView>(id.text_event)
         val textProgress = findViewById<TextView>(id.text_progress)
-        val seekBar = findViewById<CircularSeekBar>(id.seek_bar)
+        val seekBar = findViewById<CircularSeekBarV2>(id.seek_bar)
 
-        seekBar.setOnSeekBarChangeListener(object : OnCircularSeekBarChangeListener {
-            override fun onProgressChanged(circularSeekBar: CircularSeekBar?, progress: Float, fromUser: Boolean) {
+        seekBar.setOnSeekBarChangeListener(object :
+            CircularSeekBarV2.OnCircularSeekBarChangeListener {
+            override fun onProgressChanged(circularSeekBar: CircularSeekBarV2?, progress: Float, fromUser: Boolean) {
                 val message = String.format("Progress changed to %.2f, fromUser %s", progress, fromUser)
                 Log.d("Main", message)
                 textProgress.text = message
             }
 
-            override fun onStopTrackingTouch(seekBar: CircularSeekBar?) {
+            override fun onStopTrackingTouch(seekBar: CircularSeekBarV2?) {
                 Log.d("Main", "onStopTrackingTouch")
                 textEvent.text = ""
             }
 
-            override fun onStartTrackingTouch(seekBar: CircularSeekBar?) {
+            @SuppressLint("SetTextI18n")
+            override fun onStartTrackingTouch(seekBar: CircularSeekBarV2?) {
                 Log.d("Main", "onStartTrackingTouch")
                 textEvent.text = "touched | "
             }
