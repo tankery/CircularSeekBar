@@ -79,10 +79,15 @@ class CircularSeekBar @JvmOverloads constructor(
     private val circleProgressGlowPaint: Paint = Paint()
 
     /**
-     * `Paint` instance used to draw the center of the pointer.
+     * `Paint` instance used to draw the pointer.
      * Note: This is broken on 4.0+, as BlurMasks do not work with hardware acceleration.
      */
     private val pointerPaint: Paint = Paint()
+
+    /**
+     * `Paint` instance used to draw the pointer's fill. Will effectively use [pointerPaint] as stroke.
+     */
+    private val pointerFillPaint: Paint = Paint()
 
     /**
      * `Paint` instance used to draw the halo of the pointer.
@@ -142,10 +147,44 @@ class CircularSeekBar @JvmOverloads constructor(
     /**
      * The radius of the pointer (in pixels).
      *
-     * Sets the pointer pointer stroke width.
+     * Sets the pointer stroke width.
      * @param width the width of the pointer
      */
+    var pointerWidth = 0f
+        set(width) {
+            field = width
+            initPaints()
+            recalculateAll()
+            invalidate()
+        }
+    /**
+     * The radius of the pointer (in pixels).
+     *
+     * Sets the pointer stroke width.
+     * @param width the width of the pointer
+     */
+    @Deprecated(
+        "Use pointerWidth",
+        replaceWith = ReplaceWith(
+            "pointerWidth",
+            "me.tankery.lib.circularseekbar.CircularSeekBar.pointerWidth"
+        )
+    )
     var pointerStrokeWidth = 0f
+        get() = pointerWidth
+        set(width) {
+            field = width
+            pointerWidth = width
+        }
+
+
+    /**
+     * The inner stroke width of the pointer (in pixels).
+     *
+     * Sets the inner pointer stroke width.
+     * @param width the width of the pointer stroke
+     */
+    var pointerFillInnerStrokeWidth = DEFAULT_POINTER_FILL_INNER_STROKE_WIDTH
         set(width) {
             field = width
             initPaints()
@@ -236,6 +275,13 @@ class CircularSeekBar @JvmOverloads constructor(
         set(color) {
             field = color
             pointerPaint.color = color
+            invalidate()
+        }
+
+    var pointerFillColor = DEFAULT_POINTER_FILL_COLOR
+        set(color) {
+            field = color
+            pointerFillPaint.color = color
             invalidate()
         }
 
@@ -539,9 +585,15 @@ class CircularSeekBar @JvmOverloads constructor(
             R.styleable.cs_CircularSeekBar_cs_circle_y_radius,
             DEFAULT_CIRCLE_Y_RADIUS
         )
-        pointerStrokeWidth = attrArray.getDimension(
+
+        val oldPointerStrokeWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_pointer_stroke_width,
-            DEFAULT_POINTER_STROKE_WIDTH
+            DEFAULT_POINTER_WIDTH
+        )
+
+        pointerWidth = attrArray.getDimension(
+            R.styleable.cs_CircularSeekBar_cs_pointer_width,
+            oldPointerStrokeWidth
         )
         pointerHaloWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_pointer_halo_width,
@@ -562,6 +614,16 @@ class CircularSeekBar @JvmOverloads constructor(
             R.styleable.cs_CircularSeekBar_cs_pointer_color,
             DEFAULT_POINTER_COLOR
         )
+        pointerFillColor = attrArray.getColor(
+            R.styleable.cs_CircularSeekBar_cs_pointer_fill_color,
+            DEFAULT_POINTER_FILL_COLOR
+        )
+
+        pointerFillInnerStrokeWidth = attrArray.getDimension(
+            R.styleable.cs_CircularSeekBar_cs_pointer_fill_inner_stroke_width,
+            DEFAULT_POINTER_FILL_INNER_STROKE_WIDTH
+        )
+
         pointerHaloColor = attrArray.getColor(
             R.styleable.cs_CircularSeekBar_cs_pointer_halo_color,
             DEFAULT_POINTER_HALO_COLOR
@@ -653,7 +715,8 @@ class CircularSeekBar @JvmOverloads constructor(
             pointerAngle = SMALL_DEGREE_BIAS
         }
         if (disablePointer) {
-            pointerStrokeWidth = 0f
+            pointerWidth = 0f
+            pointerFillInnerStrokeWidth = 0f
             pointerHaloWidth = 0f
             pointerHaloBorderWidth = 0f
         }
@@ -694,15 +757,21 @@ class CircularSeekBar @JvmOverloads constructor(
         pointerPaint.isAntiAlias = true
         pointerPaint.isDither = true
         pointerPaint.color = pointerColor
-        pointerPaint.strokeWidth = pointerStrokeWidth
+        pointerPaint.strokeWidth = pointerWidth
         pointerPaint.style = Paint.Style.STROKE
         pointerPaint.strokeJoin = Paint.Join.ROUND
         pointerPaint.strokeCap = circleStyle
 
+        pointerFillPaint.set(pointerPaint)
+        pointerFillPaint.color = pointerFillColor
+        pointerFillPaint.style = Paint.Style.FILL_AND_STROKE
+        pointerFillPaint.strokeWidth =
+            (pointerWidth - pointerFillInnerStrokeWidth).coerceAtLeast(0f)
+
         pointerHaloPaint.set(pointerPaint)
         pointerHaloPaint.color = pointerHaloColor
         pointerHaloPaint.alpha = pointerAlpha
-        pointerHaloPaint.strokeWidth = pointerStrokeWidth + pointerHaloWidth * 2f
+        pointerHaloPaint.strokeWidth = pointerWidth + pointerHaloWidth * 2f
 
         pointerHaloBorderPaint.set(pointerPaint)
         pointerHaloBorderPaint.strokeWidth = pointerHaloBorderWidth
@@ -819,6 +888,7 @@ class CircularSeekBar @JvmOverloads constructor(
                 canvas.drawPath(circlePointerPath, pointerHaloPaint)
             }
             canvas.drawPath(circlePointerPath, pointerPaint)
+            canvas.drawPath(circlePointerPath, pointerFillPaint)
             // TODO, find a good way to draw halo border.
 //            if (mUserIsMovingPointer) {
 //                canvas.drawCircle(mPointerPositionXY[0], mPointerPositionXY[1],
@@ -861,7 +931,7 @@ class CircularSeekBar @JvmOverloads constructor(
         // Set the circle width and height based on the view for the moment
         val padding = Math.max(
             circleStrokeWidth / 2f,
-            pointerStrokeWidth / 2 + pointerHaloWidth + pointerHaloBorderWidth
+            pointerWidth / 2 + pointerHaloWidth + pointerHaloBorderWidth
         ) +
                 if (hasGlowEffect) PROGRESS_GLOW_RADIUS_DP * DPTOPX_SCALE else 0f
         circleHeight = height / 2f - padding
@@ -918,10 +988,10 @@ class CircularSeekBar @JvmOverloads constructor(
             circleWidth
         ) - additionalRadius // Min inner radius of the circle, including the minimumTouchTarget or wheel width
         additionalRadius =
-            if (pointerStrokeWidth < minimumTouchTarget / 2) { // If the pointer radius is less than the minimumTouchTarget, use the minimumTouchTarget
+            if (pointerWidth < minimumTouchTarget / 2) { // If the pointer radius is less than the minimumTouchTarget, use the minimumTouchTarget
                 minimumTouchTarget / 2
             } else {
-                pointerStrokeWidth // Otherwise use the radius
+                pointerWidth // Otherwise use the radius
             }
         var touchAngle: Float
         touchAngle =
@@ -976,7 +1046,7 @@ class CircularSeekBar @JvmOverloads constructor(
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 // These are only used for ACTION_DOWN for handling if the pointer was the part that was touched
-                val pointerRadiusDegrees = (pointerStrokeWidth * 180 / (Math.PI * Math.max(
+                val pointerRadiusDegrees = (pointerWidth * 180 / (Math.PI * Math.max(
                     circleHeight,
                     circleWidth
                 ))).toFloat()
@@ -1098,6 +1168,7 @@ class CircularSeekBar @JvmOverloads constructor(
         state.putInt("circleColor", circleColor)
         state.putInt("circleProgressColor", circleProgressColor)
         state.putInt("pointerColor", pointerColor)
+        state.putInt("pointerFillColor", pointerFillColor)
         state.putInt("pointerHaloColor", pointerHaloColor)
         state.putInt("pointerHaloColorOnTouch", pointerHaloColorOnTouch)
         state.putInt("pointerAlpha", pointerAlpha)
@@ -1122,6 +1193,7 @@ class CircularSeekBar @JvmOverloads constructor(
         circleColor = savedState.getInt("circleColor")
         circleProgressColor = savedState.getInt("circleProgressColor")
         pointerColor = savedState.getInt("pointerColor")
+        pointerFillColor = savedState.getInt("pointerFillColor")
         pointerHaloColor = savedState.getInt("pointerHaloColor")
         pointerHaloColorOnTouch = savedState.getInt("pointerHaloColorOnTouch")
         pointerAlpha = savedState.getInt("pointerAlpha")
@@ -1176,7 +1248,7 @@ class CircularSeekBar @JvmOverloads constructor(
         private val DEFAULT_CIRCLE_STYLE = Cap.ROUND.ordinal
         private const val DEFAULT_CIRCLE_X_RADIUS = 30f
         private const val DEFAULT_CIRCLE_Y_RADIUS = 30f
-        private const val DEFAULT_POINTER_STROKE_WIDTH = 14f
+        private const val DEFAULT_POINTER_WIDTH = 14f
         private const val DEFAULT_POINTER_HALO_WIDTH = 6f
         private const val DEFAULT_POINTER_HALO_BORDER_WIDTH = 0f
         private const val DEFAULT_CIRCLE_STROKE_WIDTH = 5f
@@ -1188,6 +1260,8 @@ class CircularSeekBar @JvmOverloads constructor(
         private const val DEFAULT_CIRCLE_COLOR = Color.DKGRAY
         private val DEFAULT_CIRCLE_PROGRESS_COLOR = Color.argb(235, 74, 138, 255)
         private val DEFAULT_POINTER_COLOR = Color.argb(235, 74, 138, 255)
+        private const val DEFAULT_POINTER_FILL_COLOR = Color.TRANSPARENT
+        private val DEFAULT_POINTER_FILL_INNER_STROKE_WIDTH = 0f
         private val DEFAULT_POINTER_HALO_COLOR = Color.argb(135, 74, 138, 255)
         private val DEFAULT_POINTER_HALO_COLOR_ONTOUCH = Color.argb(135, 74, 138, 255)
         private const val DEFAULT_CIRCLE_FILL_COLOR = Color.TRANSPARENT

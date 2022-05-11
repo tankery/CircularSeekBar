@@ -18,6 +18,8 @@
         <attr name="cs_circle_y_radius" format="dimension" />
         <attr name="cs_circle_stroke_width" format="dimension" />
         <attr name="cs_disable_pointer" format="boolean"/>
+        <attr name="cs_pointer_width" format="dimension" />
+        <!-- {@deprecated Use cs_pointer_width instead.} -->
         <attr name="cs_pointer_stroke_width" format="dimension" />
         <attr name="cs_pointer_halo_width" format="dimension" />
         <attr name="cs_pointer_halo_border_width" format="dimension"/>
@@ -25,6 +27,8 @@
         <attr name="cs_circle_color" format="color"/>
         <attr name="cs_circle_progress_color" format="color"/>
         <attr name="cs_pointer_color" format="color"/>
+        <attr name="cs_pointer_fill_color" format="color"/>
+        <attr name="cs_pointer_fill_inner_stroke_width" format="dimension" />
         <attr name="cs_pointer_halo_color" format="color"/>
         <attr name="cs_pointer_halo_color_ontouch" format="color"/>
         <attr name="cs_pointer_alpha_ontouch" format="integer"/>

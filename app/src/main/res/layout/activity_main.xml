@@ -23,7 +23,7 @@
             app:cs_negative_enabled="true"
             app:cs_circle_style="butt"
             app:cs_circle_stroke_width="48dp"
-            app:cs_pointer_stroke_width="48dp"
+            app:cs_pointer_width="48dp"
             app:cs_pointer_angle="44"/>
 
         <LinearLayout
@@ -61,10 +61,12 @@
                         android:layout_marginTop="@dimen/seekbar_margin"
                         android:layout_marginLeft="@dimen/seekbar_margin"
                         android:layout_marginRight="@dimen/seekbar_margin"
+                        app:cs_pointer_fill_color="@android:color/white"
+                        app:cs_pointer_fill_inner_stroke_width="10dp"
                         app:cs_negative_enabled="true"
                         app:cs_circle_style="round"
                         app:cs_circle_stroke_width="8dp"
-                        app:cs_pointer_stroke_width="24dp"
+                        app:cs_pointer_width="24dp"
                         app:cs_pointer_halo_width="@dimen/seekbar_holo_width"/>
 
                     <TextView
@@ -84,10 +86,11 @@
                         android:layout_marginTop="@dimen/seekbar_margin"
                         android:layout_marginLeft="@dimen/seekbar_margin"
                         android:layout_marginRight="@dimen/seekbar_margin"
+                        app:cs_pointer_fill_color="@android:color/white"
                         app:cs_negative_enabled="false"
                         app:cs_circle_style="square"
                         app:cs_circle_stroke_width="8dp"
-                        app:cs_pointer_stroke_width="24dp"
+                        app:cs_pointer_width="24dp"
                         app:cs_pointer_halo_width="@dimen/seekbar_holo_width"/>
 
                     <TextView
@@ -117,7 +120,7 @@
                         app:cs_end_angle="90"
                         app:cs_circle_style="butt"
                         app:cs_circle_stroke_width="8dp"
-                        app:cs_pointer_stroke_width="24dp"
+                        app:cs_pointer_width="24dp"
                         app:cs_pointer_halo_width="@dimen/seekbar_holo_width"/>
 
                     <TextView
