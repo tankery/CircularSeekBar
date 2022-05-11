@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <me.tankery.lib.circularseekbar.CircularSeekBarV2
+        <me.tankery.lib.circularseekbar.CircularSeekBar
             android:id="@+id/seek_bar"
             android:layout_width="@dimen/seekbar_size_large"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
 
                 <LinearLayout android:orientation="vertical">
 
-                    <me.tankery.lib.circularseekbar.CircularSeekBarV2
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
                         android:layout_width="@dimen/seekbar_size_small"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -77,7 +77,7 @@
 
                 <LinearLayout android:orientation="vertical">
 
-                    <me.tankery.lib.circularseekbar.CircularSeekBarV2
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
                         android:layout_width="@dimen/seekbar_size_small"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -104,7 +104,7 @@
 
                 <LinearLayout android:orientation="vertical">
 
-                    <me.tankery.lib.circularseekbar.CircularSeekBarV2
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
                         android:layout_width="@dimen/seekbar_size_small"
                         android:layout_height="@dimen/seekbar_size_small_ellipse"
                         android:layout_gravity="center_horizontal"
@@ -131,7 +131,7 @@
 
                 <LinearLayout android:orientation="vertical">
 
-                    <me.tankery.lib.circularseekbar.CircularSeekBarV2
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
                         android:layout_width="@dimen/seekbar_size_small"
                         android:layout_height="@dimen/seekbar_size_small_ellipse"
                         android:layout_gravity="center_horizontal"

@@ -27,7 +27,6 @@
  */
 package me.tankery.lib.circularseekbar
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.*
@@ -35,12 +34,11 @@ import android.graphics.Paint.Cap
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 
-class CircularSeekBarV2 @JvmOverloads constructor(
+class CircularSeekBar @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0,
@@ -1148,13 +1146,13 @@ class CircularSeekBarV2 @JvmOverloads constructor(
      */
     interface OnCircularSeekBarChangeListener {
         fun onProgressChanged(
-            circularSeekBar: CircularSeekBarV2?,
+            circularSeekBar: CircularSeekBar?,
             progress: Float,
             fromUser: Boolean
         )
 
-        fun onStopTrackingTouch(seekBar: CircularSeekBarV2?)
-        fun onStartTrackingTouch(seekBar: CircularSeekBarV2?)
+        fun onStopTrackingTouch(seekBar: CircularSeekBar?)
+        fun onStartTrackingTouch(seekBar: CircularSeekBar?)
     }
 
     companion object {
