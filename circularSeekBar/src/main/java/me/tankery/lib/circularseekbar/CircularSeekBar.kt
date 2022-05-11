@@ -52,17 +52,17 @@ class CircularSeekBar @JvmOverloads constructor(
     /**
      * `Paint` instance used to draw the inactive circle.
      */
-    private val mCirclePaint: Paint = Paint()
+    private val circlePaint: Paint = Paint()
 
     /**
      * `Paint` instance used to draw the circle fill.
      */
-    private val mCircleFillPaint: Paint = Paint()
+    private val circleFillPaint: Paint = Paint()
 
     /**
      * `Paint` instance used to draw the active circle (represents progress).
      */
-    private val mCircleProgressPaint: Paint = Paint()
+    private val circleProgressPaint: Paint = Paint()
 
     /**
      * If progress glow is disabled, there is no glow from the progress bar when filled
@@ -71,34 +71,34 @@ class CircularSeekBar @JvmOverloads constructor(
      * accelerate disabled. (Checkout this doc for details of hardware accelerate:
      * https://developer.android.com/guide/topics/graphics/hardware-accel)
      */
-    private var mDisableProgressGlow = false
+    private var disableProgressGlow = false
 
     /**
      * `Paint` instance used to draw the glow from the active circle.
      */
-    private val mCircleProgressGlowPaint: Paint = Paint()
+    private val circleProgressGlowPaint: Paint = Paint()
 
     /**
      * `Paint` instance used to draw the center of the pointer.
      * Note: This is broken on 4.0+, as BlurMasks do not work with hardware acceleration.
      */
-    private val mPointerPaint: Paint = Paint()
+    private val pointerPaint: Paint = Paint()
 
     /**
      * `Paint` instance used to draw the halo of the pointer.
      * Note: The halo is the part that changes transparency.
      */
-    private val mPointerHaloPaint: Paint = Paint()
+    private val pointerHaloPaint: Paint = Paint()
 
     /**
      * `Paint` instance used to draw the border of the pointer, outside of the halo.
      */
-    private val mPointerHaloBorderPaint: Paint = Paint()
+    private val pointerHaloBorderPaint: Paint = Paint()
 
     /**
      * The style of the circle, can be butt, round or square.
      */
-    var mCircleStyle: Cap = Cap.ROUND
+    var circleStyle: Cap = Cap.ROUND
         set(style) {
             field = style
             initPaints()
@@ -109,14 +109,14 @@ class CircularSeekBar @JvmOverloads constructor(
     /**
      * current in negative half cycle.
      */
-    private var mIsInNegativeHalf = false
+    private var isInNegativeHalf = false
 
     /**
      * The width of the circle (in pixels).
      * Sets the circle stroke width.
      * @param width the width of the circle
      */
-    var mCircleStrokeWidth = 0f
+    var circleStrokeWidth = 0f
         set(width) {
             field = width
             initPaints()
@@ -127,17 +127,17 @@ class CircularSeekBar @JvmOverloads constructor(
     /**
      * The X radius of the circle (in pixels).
      */
-    private var mCircleXRadius = 0f
+    private var circleXRadius = 0f
 
     /**
      * The Y radius of the circle (in pixels).
      */
-    private var mCircleYRadius = 0f
+    private var circleYRadius = 0f
 
     /**
      * If disable pointer, we can't seek the progress.
      */
-    private var mDisablePointer = false
+    private var disablePointer = false
 
     /**
      * The radius of the pointer (in pixels).
@@ -145,7 +145,7 @@ class CircularSeekBar @JvmOverloads constructor(
      * Sets the pointer pointer stroke width.
      * @param width the width of the pointer
      */
-    var mPointerStrokeWidth = 0f
+    var pointerStrokeWidth = 0f
         set(width) {
             field = width
             initPaints()
@@ -156,12 +156,12 @@ class CircularSeekBar @JvmOverloads constructor(
     /**
      * The width of the pointer halo (in pixels).
      */
-    private var mPointerHaloWidth = 0f
+    private var pointerHaloWidth = 0f
 
     /**
      * The width of the pointer halo border (in pixels).
      */
-    private var mPointerHaloBorderWidth = 0f
+    private var pointerHaloBorderWidth = 0f
 
     /**
      * Angle of the pointer arc.
@@ -171,7 +171,7 @@ class CircularSeekBar @JvmOverloads constructor(
      * Gets the pointer angle.
      * @return Angle for the pointer (0..360)
      */
-    var mPointerAngle = 0f
+    var pointerAngle = 0f
         set(angle) {
             // Modulo 360 right now to avoid constant conversion
             var normalizedAngle = (360f + angle % 360f) % 360f
@@ -190,12 +190,12 @@ class CircularSeekBar @JvmOverloads constructor(
      * Note: If mStartAngle and mEndAngle are set to the same angle, 0.1 is subtracted
      * from the mEndAngle to make the circle function properly.
      */
-    var mStartAngle = 0f
+    var startAngle = 0f
         set(angle) {
             field = angle
-            if (angle % 360f == mEndAngle % 360f) {
+            if (angle % 360f == endAngle % 360f) {
                 //mStartAngle = mStartAngle + 1f;
-                mEndAngle -= SMALL_DEGREE_BIAS
+                endAngle -= SMALL_DEGREE_BIAS
             }
             recalculateAll()
             invalidate()
@@ -206,9 +206,9 @@ class CircularSeekBar @JvmOverloads constructor(
      * Note: If mStartAngle and mEndAngle are set to the same angle, 0.1 is subtracted
      * from the mEndAngle to make the circle function properly.
      */
-    var mEndAngle = 0f
+    var endAngle = 0f
         set(angle) {
-            field = if (mStartAngle % 360f == mEndAngle % 360f) {
+            field = if (startAngle % 360f == endAngle % 360f) {
                 //mStartAngle = mStartAngle + 1f;
                 angle - SMALL_DEGREE_BIAS
             } else {
@@ -232,10 +232,10 @@ class CircularSeekBar @JvmOverloads constructor(
      * @param color the color of the pointer
      * @return An integer color value for the pointer
      */
-    var mPointerColor = DEFAULT_POINTER_COLOR
+    var pointerColor = DEFAULT_POINTER_COLOR
         set(color) {
             field = color
-            mPointerPaint.color = color
+            pointerPaint.color = color
             invalidate()
         }
 
@@ -249,17 +249,17 @@ class CircularSeekBar @JvmOverloads constructor(
      * @param color the color of the pointer halo
      * @return An integer color value for the pointer halo
      */
-    var mPointerHaloColor = DEFAULT_POINTER_HALO_COLOR
+    var pointerHaloColor = DEFAULT_POINTER_HALO_COLOR
         set(color) {
             field = color
-            mPointerHaloPaint.color = field
+            pointerHaloPaint.color = field
             invalidate()
         }
 
     /**
      * Holds the color value for `mPointerHaloPaint` before the `Paint` instance is created.
      */
-    private var mPointerHaloColorOnTouch = DEFAULT_POINTER_HALO_COLOR_ONTOUCH
+    private var pointerHaloColorOnTouch = DEFAULT_POINTER_HALO_COLOR_ONTOUCH
 
     /**
      * Holds the color value for `mCirclePaint` before the `Paint` instance is created.
@@ -270,10 +270,10 @@ class CircularSeekBar @JvmOverloads constructor(
      * @param color the color of the circle
      * @return An integer color value for the circle
      */
-    var mCircleColor = DEFAULT_CIRCLE_COLOR
+    var circleColor = DEFAULT_CIRCLE_COLOR
         set(color) {
             field = color
-            mCirclePaint.color = color
+            circlePaint.color = color
             invalidate()
         }
 
@@ -286,10 +286,10 @@ class CircularSeekBar @JvmOverloads constructor(
      * @param color the color of the circle fill
      * @return An integer color value for the circle fill
      */
-    var mCircleFillColor = DEFAULT_CIRCLE_FILL_COLOR
+    var circleFillColor = DEFAULT_CIRCLE_FILL_COLOR
         set(color) {
             field = color
-            mCircleFillPaint.color = color
+            circleFillPaint.color = color
             invalidate()
         }
 
@@ -302,10 +302,10 @@ class CircularSeekBar @JvmOverloads constructor(
      * @param color the color of the circle progress
      * @return An integer color value for the circle progress
      */
-    var mCircleProgressColor = DEFAULT_CIRCLE_PROGRESS_COLOR
+    var circleProgressColor = DEFAULT_CIRCLE_PROGRESS_COLOR
         set(color) {
             field = color
-            mCircleProgressPaint.color = color
+            circleProgressPaint.color = color
             invalidate()
         }
 
@@ -318,11 +318,11 @@ class CircularSeekBar @JvmOverloads constructor(
      * @param alpha the alpha of the pointer
      * @return An integer alpha value for the pointer (0..255)
      */
-    var mPointerAlpha = DEFAULT_POINTER_ALPHA
+    var pointerAlpha = DEFAULT_POINTER_ALPHA
         set(alpha) {
             if (alpha in 0..255) {
                 field = alpha
-                mPointerHaloPaint.alpha = alpha
+                pointerHaloPaint.alpha = alpha
                 invalidate()
             }
         }
@@ -336,7 +336,7 @@ class CircularSeekBar @JvmOverloads constructor(
      * @param alpha the alpha of the pointer (0..255) when touched
      * @return An integer alpha value for the pointer (0..255) when touched
      */
-    var mPointerAlphaOnTouch = DEFAULT_POINTER_ALPHA_ONTOUCH
+    var pointerAlphaOnTouch = DEFAULT_POINTER_ALPHA_ONTOUCH
         set(alpha) {
             if (alpha in 0..255) {
                 field = alpha
@@ -347,27 +347,27 @@ class CircularSeekBar @JvmOverloads constructor(
      * Distance (in degrees) that the the circle/semi-circle makes up.
      * This amount represents the max of the circle in degrees.
      */
-    private var mTotalCircleDegrees = 0f
+    private var totalCircleDegrees = 0f
 
     /**
      * Distance (in degrees) that the current progress makes up in the circle.
      */
-    private var mProgressDegrees = 0f
+    private var progressDegrees = 0f
 
     /**
      * `Path` used to draw the circle/semi-circle.
      */
-    private val mCirclePath: Path = Path()
+    private val circlePath: Path = Path()
 
     /**
      * `Path` used to draw the progress on the circle.
      */
-    private val mCircleProgressPath: Path = Path()
+    private val circleProgressPath: Path = Path()
 
     /**
      * `Path` used to draw the pointer arc on the circle.
      */
-    private val mCirclePointerPath: Path = Path()
+    private val circlePointerPath: Path = Path()
 
     /**
      * Max value that this CircularSeekBar is representing.
@@ -381,14 +381,14 @@ class CircularSeekBar @JvmOverloads constructor(
      * @return Synchronized integer value of the max.
      */
     @get:Synchronized
-    var mMax = 0f
+    var max = 0f
         set(max) {
             if (max > 0) {
-                if (max <= mProgress) {
-                    mProgress = 0f // If the new max is less than current progress, set progress to zero
-                    mOnCircularSeekBarChangeListener?.onProgressChanged(
+                if (max <= progressActual) {
+                    progressActual = 0f // If the new max is less than current progress, set progress to zero
+                    onCircularSeekBarChangeListener?.onProgressChanged(
                         this,
-                        if (mIsInNegativeHalf) -mProgress else mProgress,
+                        if (isInNegativeHalf) -progressActual else progressActual,
                         false
                     )
                 }
@@ -401,7 +401,42 @@ class CircularSeekBar @JvmOverloads constructor(
     /**
      * Progress value that this CircularSeekBar is representing.
      */
-    private var mProgress = 0f
+    private var progressActual = 0f
+
+    /**
+     * Get the progress of the CircularSeekBar.
+     *
+     * Set the progress of the CircularSeekBar.
+     * If the progress is the same, then any listener will not receive a onProgressChanged event.
+     *
+     * @param progress The progress to set the CircularSeekBar to.
+     * @return The progress of the CircularSeekBar.
+     */
+    var progress: Float
+        get() {
+            val progress = max * progressDegrees / totalCircleDegrees
+            return if (isInNegativeHalf) -progress else progress
+        }
+        set(progress) {
+            if (progressActual != progress) {
+                if (isNegativeEnabled) {
+                    if (progress < 0) {
+                        progressActual = -progress
+                        isInNegativeHalf = true
+                    } else {
+                        progressActual = progress
+                        isInNegativeHalf = false
+                    }
+                } else {
+                    progressActual = progress
+                }
+
+                onCircularSeekBarChangeListener?.onProgressChanged(this, progress, false)
+
+                recalculateAll()
+                invalidate()
+            }
+        }
 
     /**
      * Used for enabling/disabling the negative progress bar.
@@ -412,20 +447,20 @@ class CircularSeekBar @JvmOverloads constructor(
      * If true, then the user can specify the X and Y radii.
      * If false, then the View itself determines the size of the CircularSeekBar.
      */
-    private var mCustomRadii = false
+    private var customRadii = false
 
     /**
      * Maintain a perfect circle (equal x and y radius), regardless of view or custom attributes.
      * The smaller of the two radii will always be used in this case.
      * The default is to be a circle and not an ellipse, due to the behavior of the ellipse.
      */
-    private var mMaintainEqualCircle = false
+    private var maintainEqualCircle = false
 
     /**
      * Once a user has touched the circle, this determines if moving outside the circle is able
      * to change the position of the pointer (and in turn, the progress).
      */
-    private var mMoveOutsideCircle = false
+    private var moveOutsideCircle = false
 
     /**
      * Used for enabling/disabling the lock option for easier hitting of the 0 progress mark.
@@ -436,52 +471,52 @@ class CircularSeekBar @JvmOverloads constructor(
      * Used for when the user moves beyond the start of the circle when moving counter clockwise.
      * Makes it easier to hit the 0 progress mark.
      */
-    private var mLockAtStart = true
+    private var lockAtStart = true
 
     /**
      * Used for when the user moves beyond the end of the circle when moving clockwise.
      * Makes it easier to hit the 100% (max) progress mark.
      */
-    private var mLockAtEnd = false
+    private var lockAtEnd = false
 
     /**
      * If progress is zero, hide the progress bar.
      */
-    private var mHideProgressWhenEmpty = false
+    private var hideProgressWhenEmpty = false
 
     /**
      * When the user is touching the circle on ACTION_DOWN, this is set to true.
      * Used when touching the CircularSeekBar.
      */
-    private var mUserIsMovingPointer = false
+    private var userIsMovingPointer = false
 
     /**
      * The width of the circle used in the `RectF` that is used to draw it.
      * Based on either the View width or the custom X radius.
      */
-    private var mCircleWidth = 0f
+    private var circleWidth = 0f
 
     /**
      * The height of the circle used in the `RectF` that is used to draw it.
      * Based on either the View width or the custom Y radius.
      */
-    private var mCircleHeight = 0f
+    private var circleHeight = 0f
 
     /**
      * Represents the progress mark on the circle, in geometric degrees.
      * This is not provided by the user; it is calculated;
      */
-    private var mPointerPosition = 0f
+    private var pointerPosition = 0f
 
     /**
      * Pointer position in terms of X and Y coordinates.
      */
-    private val mPointerPositionXY = FloatArray(2)
+    private val pointerPositionXY = FloatArray(2)
 
     /**
      * Listener.
      */
-    private var mOnCircularSeekBarChangeListener: OnCircularSeekBarChangeListener? = null
+    private var onCircularSeekBarChangeListener: OnCircularSeekBarChangeListener? = null
 
     init {
         val attrArray = context.theme.obtainStyledAttributes(attrs, R.styleable.cs_CircularSeekBar, defStyleAttr, defStyleRes)
@@ -496,75 +531,75 @@ class CircularSeekBar @JvmOverloads constructor(
      * @param attrArray TypedArray containing the attributes.
      */
     private fun initAttributes(attrArray: TypedArray) {
-        mCircleXRadius = attrArray.getDimension(
+        circleXRadius = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_circle_x_radius,
             DEFAULT_CIRCLE_X_RADIUS
         )
-        mCircleYRadius = attrArray.getDimension(
+        circleYRadius = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_circle_y_radius,
             DEFAULT_CIRCLE_Y_RADIUS
         )
-        mPointerStrokeWidth = attrArray.getDimension(
+        pointerStrokeWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_pointer_stroke_width,
             DEFAULT_POINTER_STROKE_WIDTH
         )
-        mPointerHaloWidth = attrArray.getDimension(
+        pointerHaloWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_pointer_halo_width,
             DEFAULT_POINTER_HALO_WIDTH
         )
-        mPointerHaloBorderWidth = attrArray.getDimension(
+        pointerHaloBorderWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_pointer_halo_border_width,
             DEFAULT_POINTER_HALO_BORDER_WIDTH
         )
-        mCircleStrokeWidth = attrArray.getDimension(
+        circleStrokeWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_circle_stroke_width,
             DEFAULT_CIRCLE_STROKE_WIDTH
         )
-        val circleStyle =
+        val circleStyleAttribute =
             attrArray.getInt(R.styleable.cs_CircularSeekBar_cs_circle_style, DEFAULT_CIRCLE_STYLE)
-        mCircleStyle = Cap.values()[circleStyle]
-        mPointerColor = attrArray.getColor(
+        circleStyle = Cap.values()[circleStyleAttribute]
+        pointerColor = attrArray.getColor(
             R.styleable.cs_CircularSeekBar_cs_pointer_color,
             DEFAULT_POINTER_COLOR
         )
-        mPointerHaloColor = attrArray.getColor(
+        pointerHaloColor = attrArray.getColor(
             R.styleable.cs_CircularSeekBar_cs_pointer_halo_color,
             DEFAULT_POINTER_HALO_COLOR
         )
-        mPointerHaloColorOnTouch = attrArray.getColor(
+        pointerHaloColorOnTouch = attrArray.getColor(
             R.styleable.cs_CircularSeekBar_cs_pointer_halo_color_ontouch,
             DEFAULT_POINTER_HALO_COLOR_ONTOUCH
         )
-        mCircleColor =
+        circleColor =
             attrArray.getColor(R.styleable.cs_CircularSeekBar_cs_circle_color, DEFAULT_CIRCLE_COLOR)
-        mCircleProgressColor = attrArray.getColor(
+        circleProgressColor = attrArray.getColor(
             R.styleable.cs_CircularSeekBar_cs_circle_progress_color,
             DEFAULT_CIRCLE_PROGRESS_COLOR
         )
-        mCircleFillColor = attrArray.getColor(
+        circleFillColor = attrArray.getColor(
             R.styleable.cs_CircularSeekBar_cs_circle_fill,
             DEFAULT_CIRCLE_FILL_COLOR
         )
-        mPointerAlpha = Color.alpha(mPointerHaloColor)
-        mPointerAlphaOnTouch = attrArray.getInt(
+        pointerAlpha = Color.alpha(pointerHaloColor)
+        pointerAlphaOnTouch = attrArray.getInt(
             R.styleable.cs_CircularSeekBar_cs_pointer_alpha_ontouch,
             DEFAULT_POINTER_ALPHA_ONTOUCH
         )
-        if (mPointerAlphaOnTouch > 255 || mPointerAlphaOnTouch < 0) {
-            mPointerAlphaOnTouch = DEFAULT_POINTER_ALPHA_ONTOUCH
+        if (pointerAlphaOnTouch > 255 || pointerAlphaOnTouch < 0) {
+            pointerAlphaOnTouch = DEFAULT_POINTER_ALPHA_ONTOUCH
         }
-        mMax = attrArray.getInt(R.styleable.cs_CircularSeekBar_cs_max, DEFAULT_MAX).toFloat()
-        mProgress =
+        max = attrArray.getInt(R.styleable.cs_CircularSeekBar_cs_max, DEFAULT_MAX).toFloat()
+        progressActual =
             attrArray.getInt(R.styleable.cs_CircularSeekBar_cs_progress, DEFAULT_PROGRESS).toFloat()
-        mCustomRadii = attrArray.getBoolean(
+        customRadii = attrArray.getBoolean(
             R.styleable.cs_CircularSeekBar_cs_use_custom_radii,
             DEFAULT_USE_CUSTOM_RADII
         )
-        mMaintainEqualCircle = attrArray.getBoolean(
+        maintainEqualCircle = attrArray.getBoolean(
             R.styleable.cs_CircularSeekBar_cs_maintain_equal_circle,
             DEFAULT_MAINTAIN_EQUAL_CIRCLE
         )
-        mMoveOutsideCircle = attrArray.getBoolean(
+        moveOutsideCircle = attrArray.getBoolean(
             R.styleable.cs_CircularSeekBar_cs_move_outside_circle,
             DEFAULT_MOVE_OUTSIDE_CIRCLE
         )
@@ -572,7 +607,7 @@ class CircularSeekBar @JvmOverloads constructor(
             R.styleable.cs_CircularSeekBar_cs_lock_enabled,
             DEFAULT_LOCK_ENABLED
         )
-        mDisablePointer = attrArray.getBoolean(
+        disablePointer = attrArray.getBoolean(
             R.styleable.cs_CircularSeekBar_cs_disable_pointer,
             DEFAULT_DISABLE_POINTER
         )
@@ -580,47 +615,47 @@ class CircularSeekBar @JvmOverloads constructor(
             R.styleable.cs_CircularSeekBar_cs_negative_enabled,
             DEFAULT_NEGATIVE_ENABLED
         )
-        mIsInNegativeHalf = false
-        mDisableProgressGlow = attrArray.getBoolean(
+        isInNegativeHalf = false
+        disableProgressGlow = attrArray.getBoolean(
             R.styleable.cs_CircularSeekBar_cs_disable_progress_glow,
             DEFAULT_DISABLE_PROGRESS_GLOW
         )
-        mHideProgressWhenEmpty = attrArray.getBoolean(
+        hideProgressWhenEmpty = attrArray.getBoolean(
             R.styleable.cs_CircularSeekBar_cs_hide_progress_when_empty,
             DEFAULT_CS_HIDE_PROGRESS_WHEN_EMPTY
         )
 
         // Modulo 360 right now to avoid constant conversion
-        mStartAngle = (360f + attrArray.getFloat(
+        startAngle = (360f + attrArray.getFloat(
             R.styleable.cs_CircularSeekBar_cs_start_angle,
             DEFAULT_START_ANGLE
         ) % 360f) % 360f
-        mEndAngle = (360f + attrArray.getFloat(
+        endAngle = (360f + attrArray.getFloat(
             R.styleable.cs_CircularSeekBar_cs_end_angle,
             DEFAULT_END_ANGLE
         ) % 360f) % 360f
 
         // Disable negative progress if is semi-oval.
-        if (mStartAngle != mEndAngle) {
+        if (startAngle != endAngle) {
             isNegativeEnabled = false
         }
-        if (mStartAngle % 360f == mEndAngle % 360f) {
+        if (startAngle % 360f == endAngle % 360f) {
             //mStartAngle = mStartAngle + 1f;
-            mEndAngle = mEndAngle - SMALL_DEGREE_BIAS
+            endAngle = endAngle - SMALL_DEGREE_BIAS
         }
 
         // Modulo 360 right now to avoid constant conversion
-        mPointerAngle = (360f + attrArray.getFloat(
+        pointerAngle = (360f + attrArray.getFloat(
             R.styleable.cs_CircularSeekBar_cs_pointer_angle,
             DEFAULT_POINTER_ANGLE
         ) % 360f) % 360f
-        if (mPointerAngle == 0f) {
-            mPointerAngle = SMALL_DEGREE_BIAS
+        if (pointerAngle == 0f) {
+            pointerAngle = SMALL_DEGREE_BIAS
         }
-        if (mDisablePointer) {
-            mPointerStrokeWidth = 0f
-            mPointerHaloWidth = 0f
-            mPointerHaloBorderWidth = 0f
+        if (disablePointer) {
+            pointerStrokeWidth = 0f
+            pointerHaloWidth = 0f
+            pointerHaloBorderWidth = 0f
         }
     }
 
@@ -628,50 +663,50 @@ class CircularSeekBar @JvmOverloads constructor(
      * Initializes the `Paint` objects with the appropriate styles.
      */
     private fun initPaints() {
-        mCirclePaint.isAntiAlias = true
-        mCirclePaint.isDither = true
-        mCirclePaint.color = mCircleColor
-        mCirclePaint.strokeWidth = mCircleStrokeWidth
-        mCirclePaint.style = Paint.Style.STROKE
-        mCirclePaint.strokeJoin = Paint.Join.ROUND
-        mCirclePaint.strokeCap = mCircleStyle
+        circlePaint.isAntiAlias = true
+        circlePaint.isDither = true
+        circlePaint.color = circleColor
+        circlePaint.strokeWidth = circleStrokeWidth
+        circlePaint.style = Paint.Style.STROKE
+        circlePaint.strokeJoin = Paint.Join.ROUND
+        circlePaint.strokeCap = circleStyle
 
-        mCircleFillPaint.isAntiAlias = true
-        mCircleFillPaint.isDither = true
-        mCircleFillPaint.color = mCircleFillColor
-        mCircleFillPaint.style = Paint.Style.FILL
+        circleFillPaint.isAntiAlias = true
+        circleFillPaint.isDither = true
+        circleFillPaint.color = circleFillColor
+        circleFillPaint.style = Paint.Style.FILL
 
-        mCircleProgressPaint.isAntiAlias = true
-        mCircleProgressPaint.isDither = true
-        mCircleProgressPaint.color = mCircleProgressColor
-        mCircleProgressPaint.strokeWidth = mCircleStrokeWidth
-        mCircleProgressPaint.style = Paint.Style.STROKE
-        mCircleProgressPaint.strokeJoin = Paint.Join.ROUND
-        mCircleProgressPaint.strokeCap = mCircleStyle
-        if (!mDisableProgressGlow) {
-            mCircleProgressGlowPaint.set(mCircleProgressPaint)
-            mCircleProgressGlowPaint.maskFilter = BlurMaskFilter(
+        circleProgressPaint.isAntiAlias = true
+        circleProgressPaint.isDither = true
+        circleProgressPaint.color = circleProgressColor
+        circleProgressPaint.strokeWidth = circleStrokeWidth
+        circleProgressPaint.style = Paint.Style.STROKE
+        circleProgressPaint.strokeJoin = Paint.Join.ROUND
+        circleProgressPaint.strokeCap = circleStyle
+        if (!disableProgressGlow) {
+            circleProgressGlowPaint.set(circleProgressPaint)
+            circleProgressGlowPaint.maskFilter = BlurMaskFilter(
                 PROGRESS_GLOW_RADIUS_DP * DPTOPX_SCALE,
                 BlurMaskFilter.Blur.NORMAL
             )
         }
 
-        mPointerPaint.isAntiAlias = true
-        mPointerPaint.isDither = true
-        mPointerPaint.color = mPointerColor
-        mPointerPaint.strokeWidth = mPointerStrokeWidth
-        mPointerPaint.style = Paint.Style.STROKE
-        mPointerPaint.strokeJoin = Paint.Join.ROUND
-        mPointerPaint.strokeCap = mCircleStyle
+        pointerPaint.isAntiAlias = true
+        pointerPaint.isDither = true
+        pointerPaint.color = pointerColor
+        pointerPaint.strokeWidth = pointerStrokeWidth
+        pointerPaint.style = Paint.Style.STROKE
+        pointerPaint.strokeJoin = Paint.Join.ROUND
+        pointerPaint.strokeCap = circleStyle
 
-        mPointerHaloPaint.set(mPointerPaint)
-        mPointerHaloPaint.color = mPointerHaloColor
-        mPointerHaloPaint.alpha = mPointerAlpha
-        mPointerHaloPaint.strokeWidth = mPointerStrokeWidth + mPointerHaloWidth * 2f
+        pointerHaloPaint.set(pointerPaint)
+        pointerHaloPaint.color = pointerHaloColor
+        pointerHaloPaint.alpha = pointerAlpha
+        pointerHaloPaint.strokeWidth = pointerStrokeWidth + pointerHaloWidth * 2f
 
-        mPointerHaloBorderPaint.set(mPointerPaint)
-        mPointerHaloBorderPaint.strokeWidth = mPointerHaloBorderWidth
-        mPointerHaloBorderPaint.style = Paint.Style.STROKE
+        pointerHaloBorderPaint.set(pointerPaint)
+        pointerHaloBorderPaint.strokeWidth = pointerHaloBorderWidth
+        pointerHaloBorderPaint.style = Paint.Style.STROKE
     }
 
     /**
@@ -679,10 +714,10 @@ class CircularSeekBar @JvmOverloads constructor(
      * to this value.
      */
     private fun calculateTotalDegrees() {
-        mTotalCircleDegrees =
-            (360f - (mStartAngle - mEndAngle)) % 360f // Length of the entire circle/arc
-        if (mTotalCircleDegrees <= 0f) {
-            mTotalCircleDegrees = 360f
+        totalCircleDegrees =
+            (360f - (startAngle - endAngle)) % 360f // Length of the entire circle/arc
+        if (totalCircleDegrees <= 0f) {
+            totalCircleDegrees = 360f
         }
     }
 
@@ -691,10 +726,10 @@ class CircularSeekBar @JvmOverloads constructor(
      * Sets mProgressDegrees to that value.
      */
     private fun calculateProgressDegrees() {
-        mProgressDegrees =
-            if (mIsInNegativeHalf) mStartAngle - mPointerPosition else mPointerPosition - mStartAngle // Verified
-        mProgressDegrees =
-            if (mProgressDegrees < 0) 360f + mProgressDegrees else mProgressDegrees // Verified
+        progressDegrees =
+            if (isInNegativeHalf) startAngle - pointerPosition else pointerPosition - startAngle // Verified
+        progressDegrees =
+            if (progressDegrees < 0) 360f + progressDegrees else progressDegrees // Verified
     }
 
     /**
@@ -702,19 +737,19 @@ class CircularSeekBar @JvmOverloads constructor(
      * Sets mPointerPosition to that value.
      */
     private fun calculatePointerPosition() {
-        val progressPercent = mProgress / mMax
-        val progressDegree = progressPercent * mTotalCircleDegrees
-        mPointerPosition = mStartAngle + if (mIsInNegativeHalf) -progressDegree else progressDegree
-        mPointerPosition =
-            (if (mPointerPosition < 0) 360f + mPointerPosition else mPointerPosition) % 360f
+        val progressPercent = progressActual / max
+        val progressDegree = progressPercent * totalCircleDegrees
+        pointerPosition = startAngle + if (isInNegativeHalf) -progressDegree else progressDegree
+        pointerPosition =
+            (if (pointerPosition < 0) 360f + pointerPosition else pointerPosition) % 360f
     }
 
     private fun calculatePointerXYPosition() {
-        var pm = PathMeasure(mCircleProgressPath, false)
-        val returnValue = pm.getPosTan(pm.length, mPointerPositionXY, null)
+        var pm = PathMeasure(circleProgressPath, false)
+        val returnValue = pm.getPosTan(pm.length, pointerPositionXY, null)
         if (!returnValue) {
-            pm = PathMeasure(mCirclePath, false)
-            pm.getPosTan(0f, mPointerPositionXY, null)
+            pm = PathMeasure(circlePath, false)
+            pm.getPosTan(0f, pointerPositionXY, null)
         }
     }
 
@@ -722,36 +757,36 @@ class CircularSeekBar @JvmOverloads constructor(
      * Reset the `Path` objects with the appropriate values.
      */
     private fun resetPaths() {
-        if (mIsInNegativeHalf) {
-            mCirclePath.reset()
-            mCirclePath.addArc(pathCircle, mStartAngle - mTotalCircleDegrees, mTotalCircleDegrees)
+        if (isInNegativeHalf) {
+            circlePath.reset()
+            circlePath.addArc(pathCircle, startAngle - totalCircleDegrees, totalCircleDegrees)
 
             // beside progress path it self, we also draw a extend arc to math the pointer arc.
-            val extendStart = mStartAngle - mProgressDegrees - mPointerAngle / 2.0f
-            var extendDegrees = mProgressDegrees + mPointerAngle
+            val extendStart = startAngle - progressDegrees - pointerAngle / 2.0f
+            var extendDegrees = progressDegrees + pointerAngle
             if (extendDegrees >= 360f) {
                 extendDegrees = 360f - SMALL_DEGREE_BIAS
             }
-            mCircleProgressPath.reset()
-            mCircleProgressPath.addArc(pathCircle, extendStart, extendDegrees)
-            val pointerStart = mPointerPosition - mPointerAngle / 2.0f
-            mCirclePointerPath.reset()
-            mCirclePointerPath.addArc(pathCircle, pointerStart, mPointerAngle)
+            circleProgressPath.reset()
+            circleProgressPath.addArc(pathCircle, extendStart, extendDegrees)
+            val pointerStart = pointerPosition - pointerAngle / 2.0f
+            circlePointerPath.reset()
+            circlePointerPath.addArc(pathCircle, pointerStart, pointerAngle)
         } else {
-            mCirclePath.reset()
-            mCirclePath.addArc(pathCircle, mStartAngle, mTotalCircleDegrees)
+            circlePath.reset()
+            circlePath.addArc(pathCircle, startAngle, totalCircleDegrees)
 
             // beside progress path it self, we also draw a extend arc to math the pointer arc.
-            val extendStart = mStartAngle - mPointerAngle / 2.0f
-            var extendDegrees = mProgressDegrees + mPointerAngle
+            val extendStart = startAngle - pointerAngle / 2.0f
+            var extendDegrees = progressDegrees + pointerAngle
             if (extendDegrees >= 360f) {
                 extendDegrees = 360f - SMALL_DEGREE_BIAS
             }
-            mCircleProgressPath.reset()
-            mCircleProgressPath.addArc(pathCircle, extendStart, extendDegrees)
-            val pointerStart = mPointerPosition - mPointerAngle / 2.0f
-            mCirclePointerPath.reset()
-            mCirclePointerPath.addArc(pathCircle, pointerStart, mPointerAngle)
+            circleProgressPath.reset()
+            circleProgressPath.addArc(pathCircle, extendStart, extendDegrees)
+            val pointerStart = pointerPosition - pointerAngle / 2.0f
+            circlePointerPath.reset()
+            circlePointerPath.addArc(pathCircle, pointerStart, pointerAngle)
         }
     }
 
@@ -759,31 +794,31 @@ class CircularSeekBar @JvmOverloads constructor(
      * Initialize the `RectF` objects with the appropriate values.
      */
     private fun resetRects() {
-        pathCircle[-mCircleWidth, -mCircleHeight, mCircleWidth] = mCircleHeight
+        pathCircle[-circleWidth, -circleHeight, circleWidth] = circleHeight
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         canvas.translate(width / 2f, height / 2f)
-        canvas.drawPath(mCirclePath, mCircleFillPaint)
-        canvas.drawPath(mCirclePath, mCirclePaint)
+        canvas.drawPath(circlePath, circleFillPaint)
+        canvas.drawPath(circlePath, circlePaint)
         val ableToGoNegative =
-            isNegativeEnabled && Math.abs(mTotalCircleDegrees - 360f) < SMALL_DEGREE_BIAS * 2
+            isNegativeEnabled && Math.abs(totalCircleDegrees - 360f) < SMALL_DEGREE_BIAS * 2
         // Hide progress bar when progress is 0
         // Also make sure we still draw progress when has pointer or able to go negative
-        val shouldHideProgress = mHideProgressWhenEmpty && mProgressDegrees == 0f &&
-                mDisablePointer && !ableToGoNegative
+        val shouldHideProgress = hideProgressWhenEmpty && progressDegrees == 0f &&
+                disablePointer && !ableToGoNegative
         if (!shouldHideProgress) {
-            if (!mDisableProgressGlow) {
-                canvas.drawPath(mCircleProgressPath, mCircleProgressGlowPaint)
+            if (!disableProgressGlow) {
+                canvas.drawPath(circleProgressPath, circleProgressGlowPaint)
             }
-            canvas.drawPath(mCircleProgressPath, mCircleProgressPaint)
+            canvas.drawPath(circleProgressPath, circleProgressPaint)
         }
-        if (!mDisablePointer) {
-            if (mUserIsMovingPointer) {
-                canvas.drawPath(mCirclePointerPath, mPointerHaloPaint)
+        if (!disablePointer) {
+            if (userIsMovingPointer) {
+                canvas.drawPath(circlePointerPath, pointerHaloPaint)
             }
-            canvas.drawPath(mCirclePointerPath, mPointerPaint)
+            canvas.drawPath(circlePointerPath, pointerPaint)
             // TODO, find a good way to draw halo border.
 //            if (mUserIsMovingPointer) {
 //                canvas.drawCircle(mPointerPositionXY[0], mPointerPositionXY[1],
@@ -792,45 +827,11 @@ class CircularSeekBar @JvmOverloads constructor(
 //            }
         }
     }
-    /**
-     * Get the progress of the CircularSeekBar.
-     * @return The progress of the CircularSeekBar.
-     */
-    /**
-     * Set the progress of the CircularSeekBar.
-     * If the progress is the same, then any listener will not receive a onProgressChanged event.
-     * @param progress The progress to set the CircularSeekBar to.
-     */
-    var progress: Float
-        get() {
-            val progress = mMax * mProgressDegrees / mTotalCircleDegrees
-            return if (mIsInNegativeHalf) -progress else progress
-        }
-        set(progress) {
-            if (mProgress != progress) {
-                if (isNegativeEnabled) {
-                    if (progress < 0) {
-                        mProgress = -progress
-                        mIsInNegativeHalf = true
-                    } else {
-                        mProgress = progress
-                        mIsInNegativeHalf = false
-                    }
-                } else {
-                    mProgress = progress
-                }
-
-                mOnCircularSeekBarChangeListener?.onProgressChanged(this, progress, false)
-
-                recalculateAll()
-                invalidate()
-            }
-        }
 
     private fun setProgressBasedOnAngle(angle: Float) {
-        mPointerPosition = angle
+        pointerPosition = angle
         calculateProgressDegrees()
-        mProgress = mMax * mProgressDegrees / mTotalCircleDegrees
+        progressActual = max * progressDegrees / totalCircleDegrees
     }
 
     private fun recalculateAll() {
@@ -847,7 +848,7 @@ class CircularSeekBar @JvmOverloads constructor(
         var width = getDefaultSize(suggestedMinimumWidth, widthMeasureSpec)
         if (height == 0) height = width
         if (width == 0) width = height
-        if (mMaintainEqualCircle) {
+        if (maintainEqualCircle) {
             val min = Math.min(width, height)
             setMeasuredDimension(min, min)
         } else {
@@ -855,37 +856,37 @@ class CircularSeekBar @JvmOverloads constructor(
         }
         val isHardwareAccelerated = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB &&
                 isHardwareAccelerated && layerType != LAYER_TYPE_SOFTWARE
-        val hasGlowEffect = !mDisableProgressGlow && !isHardwareAccelerated
+        val hasGlowEffect = !disableProgressGlow && !isHardwareAccelerated
 
         // Set the circle width and height based on the view for the moment
         val padding = Math.max(
-            mCircleStrokeWidth / 2f,
-            mPointerStrokeWidth / 2 + mPointerHaloWidth + mPointerHaloBorderWidth
+            circleStrokeWidth / 2f,
+            pointerStrokeWidth / 2 + pointerHaloWidth + pointerHaloBorderWidth
         ) +
                 if (hasGlowEffect) PROGRESS_GLOW_RADIUS_DP * DPTOPX_SCALE else 0f
-        mCircleHeight = height / 2f - padding
-        mCircleWidth = width / 2f - padding
+        circleHeight = height / 2f - padding
+        circleWidth = width / 2f - padding
 
         // If it is not set to use custom
-        if (mCustomRadii) {
+        if (customRadii) {
             // Check to make sure the custom radii are not out of the view. If they are, just use the view values
-            if (mCircleYRadius - padding < mCircleHeight) {
-                mCircleHeight = mCircleYRadius - padding
+            if (circleYRadius - padding < circleHeight) {
+                circleHeight = circleYRadius - padding
             }
-            if (mCircleXRadius - padding < mCircleWidth) {
-                mCircleWidth = mCircleXRadius - padding
+            if (circleXRadius - padding < circleWidth) {
+                circleWidth = circleXRadius - padding
             }
         }
-        if (mMaintainEqualCircle) { // Applies regardless of how the values were determined
-            val min = Math.min(mCircleHeight, mCircleWidth)
-            mCircleHeight = min
-            mCircleWidth = min
+        if (maintainEqualCircle) { // Applies regardless of how the values were determined
+            val min = Math.min(circleHeight, circleWidth)
+            circleHeight = min
+            circleWidth = min
         }
         recalculateAll()
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (mDisablePointer || !isEnabled) return false
+        if (disablePointer || !isEnabled) return false
 
         // Convert coordinates to our internal coordinate system
         val x = event.x - width / 2
@@ -903,24 +904,24 @@ class CircularSeekBar @JvmOverloads constructor(
             MIN_TOUCH_TARGET_DP * DPTOPX_SCALE // Convert minimum touch target into px
         var additionalRadius: Float // Either uses the minimumTouchTarget size or larger if the ring/pointer is larger
         additionalRadius =
-            if (mCircleStrokeWidth < minimumTouchTarget) { // If the width is less than the minimumTouchTarget, use the minimumTouchTarget
+            if (circleStrokeWidth < minimumTouchTarget) { // If the width is less than the minimumTouchTarget, use the minimumTouchTarget
                 minimumTouchTarget / 2
             } else {
-                mCircleStrokeWidth / 2 // Otherwise use the width
+                circleStrokeWidth / 2 // Otherwise use the width
             }
         val outerRadius = Math.max(
-            mCircleHeight,
-            mCircleWidth
+            circleHeight,
+            circleWidth
         ) + additionalRadius // Max outer radius of the circle, including the minimumTouchTarget or wheel width
         val innerRadius = Math.min(
-            mCircleHeight,
-            mCircleWidth
+            circleHeight,
+            circleWidth
         ) - additionalRadius // Min inner radius of the circle, including the minimumTouchTarget or wheel width
         additionalRadius =
-            if (mPointerStrokeWidth < minimumTouchTarget / 2) { // If the pointer radius is less than the minimumTouchTarget, use the minimumTouchTarget
+            if (pointerStrokeWidth < minimumTouchTarget / 2) { // If the pointer radius is less than the minimumTouchTarget, use the minimumTouchTarget
                 minimumTouchTarget / 2
             } else {
-                mPointerStrokeWidth // Otherwise use the radius
+                pointerStrokeWidth // Otherwise use the radius
             }
         var touchAngle: Float
         touchAngle =
@@ -964,23 +965,23 @@ class CircularSeekBar @JvmOverloads constructor(
           Used when touching the CircularSeekBar.
          */
         val ccwDistanceFromPointer: Float
-        cwDistanceFromStart = touchAngle - mStartAngle // Verified
+        cwDistanceFromStart = touchAngle - startAngle // Verified
         cwDistanceFromStart =
             if (cwDistanceFromStart < 0) 360f + cwDistanceFromStart else cwDistanceFromStart // Verified
         ccwDistanceFromStart = 360f - cwDistanceFromStart // Verified
-        cwDistanceFromEnd = touchAngle - mEndAngle // Verified
+        cwDistanceFromEnd = touchAngle - endAngle // Verified
         cwDistanceFromEnd =
             if (cwDistanceFromEnd < 0) 360f + cwDistanceFromEnd else cwDistanceFromEnd // Verified
         ccwDistanceFromEnd = 360f - cwDistanceFromEnd // Verified
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 // These are only used for ACTION_DOWN for handling if the pointer was the part that was touched
-                val pointerRadiusDegrees = (mPointerStrokeWidth * 180 / (Math.PI * Math.max(
-                    mCircleHeight,
-                    mCircleWidth
+                val pointerRadiusDegrees = (pointerStrokeWidth * 180 / (Math.PI * Math.max(
+                    circleHeight,
+                    circleWidth
                 ))).toFloat()
-                val pointerDegrees = Math.max(pointerRadiusDegrees, mPointerAngle / 2f)
-                cwDistanceFromPointer = touchAngle - mPointerPosition
+                val pointerDegrees = Math.max(pointerRadiusDegrees, pointerAngle / 2f)
+                cwDistanceFromPointer = touchAngle - pointerPosition
                 cwDistanceFromPointer =
                     if (cwDistanceFromPointer < 0) 360f + cwDistanceFromPointer else cwDistanceFromPointer
                 ccwDistanceFromPointer = 360f - cwDistanceFromPointer
@@ -988,97 +989,97 @@ class CircularSeekBar @JvmOverloads constructor(
                 if (touchEventRadius >= innerRadius && touchEventRadius <= outerRadius &&
                     (cwDistanceFromPointer <= pointerDegrees || ccwDistanceFromPointer <= pointerDegrees)
                 ) {
-                    setProgressBasedOnAngle(mPointerPosition)
-                    mPointerHaloPaint.alpha = mPointerAlphaOnTouch
-                    mPointerHaloPaint.color = mPointerHaloColorOnTouch
+                    setProgressBasedOnAngle(pointerPosition)
+                    pointerHaloPaint.alpha = pointerAlphaOnTouch
+                    pointerHaloPaint.color = pointerHaloColorOnTouch
                     recalculateAll()
                     invalidate()
-                    mOnCircularSeekBarChangeListener?.onStartTrackingTouch(this)
-                    mUserIsMovingPointer = true
-                    mLockAtEnd = false
-                    mLockAtStart = false
-                } else if (cwDistanceFromStart > mTotalCircleDegrees) { // If the user is touching outside of the start AND end
-                    mUserIsMovingPointer = false
+                    onCircularSeekBarChangeListener?.onStartTrackingTouch(this)
+                    userIsMovingPointer = true
+                    lockAtEnd = false
+                    lockAtStart = false
+                } else if (cwDistanceFromStart > totalCircleDegrees) { // If the user is touching outside of the start AND end
+                    userIsMovingPointer = false
                     return false
                 } else if (touchEventRadius >= innerRadius && touchEventRadius <= outerRadius) { // If the user is touching near the circle
                     setProgressBasedOnAngle(touchAngle)
-                    mPointerHaloPaint.alpha = mPointerAlphaOnTouch
-                    mPointerHaloPaint.color = mPointerHaloColorOnTouch
+                    pointerHaloPaint.alpha = pointerAlphaOnTouch
+                    pointerHaloPaint.color = pointerHaloColorOnTouch
                     recalculateAll()
                     invalidate()
-                    mOnCircularSeekBarChangeListener?.onStartTrackingTouch(this)
-                    mOnCircularSeekBarChangeListener?.onProgressChanged(this, progress, true)
-                    mUserIsMovingPointer = true
-                    mLockAtEnd = false
-                    mLockAtStart = false
+                    onCircularSeekBarChangeListener?.onStartTrackingTouch(this)
+                    onCircularSeekBarChangeListener?.onProgressChanged(this, progress, true)
+                    userIsMovingPointer = true
+                    lockAtEnd = false
+                    lockAtStart = false
                 } else { // If the user is not touching near the circle
-                    mUserIsMovingPointer = false
+                    userIsMovingPointer = false
                     return false
                 }
             }
-            MotionEvent.ACTION_MOVE -> if (mUserIsMovingPointer) {
-                val smallInCircle = mTotalCircleDegrees / 3f
-                var cwPointerFromStart = mPointerPosition - mStartAngle
+            MotionEvent.ACTION_MOVE -> if (userIsMovingPointer) {
+                val smallInCircle = totalCircleDegrees / 3f
+                var cwPointerFromStart = pointerPosition - startAngle
                 cwPointerFromStart =
                     if (cwPointerFromStart < 0) cwPointerFromStart + 360f else cwPointerFromStart
                 val touchOverStart = ccwDistanceFromStart < smallInCircle
                 val touchOverEnd = cwDistanceFromEnd < smallInCircle
                 val pointerNearStart = cwPointerFromStart < smallInCircle
-                val pointerNearEnd = cwPointerFromStart > mTotalCircleDegrees - smallInCircle
-                val progressNearZero = mProgress < mMax / 3f
-                val progressNearMax = mProgress > mMax / 3f * 2f
+                val pointerNearEnd = cwPointerFromStart > totalCircleDegrees - smallInCircle
+                val progressNearZero = progressActual < max / 3f
+                val progressNearMax = progressActual > max / 3f * 2f
                 if (progressNearMax) {  // logic for end lock.
                     if (pointerNearStart) { // negative end
-                        mLockAtEnd = touchOverStart
+                        lockAtEnd = touchOverStart
                     } else if (pointerNearEnd) {    // positive end
-                        mLockAtEnd = touchOverEnd
+                        lockAtEnd = touchOverEnd
                     }
                 } else if (progressNearZero && isNegativeEnabled) {   // logic for negative flip
-                    if (touchOverEnd) mIsInNegativeHalf = false else if (touchOverStart) {
-                        mIsInNegativeHalf = true
+                    if (touchOverEnd) isInNegativeHalf = false else if (touchOverStart) {
+                        isInNegativeHalf = true
                     }
                 } else if (progressNearZero) {  // logic for start lock
                     if (pointerNearStart) {
-                        mLockAtStart = touchOverStart
+                        lockAtStart = touchOverStart
                     }
                 }
-                if (mLockAtStart && isLockEnabled) {
+                if (lockAtStart && isLockEnabled) {
                     // TODO: Add a check if mProgress is already 0, in which case don't call the listener
-                    mProgress = 0f
+                    progressActual = 0f
                     recalculateAll()
                     invalidate()
-                    mOnCircularSeekBarChangeListener?.onProgressChanged(this, progress, true)
-                } else if (mLockAtEnd && isLockEnabled) {
-                    mProgress = mMax
+                    onCircularSeekBarChangeListener?.onProgressChanged(this, progress, true)
+                } else if (lockAtEnd && isLockEnabled) {
+                    progressActual = max
                     recalculateAll()
                     invalidate()
-                    mOnCircularSeekBarChangeListener?.onProgressChanged(this, progress, true)
-                } else if (mMoveOutsideCircle || touchEventRadius <= outerRadius) {
-                    if (cwDistanceFromStart <= mTotalCircleDegrees) {
+                    onCircularSeekBarChangeListener?.onProgressChanged(this, progress, true)
+                } else if (moveOutsideCircle || touchEventRadius <= outerRadius) {
+                    if (cwDistanceFromStart <= totalCircleDegrees) {
                         setProgressBasedOnAngle(touchAngle)
                     }
                     recalculateAll()
                     invalidate()
-                    mOnCircularSeekBarChangeListener?.onProgressChanged(this, progress, true)
+                    onCircularSeekBarChangeListener?.onProgressChanged(this, progress, true)
                 }
             } else {
                 return false
             }
             MotionEvent.ACTION_UP -> {
-                mPointerHaloPaint.alpha = mPointerAlpha
-                mPointerHaloPaint.color = mPointerHaloColor
-                if (mUserIsMovingPointer) {
-                    mUserIsMovingPointer = false
+                pointerHaloPaint.alpha = pointerAlpha
+                pointerHaloPaint.color = pointerHaloColor
+                if (userIsMovingPointer) {
+                    userIsMovingPointer = false
                     invalidate()
-                    mOnCircularSeekBarChangeListener?.onStopTrackingTouch(this)
+                    onCircularSeekBarChangeListener?.onStopTrackingTouch(this)
                 } else {
                     return false
                 }
             }
             MotionEvent.ACTION_CANCEL -> {
-                mPointerHaloPaint.alpha = mPointerAlpha
-                mPointerHaloPaint.color = mPointerHaloColor
-                mUserIsMovingPointer = false
+                pointerHaloPaint.alpha = pointerAlpha
+                pointerHaloPaint.color = pointerHaloColor
+                userIsMovingPointer = false
                 invalidate()
             }
         }
@@ -1092,23 +1093,23 @@ class CircularSeekBar @JvmOverloads constructor(
         val superState = super.onSaveInstanceState()
         val state = Bundle()
         state.putParcelable("PARENT", superState)
-        state.putFloat("MAX", mMax)
-        state.putFloat("PROGRESS", mProgress)
-        state.putInt("mCircleColor", mCircleColor)
-        state.putInt("mCircleProgressColor", mCircleProgressColor)
-        state.putInt("mPointerColor", mPointerColor)
-        state.putInt("mPointerHaloColor", mPointerHaloColor)
-        state.putInt("mPointerHaloColorOnTouch", mPointerHaloColorOnTouch)
-        state.putInt("mPointerAlpha", mPointerAlpha)
-        state.putInt("mPointerAlphaOnTouch", mPointerAlphaOnTouch)
-        state.putFloat("mPointerAngle", mPointerAngle)
-        state.putBoolean("mDisablePointer", mDisablePointer)
-        state.putBoolean("mLockEnabled", isLockEnabled)
-        state.putBoolean("mNegativeEnabled", isNegativeEnabled)
-        state.putBoolean("mDisableProgressGlow", mDisableProgressGlow)
-        state.putBoolean("mIsInNegativeHalf", mIsInNegativeHalf)
-        state.putInt("mCircleStyle", mCircleStyle.ordinal)
-        state.putBoolean("mHideProgressWhenEmpty", mHideProgressWhenEmpty)
+        state.putFloat("MAX", max)
+        state.putFloat("PROGRESS", progressActual)
+        state.putInt("circleColor", circleColor)
+        state.putInt("circleProgressColor", circleProgressColor)
+        state.putInt("pointerColor", pointerColor)
+        state.putInt("pointerHaloColor", pointerHaloColor)
+        state.putInt("pointerHaloColorOnTouch", pointerHaloColorOnTouch)
+        state.putInt("pointerAlpha", pointerAlpha)
+        state.putInt("pointerAlphaOnTouch", pointerAlphaOnTouch)
+        state.putFloat("pointerAngle", pointerAngle)
+        state.putBoolean("disablePointer", disablePointer)
+        state.putBoolean("lockEnabled", isLockEnabled)
+        state.putBoolean("negativeEnabled", isNegativeEnabled)
+        state.putBoolean("disableProgressGlow", disableProgressGlow)
+        state.putBoolean("isInNegativeHalf", isInNegativeHalf)
+        state.putInt("circleStyle", circleStyle.ordinal)
+        state.putBoolean("hideProgressWhenEmpty", hideProgressWhenEmpty)
         return state
     }
 
@@ -1116,29 +1117,29 @@ class CircularSeekBar @JvmOverloads constructor(
         val savedState = state as Bundle
         val superState = savedState.getParcelable<Parcelable>("PARENT")
         super.onRestoreInstanceState(superState)
-        mMax = savedState.getFloat("MAX")
-        mProgress = savedState.getFloat("PROGRESS")
-        mCircleColor = savedState.getInt("mCircleColor")
-        mCircleProgressColor = savedState.getInt("mCircleProgressColor")
-        mPointerColor = savedState.getInt("mPointerColor")
-        mPointerHaloColor = savedState.getInt("mPointerHaloColor")
-        mPointerHaloColorOnTouch = savedState.getInt("mPointerHaloColorOnTouch")
-        mPointerAlpha = savedState.getInt("mPointerAlpha")
-        mPointerAlphaOnTouch = savedState.getInt("mPointerAlphaOnTouch")
-        mPointerAngle = savedState.getFloat("mPointerAngle")
-        mDisablePointer = savedState.getBoolean("mDisablePointer")
-        isLockEnabled = savedState.getBoolean("mLockEnabled")
-        isNegativeEnabled = savedState.getBoolean("mNegativeEnabled")
-        mDisableProgressGlow = savedState.getBoolean("mDisableProgressGlow")
-        mIsInNegativeHalf = savedState.getBoolean("mIsInNegativeHalf")
-        mCircleStyle = Cap.values()[savedState.getInt("mCircleStyle")]
-        mHideProgressWhenEmpty = savedState.getBoolean("mHideProgressWhenEmpty")
+        max = savedState.getFloat("MAX")
+        progressActual = savedState.getFloat("PROGRESS")
+        circleColor = savedState.getInt("circleColor")
+        circleProgressColor = savedState.getInt("circleProgressColor")
+        pointerColor = savedState.getInt("pointerColor")
+        pointerHaloColor = savedState.getInt("pointerHaloColor")
+        pointerHaloColorOnTouch = savedState.getInt("pointerHaloColorOnTouch")
+        pointerAlpha = savedState.getInt("pointerAlpha")
+        pointerAlphaOnTouch = savedState.getInt("pointerAlphaOnTouch")
+        pointerAngle = savedState.getFloat("pointerAngle")
+        disablePointer = savedState.getBoolean("disablePointer")
+        isLockEnabled = savedState.getBoolean("lockEnabled")
+        isNegativeEnabled = savedState.getBoolean("negativeEnabled")
+        disableProgressGlow = savedState.getBoolean("disableProgressGlow")
+        isInNegativeHalf = savedState.getBoolean("isInNegativeHalf")
+        circleStyle = Cap.values()[savedState.getInt("circleStyle")]
+        hideProgressWhenEmpty = savedState.getBoolean("hideProgressWhenEmpty")
         initPaints()
         recalculateAll()
     }
 
     fun setOnSeekBarChangeListener(l: OnCircularSeekBarChangeListener?) {
-        mOnCircularSeekBarChangeListener = l
+        onCircularSeekBarChangeListener = l
     }
 
     /**
