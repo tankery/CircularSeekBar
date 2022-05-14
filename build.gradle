@@ -17,11 +17,12 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
     }
 }
 
 ext {
-    compileSdkVersion = 27
+    compileSdkVersion = 32
     buildToolsVersion = "27.0.3"
 
     supportLibVersion = "27.1.1"
