@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "me.tankery.app.circularseekbar"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 32
         versionCode getTagCount()
         versionName getLatestTaggedVersion()
     }
