@@ -2,7 +2,7 @@
 
 ## v1.4.0
 
-Migrate library source code to Kotlin.
+Migrate library source code to Kotlin. Thanks [@jonathan-livly's PR](https://github.com/tankery/CircularSeekBar/pull/45).
 
 ## v1.3.2
 
