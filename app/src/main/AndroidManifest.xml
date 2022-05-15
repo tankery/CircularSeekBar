@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="me.tankery.app.circularseekbar.MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
