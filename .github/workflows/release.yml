@@ -68,7 +68,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Build library
         run: |
-          ./gradlew clean uploadArchives --stacktrace
+          ./gradlew clean publish --stacktrace
         env:
           SONATYPE_NEXUS_PASSWORD: ${{ secrets.SONATYPE_NEXUS_PASSWORD }}
           SONATYPE_NEXUS_USERNAME: ${{ secrets.SONATYPE_NEXUS_USERNAME }}
