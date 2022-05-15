@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 // Define some common closures (methods) for code share
 ext.getTagCount = {
@@ -33,5 +34,6 @@ android {
 
 dependencies {
     implementation project(':circularSeekBar')
-    implementation "com.android.support:support-annotations:${rootProject.supportLibVersion}"
+    implementation "com.android.support:support-annotations:$supportLibVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 }
