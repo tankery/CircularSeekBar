@@ -1,5 +1,9 @@
 # Change Log
 
+## v1.4.0
+
+Migrate library source code to Kotlin.
+
 ## v1.3.2
 
 Support Sonatype Maven Central uploading.
