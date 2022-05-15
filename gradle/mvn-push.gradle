@@ -103,6 +103,6 @@ afterEvaluate {
                 signingKey,
                 signingPassword,
         )
-        sign configurations.archives
+        sign publishing.publications.maven
     }
 }
