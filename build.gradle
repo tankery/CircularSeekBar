@@ -4,7 +4,7 @@ buildscript {
     ext {
         kotlinVersion = '1.6.21'
         compileSdkVersion = 32
-        buildToolsVersion = "31.0.0"
+        buildToolsVersion = "32.0.0"
         supportLibVersion = "28.0.0"
     }
 
@@ -27,11 +27,4 @@ allprojects {
         mavenCentral()
         mavenLocal()
     }
-}
-
-ext {
-    compileSdkVersion = 27
-    buildToolsVersion = "27.0.3"
-
-    supportLibVersion = "27.1.1"
 }
