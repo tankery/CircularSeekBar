@@ -86,7 +86,6 @@
                         android:layout_marginTop="@dimen/seekbar_margin"
                         android:layout_marginLeft="@dimen/seekbar_margin"
                         android:layout_marginRight="@dimen/seekbar_margin"
-                        app:cs_pointer_fill_color="@android:color/white"
                         app:cs_negative_enabled="false"
                         app:cs_circle_style="square"
                         app:cs_circle_stroke_width="8dp"
