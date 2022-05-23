@@ -168,11 +168,15 @@ class CircularSeekBar @JvmOverloads constructor(
      * The inner stroke width of the pointer (in pixels).
      *
      * Sets the inner pointer stroke width.
-     * @param width the width of the pointer stroke
+     * @param width the width of the pointer stroke. Must be a positive number
      */
     var pointerFillInnerStrokeWidth = DEFAULT_POINTER_FILL_INNER_STROKE_WIDTH
         set(width) {
-            field = width
+            field = if (width < 0){
+                0f
+            } else {
+                width
+            }
             initPaints()
             recalculateAll()
             invalidate()
