@@ -18,8 +18,6 @@
         <attr name="cs_circle_y_radius" format="dimension" />
         <attr name="cs_circle_stroke_width" format="dimension" />
         <attr name="cs_disable_pointer" format="boolean"/>
-        <attr name="cs_pointer_width" format="dimension" />
-        <!-- {@deprecated Use cs_pointer_width instead.} -->
         <attr name="cs_pointer_stroke_width" format="dimension" />
         <attr name="cs_pointer_halo_width" format="dimension" />
         <attr name="cs_pointer_halo_border_width" format="dimension"/>

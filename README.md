@@ -56,7 +56,7 @@ app:cs_circle_x_radius = "dimension"
 app:cs_circle_y_radius = "dimension"
 app:cs_circle_stroke_width = "dimension"
 app:cs_disable_pointer = "boolean"
-app:cs_pointer_width = "dimension"
+app:cs_pointer_stroke_width = "dimension"
 app:cs_pointer_halo_width = "dimension"
 app:cs_pointer_halo_border_width = "dimension"
 app:cs_circle_fill = "color"
@@ -71,6 +71,8 @@ app:cs_start_angle = "float"
 app:cs_end_angle = "float"
 app:cs_disable_progress_glow = "boolean"
 app:cs_hide_progress_when_empty = "boolean"
+"cs_pointer_fill_color" = "color"
+"cs_pointer_fill_inner_stroke_width" = "dimension"
 ```
 
 ## Appreciation

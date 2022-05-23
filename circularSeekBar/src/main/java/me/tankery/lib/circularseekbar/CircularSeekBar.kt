@@ -156,33 +156,13 @@ class CircularSeekBar @JvmOverloads constructor(
      * Sets the pointer stroke width.
      * @param width the width of the pointer
      */
-    var pointerWidth = 0f
+    var pointerStrokeWidth = 0f
         set(width) {
             field = width
             initPaints()
             recalculateAll()
             invalidate()
         }
-    /**
-     * The radius of the pointer (in pixels).
-     *
-     * Sets the pointer stroke width.
-     * @param width the width of the pointer
-     */
-    @Deprecated(
-        "Use pointerWidth",
-        replaceWith = ReplaceWith(
-            "pointerWidth",
-            "me.tankery.lib.circularseekbar.CircularSeekBar.pointerWidth"
-        )
-    )
-    var pointerStrokeWidth = 0f
-        get() = pointerWidth
-        set(width) {
-            field = width
-            pointerWidth = width
-        }
-
 
     /**
      * The inner stroke width of the pointer (in pixels).
@@ -592,14 +572,9 @@ class CircularSeekBar @JvmOverloads constructor(
             DEFAULT_CIRCLE_Y_RADIUS
         )
 
-        val oldPointerStrokeWidth = attrArray.getDimension(
+        pointerStrokeWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_pointer_stroke_width,
             DEFAULT_POINTER_WIDTH
-        )
-
-        pointerWidth = attrArray.getDimension(
-            R.styleable.cs_CircularSeekBar_cs_pointer_width,
-            oldPointerStrokeWidth
         )
         pointerHaloWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_pointer_halo_width,
@@ -721,7 +696,7 @@ class CircularSeekBar @JvmOverloads constructor(
             pointerAngle = SMALL_DEGREE_BIAS
         }
         if (disablePointer) {
-            pointerWidth = 0f
+            pointerStrokeWidth = 0f
             pointerFillInnerStrokeWidth = 0f
             pointerHaloWidth = 0f
             pointerHaloBorderWidth = 0f
@@ -763,7 +738,7 @@ class CircularSeekBar @JvmOverloads constructor(
         pointerPaint.isAntiAlias = true
         pointerPaint.isDither = true
         pointerPaint.color = pointerColor
-        pointerPaint.strokeWidth = pointerWidth
+        pointerPaint.strokeWidth = pointerStrokeWidth
         pointerPaint.style = Paint.Style.STROKE
         pointerPaint.strokeJoin = Paint.Join.ROUND
         pointerPaint.strokeCap = circleStyle
@@ -772,12 +747,12 @@ class CircularSeekBar @JvmOverloads constructor(
         pointerFillPaint.color = pointerFillColor
         pointerFillPaint.style = Paint.Style.FILL_AND_STROKE
         pointerFillPaint.strokeWidth =
-            (pointerWidth - pointerFillInnerStrokeWidth).coerceAtLeast(0f)
+            (pointerStrokeWidth - pointerFillInnerStrokeWidth).coerceAtLeast(0f)
 
         pointerHaloPaint.set(pointerPaint)
         pointerHaloPaint.color = pointerHaloColor
         pointerHaloPaint.alpha = pointerAlpha
-        pointerHaloPaint.strokeWidth = pointerWidth + pointerHaloWidth * 2f
+        pointerHaloPaint.strokeWidth = pointerStrokeWidth + pointerHaloWidth * 2f
 
         pointerHaloBorderPaint.set(pointerPaint)
         pointerHaloBorderPaint.strokeWidth = pointerHaloBorderWidth
@@ -937,7 +912,7 @@ class CircularSeekBar @JvmOverloads constructor(
         // Set the circle width and height based on the view for the moment
         val padding = Math.max(
             circleStrokeWidth / 2f,
-            pointerWidth / 2 + pointerHaloWidth + pointerHaloBorderWidth
+            pointerStrokeWidth / 2 + pointerHaloWidth + pointerHaloBorderWidth
         ) +
                 if (hasGlowEffect) PROGRESS_GLOW_RADIUS_DP * DPTOPX_SCALE else 0f
         circleHeight = height / 2f - padding
@@ -994,10 +969,10 @@ class CircularSeekBar @JvmOverloads constructor(
             circleWidth
         ) - additionalRadius // Min inner radius of the circle, including the minimumTouchTarget or wheel width
         additionalRadius =
-            if (pointerWidth < minimumTouchTarget / 2) { // If the pointer radius is less than the minimumTouchTarget, use the minimumTouchTarget
+            if (pointerStrokeWidth < minimumTouchTarget / 2) { // If the pointer radius is less than the minimumTouchTarget, use the minimumTouchTarget
                 minimumTouchTarget / 2
             } else {
-                pointerWidth // Otherwise use the radius
+                pointerStrokeWidth // Otherwise use the radius
             }
         var touchAngle: Float
         touchAngle =
@@ -1052,7 +1027,7 @@ class CircularSeekBar @JvmOverloads constructor(
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 // These are only used for ACTION_DOWN for handling if the pointer was the part that was touched
-                val pointerRadiusDegrees = (pointerWidth * 180 / (Math.PI * Math.max(
+                val pointerRadiusDegrees = (pointerStrokeWidth * 180 / (Math.PI * Math.max(
                     circleHeight,
                     circleWidth
                 ))).toFloat()
