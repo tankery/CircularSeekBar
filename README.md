@@ -71,8 +71,8 @@ app:cs_start_angle = "float"
 app:cs_end_angle = "float"
 app:cs_disable_progress_glow = "boolean"
 app:cs_hide_progress_when_empty = "boolean"
-app:cs_pointer_fill_color = "color"
-app:cs_pointer_fill_inner_stroke_width = "dimension"
+app:cs_pointer_overlay_color = "color"
+app:cs_pointer_overlay_border_width = "dimension"
 ```
 
 ## Appreciation

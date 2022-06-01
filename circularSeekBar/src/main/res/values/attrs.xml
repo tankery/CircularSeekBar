@@ -17,23 +17,23 @@
         <attr name="cs_circle_x_radius" format="dimension" />
         <attr name="cs_circle_y_radius" format="dimension" />
         <attr name="cs_circle_stroke_width" format="dimension" />
-        <attr name="cs_disable_pointer" format="boolean"/>
+        <attr name="cs_disable_pointer" format="boolean" />
         <attr name="cs_pointer_stroke_width" format="dimension" />
         <attr name="cs_pointer_halo_width" format="dimension" />
-        <attr name="cs_pointer_halo_border_width" format="dimension"/>
-        <attr name="cs_circle_fill" format="color"/>
-        <attr name="cs_circle_color" format="color"/>
-        <attr name="cs_circle_progress_color" format="color"/>
-        <attr name="cs_pointer_color" format="color"/>
-        <attr name="cs_pointer_fill_color" format="color"/>
-        <attr name="cs_pointer_fill_inner_stroke_width" format="dimension" />
-        <attr name="cs_pointer_halo_color" format="color"/>
-        <attr name="cs_pointer_halo_color_ontouch" format="color"/>
-        <attr name="cs_pointer_alpha_ontouch" format="integer"/>
-        <attr name="cs_pointer_angle" format="float"/>
-        <attr name="cs_start_angle" format="float"/>
-        <attr name="cs_end_angle" format="float"/>
-        <attr name="cs_disable_progress_glow" format="boolean"/>
-        <attr name="cs_hide_progress_when_empty" format="boolean"/>
+        <attr name="cs_pointer_halo_border_width" format="dimension" />
+        <attr name="cs_circle_fill" format="color" />
+        <attr name="cs_circle_color" format="color" />
+        <attr name="cs_circle_progress_color" format="color" />
+        <attr name="cs_pointer_color" format="color" />
+        <attr name="cs_pointer_overlay_color" format="color" />
+        <attr name="cs_pointer_overlay_border_width" format="dimension" />
+        <attr name="cs_pointer_halo_color" format="color" />
+        <attr name="cs_pointer_halo_color_ontouch" format="color" />
+        <attr name="cs_pointer_alpha_ontouch" format="integer" />
+        <attr name="cs_pointer_angle" format="float" />
+        <attr name="cs_start_angle" format="float" />
+        <attr name="cs_end_angle" format="float" />
+        <attr name="cs_disable_progress_glow" format="boolean" />
+        <attr name="cs_hide_progress_when_empty" format="boolean" />
     </declare-styleable>
 </resources>
