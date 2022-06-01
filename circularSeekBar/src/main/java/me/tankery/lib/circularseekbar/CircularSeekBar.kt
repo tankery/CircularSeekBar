@@ -29,7 +29,13 @@ package me.tankery.lib.circularseekbar
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.*
+import android.graphics.Paint
+import android.graphics.Path
+import android.graphics.RectF
+import android.graphics.Color
+import android.graphics.BlurMaskFilter
+import android.graphics.PathMeasure
+import android.graphics.Canvas
 import android.graphics.Paint.Cap
 import android.os.Build
 import android.os.Bundle
