@@ -744,7 +744,7 @@ class CircularSeekBar @JvmOverloads constructor(
 
         pointerOverlayPaint.set(pointerPaint)
         pointerOverlayPaint.color = pointerOverlayColor
-        pointerOverlayPaint.style = Paint.Style.FILL_AND_STROKE
+        pointerOverlayPaint.style = Paint.Style.STROKE
         pointerOverlayPaint.strokeWidth =
             (pointerStrokeWidth - pointerOverlayBorderWidth).coerceAtLeast(0f)
 
