@@ -29,14 +29,8 @@ package me.tankery.lib.circularseekbar
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Paint
-import android.graphics.Path
+import android.graphics.*
 import android.graphics.Paint.Cap
-import android.graphics.RectF
-import android.graphics.Color
-import android.graphics.BlurMaskFilter
-import android.graphics.PathMeasure
-import android.graphics.Canvas
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
@@ -578,7 +572,7 @@ class CircularSeekBar @JvmOverloads constructor(
 
         pointerStrokeWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_pointer_stroke_width,
-            DEFAULT_POINTER_WIDTH
+            DEFAULT_POINTER_STROKE_WIDTH
         )
         pointerHaloWidth = attrArray.getDimension(
             R.styleable.cs_CircularSeekBar_cs_pointer_halo_width,
@@ -1233,7 +1227,7 @@ class CircularSeekBar @JvmOverloads constructor(
         private val DEFAULT_CIRCLE_STYLE = Cap.ROUND.ordinal
         private const val DEFAULT_CIRCLE_X_RADIUS = 30f
         private const val DEFAULT_CIRCLE_Y_RADIUS = 30f
-        private const val DEFAULT_POINTER_WIDTH = 14f
+        private const val DEFAULT_POINTER_STROKE_WIDTH = 14f
         private const val DEFAULT_POINTER_HALO_WIDTH = 6f
         private const val DEFAULT_POINTER_HALO_BORDER_WIDTH = 0f
         private const val DEFAULT_CIRCLE_STROKE_WIDTH = 5f
