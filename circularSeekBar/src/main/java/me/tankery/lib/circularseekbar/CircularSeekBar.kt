@@ -1144,6 +1144,39 @@ class CircularSeekBar @JvmOverloads constructor(
         recalculateAll()
     }
 
+    private fun customPaint(paint: Paint, block: (Paint) -> Unit) {
+        block.invoke(paint)
+        invalidate()
+    }
+
+    fun customCircleFillPaint(block: (Paint) -> Unit) {
+        customPaint(circleFillPaint, block)
+    }
+
+    fun customCirclePaint(block: (Paint) -> Unit) {
+        customPaint(circlePaint, block)
+    }
+
+    fun customCircleProgressPaint(block: (Paint) -> Unit) {
+        customPaint(circleProgressPaint, block)
+    }
+
+    fun customPointerPaint(block: (Paint) -> Unit) {
+        customPaint(pointerPaint, block)
+    }
+
+    fun customCircleProgressGlowPaint(block: (Paint) -> Unit) {
+        customPaint(circleProgressGlowPaint, block)
+    }
+
+    fun customPointerHaloPaint(block: (Paint) -> Unit) {
+        customPaint(pointerHaloPaint, block)
+    }
+
+    fun customPointerHaloBorderPaint(block: (Paint) -> Unit) {
+        customPaint(pointerHaloBorderPaint, block)
+    }
+
     fun setOnSeekBarChangeListener(l: OnCircularSeekBarChangeListener?) {
         onCircularSeekBarChangeListener = l
     }
