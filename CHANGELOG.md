@@ -1,5 +1,9 @@
 # Change Log
 
+## v1.4.1
+
+Add new method for apply custom Paint. Thanks [@ttpho's PR](https://github.com/tankery/CircularSeekBar/pull/50).
+
 ## v1.4.0
 
 Migrate library source code to Kotlin. Thanks [@jonathan-livly's PR](https://github.com/tankery/CircularSeekBar/pull/45).
