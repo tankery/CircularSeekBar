@@ -1149,6 +1149,63 @@ class CircularSeekBar @JvmOverloads constructor(
     }
 
     /**
+     * custom any `Paint`
+     */
+    private fun applyCustomPaint(paint: Paint, block: (Paint) -> Unit) {
+        block.invoke(paint)
+        invalidate()
+    }
+
+    /**
+     * custom `Paint` instance used to draw the circle fill.
+     */
+    fun applyCustomCircleFillPaint(block: (Paint) -> Unit) {
+        applyCustomPaint(circleFillPaint, block)
+    }
+
+    /**
+     * custom `Paint` instance used to draw the inactive circle.
+     */
+    fun applyCustomCirclePaint(block: (Paint) -> Unit) {
+        applyCustomPaint(circlePaint, block)
+    }
+
+    /**
+     * custom `Paint` instance used to draw the active circle (represents progress).
+     */
+    fun applyCustomCircleProgressPaint(block: (Paint) -> Unit) {
+        applyCustomPaint(circleProgressPaint, block)
+    }
+
+    /**
+     * custom `Paint` instance used to draw the center of the pointer.
+     */
+    fun applyCustomPointerPaint(block: (Paint) -> Unit) {
+        applyCustomPaint(pointerPaint, block)
+    }
+
+    /**
+     * custom `Paint` instance used to draw the glow from the active circle.
+     */
+    fun applyCustomCircleProgressGlowPaint(block: (Paint) -> Unit) {
+        applyCustomPaint(circleProgressGlowPaint, block)
+    }
+
+    /**
+     * custom `Paint` instance used to draw the halo of the pointer.
+     */
+    fun applyCustomPointerHaloPaint(block: (Paint) -> Unit) {
+        applyCustomPaint(pointerHaloPaint, block)
+    }
+
+    /**
+     * custom `Paint` instance used to draw the border of the pointer, outside of the halo.
+     */
+    fun applyCustomPointerHaloBorderPaint(block: (Paint) -> Unit) {
+        applyCustomPaint(pointerHaloBorderPaint, block)
+    }
+
+    /**
      * Listener for the CircularSeekBar. Implements the same methods as the normal OnSeekBarChangeListener.
      */
     interface OnCircularSeekBarChangeListener {

@@ -73,6 +73,16 @@ app:cs_disable_progress_glow = "boolean"
 app:cs_hide_progress_when_empty = "boolean"
 ```
 
+Apply custom Paint
+
+```kotlin
+val dashWidth = 16.0f
+val dashGap = dashWidth / 2.0f
+circularSeekBar?.applyCustomCirclePaint {
+    it.pathEffect = DashPathEffect(floatArrayOf(dashWidth, dashGap), 0.0f)
+}
+```
+
 ## Appreciation
 
 This library is based on [CircularSeekBar of Matt Joseph (devadvance)](https://github.com/devadvance/circularseekbar).
