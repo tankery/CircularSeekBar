@@ -143,7 +143,11 @@ class CircularSeekBar @JvmOverloads constructor(
     /**
      * If disable pointer, we can't seek the progress.
      */
-    private var disablePointer = false
+    var disablePointer = false
+        set(value) {
+            field = value
+            invalidate()
+        }
 
     /**
      * The radius of the pointer (in pixels).
