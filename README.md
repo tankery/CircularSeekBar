@@ -30,7 +30,7 @@ I made it build on Android Studio (Gradle), then fix & add more features to the 
 
 ``` Gradle
 dependencies {
-    implementation 'me.tankery.lib:circularSeekBar:1.4.1'
+    implementation 'me.tankery.lib:circularSeekBar:1.4.2'
 }
 ```
 

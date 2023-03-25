@@ -1,5 +1,9 @@
 # Change Log
 
+## v1.4.2
+
+Allow disable pointer at runtime. Thanks [@tejada's PR](https://github.com/tankery/CircularSeekBar/pull/55).
+
 ## v1.4.1
 
 Add new method for apply custom Paint. Thanks [@ttpho's PR](https://github.com/tankery/CircularSeekBar/pull/50).
