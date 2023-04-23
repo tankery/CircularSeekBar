@@ -61,11 +61,13 @@
                         android:layout_marginTop="@dimen/seekbar_margin"
                         android:layout_marginLeft="@dimen/seekbar_margin"
                         android:layout_marginRight="@dimen/seekbar_margin"
+                        app:cs_pointer_overlay_color="@android:color/white"
+                        app:cs_pointer_overlay_border_width="10dp"
                         app:cs_negative_enabled="true"
                         app:cs_circle_style="round"
                         app:cs_circle_stroke_width="8dp"
                         app:cs_pointer_stroke_width="24dp"
-                        app:cs_pointer_halo_width="@dimen/seekbar_holo_width"/>
+                        app:cs_pointer_halo_width="@dimen/seekbar_holo_width" />
 
                     <TextView
                         android:layout_width="wrap_content"
